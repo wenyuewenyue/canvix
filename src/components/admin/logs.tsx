@@ -54,21 +54,21 @@ interface LogsView {
 const POLL_MS = 5000
 
 const SLOT_LABEL: Record<string, string> = {
-  text: 'Text',
-  vision: 'Vision',
-  image: 'Image generation',
-  imageEdit: 'Image editing',
+  text: '文字',
+  vision: '视觉',
+  image: '图片生成',
+  imageEdit: '图片编辑',
 }
 const SLOT_FEATURES: Record<string, string> = {
-  text: 'Magic Write · Translate · Assistant',
-  vision: 'Magic Layers',
-  image: 'Photos panel → Generate',
-  imageEdit: 'Magic Eraser · Enhance · BG remove',
+  text: '魔法写作 · 翻译 · 助手',
+  vision: '魔法图层',
+  image: '照片面板 → 生成',
+  imageEdit: '魔法橡皮擦 · 增强 · 去背景',
 }
 const SOURCE_LABEL: Record<string, string> = {
-  multi: 'providers table',
-  db: 'legacy override',
-  env: 'environment variables',
+  multi: '服务商表',
+  db: '旧版覆盖',
+  env: '环境变量',
   file: '.z-ai-config file',
 }
 const WINDOWS = ['15m', '1h', '6h', '24h', '7d'] as const
@@ -93,10 +93,10 @@ function fmtMs(ms: number | null): string {
 /** Status chip: 2xx green, 4xx amber, 5xx/none red for AI rows. */
 function StatusChip({ ok, status }: { ok: boolean; status: number | null }) {
   if (ok) return <Chip tone="good">{status ?? 'ok'}</Chip>
-  if (status === 429) return <Chip tone="bad">429 · rate limit</Chip>
+  if (status === 429) return <Chip tone="bad">429 · 速率限制</Chip>
   if (status === 403) return <Chip tone="bad">403 · rejected</Chip>
-  if (status === 503) return <Chip tone="bad">503 · unconfigured</Chip>
-  return <Chip tone="bad">{status ?? 'failed'}</Chip>
+  if (status === 503) return <Chip tone="bad">503 · 未配置</Chip>
+  return <Chip tone="bad">{status ?? '失败'}</Chip>
 }
 
 export function AdminLogs() {
@@ -185,24 +185,23 @@ export function AdminLogs() {
     <>
       {/* ── slot status ── */}
       <Card
-        title="AI slot status"
-        right={<Chip tone={data && data.slots.some((s) => s.configured) ? 'good' : 'bad'}>{data ? `${data.slots.filter((s) => s.configured).length}/5 wired` : '…'}</Chip>}
+        title="AI 槽位状态"
+        right={<Chip tone={data && data.slots.some((s) => s.configured) ? 'good' : 'bad'}>{data ? `${data.slots.filter((s) => s.configured).length}/5 已配置` : '…'}</Chip>}
       >
         <p className="mb-4 text-sm text-muted-foreground">
-          What each AI capability resolves to right now. A slot on a provider that does not serve its endpoint is the
-          usual reason a feature &ldquo;silently&rdquo; fails — text can work on a chat-only provider while image
-          generation 404s on the very same key. Configure providers and slots on the{' '}
+          当前每个 AI 功能实际解析到的配置。某个槽位指向了不提供其端点的服务商，是功能「悄悄」失败的常见原因 —
+          同一个密钥上，文字功能可以在纯聊天服务商上正常工作，而图片生成却返回 404。请在{' '}
           <a href="/admin/ai" className="underline underline-offset-2">
-            AI &amp; models
+            AI 与模型
           </a>{' '}
-          page.
+          页面配置服务商和槽位。
         </p>
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {(data?.slots ?? []).map((s) => (
             <div key={s.slot} className="rounded-xl border p-3">
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm font-medium">{SLOT_LABEL[s.slot] ?? s.slot}</p>
-                {s.configured ? <Chip tone="good">wired</Chip> : <Chip tone="bad">not configured</Chip>}
+                {s.configured ? <Chip tone="good">已配置</Chip> : <Chip tone="bad">未配置</Chip>}
               </div>
               <p className="mt-1 text-xs text-muted-foreground">{SLOT_FEATURES[s.slot] ?? ''}</p>
               {s.configured ? (
@@ -214,7 +213,7 @@ export function AdminLogs() {
                   </span>
                 </p>
               ) : (
-                <p className="mt-2 text-xs text-muted-foreground">feature reports unavailable</p>
+                <p className="mt-2 text-xs text-muted-foreground">功能报告不可用</p>
               )}
             </div>
           ))}
@@ -226,7 +225,7 @@ export function AdminLogs() {
       <Card
         title={
           <span className="inline-flex items-center gap-2">
-            AI request log
+            AI 请求日志
             {live && (
               <span className="relative flex h-2.5 w-2.5" aria-hidden>
                 <span
@@ -242,7 +241,7 @@ export function AdminLogs() {
         right={
           counts ? (
             <div className="flex flex-wrap items-center gap-2">
-              <Chip>{counts.total} calls</Chip>
+              <Chip>{counts.total} 次调用</Chip>
               <Chip tone={counts.errors > 0 ? 'bad' : 'good'}>
                 {counts.errors} errors · {errorRate}%
               </Chip>
@@ -252,7 +251,7 @@ export function AdminLogs() {
       >
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <label className="text-xs">
-            <span className="sr-only">Window</span>
+            <span className="sr-only">时间范围</span>
             <select
               value={window}
               onChange={(e) => setWindow(e.target.value as (typeof WINDOWS)[number])}
@@ -260,19 +259,19 @@ export function AdminLogs() {
             >
               {WINDOWS.map((w) => (
                 <option key={w} value={w}>
-                  last {w}
+                  最近 {w}
                 </option>
               ))}
             </select>
           </label>
           <label className="text-xs">
-            <span className="sr-only">Feature</span>
+            <span className="sr-only">功能</span>
             <select
               value={feature}
               onChange={(e) => setFeature(e.target.value)}
               className="h-9 rounded-lg border bg-background px-2 text-sm outline-none focus:ring-2 focus:ring-ring"
             >
-              <option value="">all features</option>
+              <option value="">全部功能</option>
               {FEATURES.map((f) => (
                 <option key={f} value={f}>
                   {f} {counts && counts.byFeature[f] ? `(${counts.byFeature[f].calls})` : ''}
@@ -281,15 +280,15 @@ export function AdminLogs() {
             </select>
           </label>
           <label className="text-xs">
-            <span className="sr-only">Outcome</span>
+            <span className="sr-only">结果</span>
             <select
               value={outcome}
               onChange={(e) => setOutcome(e.target.value as 'all' | 'errors' | 'ok')}
               className="h-9 rounded-lg border bg-background px-2 text-sm outline-none focus:ring-2 focus:ring-ring"
             >
-              <option value="all">all outcomes</option>
-              <option value="errors">errors only</option>
-              <option value="ok">successes only</option>
+              <option value="all">全部结果</option>
+              <option value="errors">仅错误</option>
+              <option value="ok">仅成功</option>
             </select>
           </label>
           <button
@@ -297,17 +296,17 @@ export function AdminLogs() {
             className={`h-9 rounded-lg border px-3 text-sm font-medium transition-colors ${live ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
             aria-pressed={live}
           >
-            {live ? 'Live · 5s' : 'Live off'}
+            {live ? '实时 · 5 秒' : '实时关闭'}
           </button>
           <button
             onClick={() => void refreshNow()}
             disabled={busy}
             className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
           >
-            <RefreshCw size={14} className={busy ? 'animate-spin' : ''} /> Refresh
+            <RefreshCw size={14} className={busy ? 'animate-spin' : ''} /> 刷新
           </button>
-          {paused && <Chip>paused — tab hidden</Chip>}
-          {stale && <Chip tone="bad">reconnecting</Chip>}
+          {paused && <Chip>已暂停——标签页已隐藏</Chip>}
+          {stale && <Chip tone="bad">重新连接中</Chip>}
         </div>
 
         {error && <p className="mb-3 text-sm text-destructive">{error}</p>}
@@ -316,12 +315,12 @@ export function AdminLogs() {
           <table className="w-full min-w-[680px] text-left text-sm">
             <thead>
               <tr className="border-b text-xs uppercase tracking-wide text-muted-foreground">
-                <th className="py-2 pr-3 font-medium">When</th>
-                <th className="py-2 pr-3 font-medium">Feature</th>
-                <th className="py-2 pr-3 font-medium">Provider · model</th>
-                <th className="py-2 pr-3 font-medium">Status</th>
-                <th className="py-2 pr-3 font-medium">Took</th>
-                <th className="py-2 font-medium">Reason</th>
+                <th className="py-2 pr-3 font-medium">时间</th>
+                <th className="py-2 pr-3 font-medium">功能</th>
+                <th className="py-2 pr-3 font-medium">提供商 · 模型</th>
+                <th className="py-2 pr-3 font-medium">状态</th>
+                <th className="py-2 pr-3 font-medium">耗时</th>
+                <th className="py-2 font-medium">原因</th>
               </tr>
             </thead>
             <tbody>
@@ -355,7 +354,7 @@ export function AdminLogs() {
               {rows.length === 0 && (
                 <tr>
                   <td colSpan={6} className="py-6 text-center text-sm text-muted-foreground">
-                    {data ? 'No AI requests in this window yet.' : 'Loading…'}
+                    {data ? '此时间段内暂无 AI 请求。' : '加载中…'}
                   </td>
                 </tr>
               )}
@@ -363,7 +362,7 @@ export function AdminLogs() {
           </table>
         </div>
         {data && rows.length >= 150 && (
-          <p className="mt-2 text-xs text-muted-foreground">Showing the newest 150 — narrow the window or filters for older rows.</p>
+          <p className="mt-2 text-xs text-muted-foreground">仅显示最新的 150 条——缩小时间范围或筛选条件可查看更早的记录。</p>
         )}
       </Card>
     </>

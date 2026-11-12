@@ -88,7 +88,7 @@ export function AdminUsers() {
         <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">{error}</div>
       )}
       <Card
-        title={data ? `${fmt(data.total)} account${data.total === 1 ? '' : 's'}` : 'Accounts'}
+        title={data ? `${fmt(data.total)} account${data.total === 1 ? '' : 's'}` : '账号'}
         right={
           <div className="relative">
             <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -98,8 +98,8 @@ export function AdminUsers() {
                 setQ(e.target.value)
                 setPage(0)
               }}
-              placeholder="Search username…"
-              aria-label="Search users by username"
+              placeholder="搜索用户名…"
+              aria-label="按用户名搜索用户"
               className="h-8 w-44 rounded-lg border bg-background pl-8 pr-2 text-sm outline-none focus:ring-2 focus:ring-ring sm:w-56"
             />
           </div>
@@ -109,27 +109,27 @@ export function AdminUsers() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left text-[11px] uppercase tracking-wide text-muted-foreground">
-                <th className="py-2 pr-3 font-medium">Username</th>
-                <th className="py-2 pr-3 font-medium">Role</th>
-                <th className="py-2 pr-3 text-right font-medium">Designs</th>
-                <th className="py-2 pr-3 text-right font-medium">Sessions</th>
-                <th className="py-2 pr-3 font-medium">Last active</th>
-                <th className="py-2 pr-3 font-medium">Joined</th>
-                <th className="py-2 text-right font-medium">Actions</th>
+                <th className="py-2 pr-3 font-medium">用户名</th>
+                <th className="py-2 pr-3 font-medium">角色</th>
+                <th className="py-2 pr-3 text-right font-medium">设计</th>
+                <th className="py-2 pr-3 text-right font-medium">会话</th>
+                <th className="py-2 pr-3 font-medium">上次活跃</th>
+                <th className="py-2 pr-3 font-medium">加入时间</th>
+                <th className="py-2 text-right font-medium">操作</th>
               </tr>
             </thead>
             <tbody>
               {!data && (
                 <tr>
                   <td colSpan={7} className="py-8 text-center text-muted-foreground">
-                    loading…
+                    加载中…
                   </td>
                 </tr>
               )}
               {data?.users.length === 0 && (
                 <tr>
                   <td colSpan={7} className="py-8 text-center text-muted-foreground">
-                    no accounts match “{q}”
+                    没有匹配的账号 “{q}”
                   </td>
                 </tr>
               )}
@@ -157,14 +157,14 @@ export function AdminUsers() {
                               disabled={busy}
                               className="rounded-lg bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground disabled:opacity-50"
                             >
-                              confirm
+                              确认
                             </button>
                             <button
                               onClick={() => setPending(null)}
                               disabled={busy}
                               className="rounded-lg border px-2.5 py-1 text-xs font-medium disabled:opacity-50"
                             >
-                              cancel
+                              取消
                             </button>
                           </>
                         ) : (
@@ -172,19 +172,19 @@ export function AdminUsers() {
                             <button
                               onClick={() => setPending({ kind: 'role', row, next: row.admin ? 'user' : 'admin' })}
                               disabled={busy}
-                              title={row.admin ? 'Remove admin rights' : 'Grant admin rights'}
+                              title={row.admin ? '移除管理员权限' : '授予管理员权限'}
                               className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors hover:bg-muted disabled:opacity-50"
                             >
                               {row.admin ? <ShieldOff size={13} /> : <ShieldCheck size={13} />}
-                              {row.admin ? 'revoke' : 'make admin'}
+                              {row.admin ? '撤销管理员' : '设为管理员'}
                             </button>
                             <button
                               onClick={() => setPending({ kind: 'sessions', row })}
                               disabled={busy}
-                              title="Sign this user out everywhere"
+                              title="将此用户在所有设备上退出登录"
                               className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors hover:bg-muted disabled:opacity-50"
                             >
-                              <LogOut size={13} /> sign out
+                              <LogOut size={13} /> 退出登录
                             </button>
                           </>
                         )}
@@ -195,14 +195,14 @@ export function AdminUsers() {
                               disabled={busy}
                               className="rounded-lg bg-destructive px-2.5 py-1 text-xs font-medium text-white disabled:opacity-50"
                             >
-                              confirm sign-out
+                              确认退出登录
                             </button>
                             <button
                               onClick={() => setPending(null)}
                               disabled={busy}
                               className="rounded-lg border px-2.5 py-1 text-xs font-medium disabled:opacity-50"
                             >
-                              cancel
+                              取消
                             </button>
                           </>
                         )}
@@ -217,7 +217,7 @@ export function AdminUsers() {
         {data && data.total > data.pageSize && (
           <div className="mt-4 flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
-              page {data.page + 1} / {pages}
+              第 {data.page + 1} 页 / 共 {pages} 页
             </span>
             <div className="flex gap-2">
               <button
@@ -225,23 +225,23 @@ export function AdminUsers() {
                 disabled={data.page === 0}
                 className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium disabled:opacity-40"
               >
-                <ChevronLeft size={13} /> prev
+                <ChevronLeft size={13} /> 上一页
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(pages - 1, p + 1))}
                 disabled={data.page >= pages - 1}
                 className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium disabled:opacity-40"
               >
-                next <ChevronRight size={13} />
+                下一页 <ChevronRight size={13} />
               </button>
             </div>
           </div>
         )}
       </Card>
       <p className="text-xs text-muted-foreground">
-        Admin rights come from the <code className="rounded bg-muted px-1">CANVIX_ADMIN_USERS</code> environment variable
-        (always wins, shown as <span className="font-medium">· env</span>) or from this table. Role changes refuse
-        self-modification — a second administrator or the env variable is the recovery path.
+        管理员权限来自 <code className="rounded bg-muted px-1">CANVIX_ADMIN_USERS</code> 环境变量
+        （始终优先，显示为 <span className="font-medium">· 环境变量</span>）或此表。角色更改不允许修改自己 —
+        需要第二位管理员或环境变量才能恢复。
       </p>
     </>
   )

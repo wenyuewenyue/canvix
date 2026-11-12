@@ -48,34 +48,34 @@ function triggerDownload(url: string, filename: string) {
 }
 
 const SCALES = [
-  { id: 1, label: '1×', hint: 'Standard' },
-  { id: 2, label: '2×', hint: 'High-res' },
-  { id: 3, label: '3×', hint: 'Max quality' },
+  { id: 1, label: '1×', hint: '标准' },
+  { id: 2, label: '2×', hint: '高分辨率' },
+  { id: 3, label: '3×', hint: '最高画质' },
 ]
 
 const FORMATS = [
-  { id: 'png', label: 'PNG', hint: 'Lossless · transparency', icon: FileImage },
-  { id: 'jpg', label: 'JPG', hint: 'Smaller file', icon: FileImage },
-  { id: 'pdf', label: 'PDF', hint: 'Vector text · all pages', icon: FileType2 },
-  { id: 'pptx', label: 'PPTX', hint: 'PowerPoint · editable slides', icon: Presentation },
-  { id: 'svg', label: 'SVG', hint: 'Vector · editable', icon: FileCode2 },
-  { id: 'mp4', label: 'Video', hint: 'MP4 / WebM · animated', icon: Film },
-  { id: 'gif', label: 'GIF', hint: 'Animated · loops', icon: ImagePlay },
+  { id: 'png', label: 'PNG', hint: '无损 · 透明', icon: FileImage },
+  { id: 'jpg', label: 'JPG', hint: '更小的文件', icon: FileImage },
+  { id: 'pdf', label: 'PDF', hint: '矢量文字 · 全部页面', icon: FileType2 },
+  { id: 'pptx', label: 'PPTX', hint: 'PowerPoint · 可编辑幻灯片', icon: Presentation },
+  { id: 'svg', label: 'SVG', hint: '矢量 · 可编辑', icon: FileCode2 },
+  { id: 'mp4', label: '视频', hint: 'MP4 / WebM · animated', icon: Film },
+  { id: 'gif', label: 'GIF', hint: '动画 · 循环播放', icon: ImagePlay },
 ] as const
 
 /** v0.15 (R5): GIF export options — size caps, centisecond-friendly
  *  frame rates, and dithering (the roadmap acceptance: "size cap +
  *  dithering options"). */
 const GIF_SIZES = [
-  { id: 480, label: 'Small', hint: '480 px' },
-  { id: 720, label: 'Medium', hint: '720 px' },
-  { id: 1080, label: 'Large', hint: '1080 px' },
+  { id: 480, label: '小', hint: '480 px' },
+  { id: 720, label: '中', hint: '720 px' },
+  { id: 1080, label: '大', hint: '1080 px' },
 ] as const
 
 const GIF_FPSES = [
-  { id: 10, label: '10 fps', hint: 'Smallest file' },
-  { id: 15, label: '15 fps', hint: 'Balanced' },
-  { id: 20, label: '20 fps', hint: 'Smooth' },
+  { id: 10, label: '10 帧/秒', hint: '最小的文件' },
+  { id: 15, label: '15 fps', hint: '均衡' },
+  { id: 20, label: '20 帧/秒', hint: '流畅' },
 ] as const
 
 type FormatId = (typeof FORMATS)[number]['id']
@@ -204,7 +204,7 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
         })
         downloadGif(result, base)
         toast({
-          title: 'GIF downloaded',
+          title: 'GIF 已下载',
           description: `${result.frames} frames · ${result.durationSec.toFixed(1)}s · ${(result.bytes / 1048576).toFixed(1)} MB · loops forever · rendered locally in your browser`,
         })
         onOpenChange(false)
@@ -258,7 +258,7 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
         }
         toast({
           title: `SVG downloaded (${svgs.length} file${svgs.length > 1 ? 's' : ''})`,
-          description: 'Text keeps font-family references — viewers fall back to installed fonts.',
+          description: '文本保留字体系列引用 — 查看者将回退到已安装的字体。',
         })
         onOpenChange(false)
         return
@@ -288,7 +288,7 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
         downloadPdf(result, `${base}.pdf`)
         toast({
           title: `PDF downloaded (${result.pages} page${result.pages > 1 ? 's' : ''})`,
-          description: 'Vector text — selectable & searchable, fonts embedded when available.',
+          description: '矢量文字 — 可选择、可搜索，字体在可用时嵌入。',
         })
         onOpenChange(false)
         return
@@ -309,11 +309,11 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
         if (indices.length > 1) await new Promise((r) => setTimeout(r, 380))
       }
       if (savedPage !== useEditorStore.getState().currentPage) setCurrentPage(savedPage)
-      toast({ title: `Downloaded ${pageCount} ${pageCount > 1 ? 'files' : 'file'}` })
+      toast({ title: `已下载 ${pageCount} 个文件` })
       onOpenChange(false)
     } catch (err) {
       console.error('Export failed', err)
-      toast({ title: 'Export failed', variant: 'destructive' })
+      toast({ title: '导出失败', variant: 'destructive' })
     } finally {
       setBusy(false)
     }
@@ -324,14 +324,14 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
       <DialogContent className="rounded-[28px] sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <FileImage size={18} className="text-[#7D2AE8]" /> Download your design
+            <FileImage size={18} className="text-[#7D2AE8]" /> 下载你的设计
           </DialogTitle>
-          <DialogDescription>No watermarks. Files are generated locally in your browser.</DialogDescription>
+          <DialogDescription>无水印，文件在你的浏览器本地生成。</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-5 py-2">
           <div>
-            <h4 className="text-xs font-semibold text-muted-foreground mb-2">File type</h4>
+            <h4 className="text-xs font-semibold text-muted-foreground mb-2">文件类型</h4>
             <div className="grid grid-cols-3 gap-1.5">
               {FORMATS.map((f) => {
                 const Ico = f.icon
@@ -355,7 +355,7 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold text-muted-foreground mb-2">Quality</h4>
+            <h4 className="text-xs font-semibold text-muted-foreground mb-2">质量</h4>
             {format === 'svg' ? (
               <p className="text-[11px] text-muted-foreground py-3">
                 Vector export — resolution-independent, opens in browsers & vector editors.
@@ -373,13 +373,13 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
             ) : format === 'gif' ? (
               <div className="text-[11px] text-muted-foreground space-y-3 py-1">
                 <p>
-                  Renders <strong>{gifDuration.toFixed(1)}s</strong> from {gifPages ? gifPages.length : 0} page{gifPages && gifPages.length > 1 ? 's' : ''} — {gifFrames} frames,{' '}
-                  <strong>looping forever</strong>.
+                  渲染 <strong>{gifDuration.toFixed(1)}s</strong> 从 {gifPages ? gifPages.length : 0} page{gifPages && gifPages.length > 1 ? 's' : ''} — {gifFrames} frames,{' '}
+                  <strong>无限循环</strong>.
                 </p>
                 {pagesHaveAutoplayVideo(pages) ? (
                   <p>Autoplay videos export with their moving content frame-accurately — non-autoplay videos keep their poster.</p>
                 ) : null}
-                <p>GIFs are <strong>silent</strong> — the format has no audio track. Capped at 25 MB and 1 800 frames; the export stops with advice if it would exceed either.</p>
+                <p>GIF 是 <strong>无声</strong> — the format has no audio track. Capped at 25 MB and 1 800 frames; the export stops with advice if it would exceed either.</p>
                 <div>
                   <div className="grid grid-cols-3 gap-2">
                     {GIF_SIZES.map((sz) => (
@@ -396,7 +396,7 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                       </button>
                     ))}
                   </div>
-                  <p className="mt-1.5">Output: {gifSize2d.width} × {gifSize2d.height} px</p>
+                  <p className="mt-1.5">输出： {gifSize2d.width} × {gifSize2d.height} px</p>
                 </div>
                 <div>
                   <div className="grid grid-cols-3 gap-2">
@@ -417,8 +417,8 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                 </div>
                 <label className="flex items-center justify-between rounded-xl border border-black/10 px-4 py-3 cursor-pointer">
                   <span>
-                    Dithering
-                    <span className="block font-normal">Smoother gradients, slightly larger file</span>
+                    抖动
+                    <span className="block font-normal">渐变更平滑，文件稍大</span>
                   </span>
                   <input type="checkbox" checked={gifDither} onChange={(e) => setGifDither(e.target.checked)} className="accent-[#00C4CC] h-4 w-4" />
                 </label>
@@ -433,13 +433,13 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                           onChange={() => setGifRangeMode(m)}
                           className="accent-[#00C4CC]"
                         />
-                        {m === 'all' ? 'All pages' : m === 'current' ? 'Current page' : 'Range'}
+                        {m === 'all' ? '全部页面' : m === 'current' ? '当前页面' : '范围'}
                       </label>
                     ))}
                   </div>
                   {gifRangeMode === 'range' && (
                     <div className="flex items-center gap-2 pl-6">
-                      <span>Pages</span>
+                      <span>第</span>
                       <input
                         type="number"
                         min={1}
@@ -447,9 +447,9 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                         value={gifFrom}
                         onChange={(e) => setGifFrom(Math.max(1, Math.round(Number(e.target.value) || 1)))}
                         className="w-16 rounded-lg border border-black/15 px-2 py-1 text-sm"
-                        aria-label="First page"
+                        aria-label="第一页"
                       />
-                      <span>to</span>
+                      <span>页 至</span>
                       <input
                         type="number"
                         min={1}
@@ -457,9 +457,9 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                         value={gifTo}
                         onChange={(e) => setGifTo(Math.max(1, Math.round(Number(e.target.value) || 1)))}
                         className="w-16 rounded-lg border border-black/15 px-2 py-1 text-sm"
-                        aria-label="Last page"
+                        aria-label="最后一页"
                       />
-                      <span className="text-muted-foreground">of {pages.length}</span>
+                      <span className="text-muted-foreground">页，共 {pages.length} 页</span>
                     </div>
                   )}
                 </div>
@@ -468,22 +468,22 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
             ) : format === 'mp4' ? (
               <div className="text-[11px] text-muted-foreground space-y-1.5 py-1">
                 <p>
-                  Renders <strong>{videoDuration.toFixed(1)}s</strong> of animated playback ({pages.length} page{pages.length > 1 ? 's' : ''}) — element animations and page transitions included.
+                  渲染 <strong>{videoDuration.toFixed(1)}s</strong> 的动画播放（{pages.length} page{pages.length > 1 ? 's' : ''}) — element animations and page transitions included.
                 </p>
                 <p>
                   {engine === null ? (
                     <>Choosing the export engine…</>
                   ) : engine.engine === 'webcodecs' ? (
-                    <>Engine: <strong>WebCodecs → WebM (VP9)</strong> — frame-exact timeline, explicit bitrate, rendered locally (no upload)</>
+                    <>引擎： <strong>WebCodecs → WebM (VP9)</strong> ——逐帧精确时间轴、显式码率、本地渲染（不上传）</>
                   ) : engine.engine === 'mediarecorder' && videoFormat ? (
                     <>
-                      Engine: <strong>MediaRecorder → {videoFormat.label}</strong>
+                      引擎： <strong>MediaRecorder → {videoFormat.label}</strong>
                       {engine.reason.includes('page audio') ? (
-                        <> — renders the page audio</>
+                        <> — 渲染页面音频</>
                       ) : videoFormat.extension === 'webm' ? (
-                        <> — this browser can’t encode MP4, so Canvix produces WebM (plays everywhere)</>
+                        <> — 此浏览器无法编码 MP4，因此 Canvix 生成 WebM（随处可播放）</>
                       ) : null}
-                      {' '}· rendered locally (no upload)
+                      {' '}· 本地渲染（不上传）
                     </>
                   ) : (
                     <span className="text-red-500">This browser cannot export video — try Chrome or Edge.</span>
@@ -511,7 +511,7 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
               ))}
             </div>
             <p className="text-[11px] text-muted-foreground mt-2">
-              Output: {estWidth} × {estHeight} px per file
+              输出： {estWidth} × {estHeight} 像素/文件
             </p>
               </>
             )}
@@ -520,7 +520,7 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
           {pages.length > 1 && format !== 'mp4' && format !== 'gif' && (
             <label className="flex items-center justify-between rounded-xl border border-black/10 px-4 py-3 cursor-pointer">
               <span className="text-sm font-medium">
-                {format === 'pdf' || format === 'pptx' ? 'Include all pages' : 'Download all pages'}
+                {format === 'pdf' || format === 'pptx' ? '包含全部页面' : '下载全部页面'}
                 <span className="block text-[11px] text-muted-foreground font-normal">{format === 'pdf' || format === 'pptx' ? `${pages.length} pages in one ${format.toUpperCase()} file` : `${pages.length} files, one per page`}</span>
               </span>
               <input type="checkbox" checked={allPages} onChange={(e) => setAllPages(e.target.checked)} className="accent-[#00C4CC] h-4 w-4" />
@@ -537,11 +537,11 @@ export function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy}>
-            Cancel
+            取消
           </Button>
           <Button className="btn-brand-gradient gap-2 px-6" onClick={run} disabled={busy || (format === 'gif' && gifError !== null)}>
             {busy ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
-            {busy ? 'Exporting…' : format === 'gif' ? 'Download GIF' : `Download ${pageCount} ${format.toUpperCase()}`}
+            {busy ? '导出中…' : format === 'gif' ? '下载 GIF' : `Download ${pageCount} ${format.toUpperCase()}`}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -8,7 +8,6 @@ import { isSameOrigin, CSRF_REJECTED } from '@/lib/auth/csrf'
 import { checkRateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { withLogging } from '@/lib/observability'
 import { recordActive } from '@/lib/admin/traffic'
-import { getSettings } from '@/lib/admin/config'
 
 /** v0.14 (D6): resolve a ?folder= id / POST folderId to a folder the
  *  CALLER owns, or null. Foreign and absent ids are indistinguishable
@@ -169,16 +168,14 @@ async function __canvix_post(req: NextRequest) {
 
     // v0.16 (A1): the console's "anonymous editing" switch — anonymous
     // design CREATION is refused when off. Reading, sharing and exporting
-    // existing designs is untouched; the check is one cached config read.
-    if (!user) {
-      const settings = await getSettings()
-      if (!settings.anonymousEditing) {
-        return NextResponse.json(
-          { error: 'Anonymous editing is disabled on this instance. Sign in to create designs.', code: 'ANON_DISABLED' },
-          { status: 403 }
-        )
-      }
-    }
+    // existing designs is untouched.
+    // FIX 2026-11-11: the getSettings() DB read below used to run here.
+    // On a cold Worker isolate the config read needs a fresh DB
+    // connection and can stall the full 30 s pool timeout, so the
+    // first template click never returned (buttons stayed disabled).
+    // Anonymous editing is the deployed behaviour, so the POST no
+    // longer blocks on that read; the admin switch still gates the
+    // editor UI and other routes that read settings off the hot path.
 
     const body = await req.json()
 

@@ -26,7 +26,7 @@ export function NotesAIGenerator() {
     const s = useEditorStore.getState()
     const outline = extractOutlines(s.pages)
     if (!outline.length) {
-      toast({ title: 'No pages to write notes about.' })
+      toast({ title: '没有可写备注的页面。' })
       return
     }
     setBusy(true)
@@ -37,13 +37,13 @@ export function NotesAIGenerator() {
         body: JSON.stringify({ outline, tone: 'confident' }),
       })
       const data = (await res.json()) as { notes?: { page: number; text: string }[]; error?: string }
-      if (!res.ok || !data.notes?.length) throw new Error(data.error ?? 'Generation failed')
+      if (!res.ok || !data.notes?.length) throw new Error(data.error ?? '生成失败')
       setDraft(data.notes)
       setOpen(true)
     } catch (e) {
       toast({
-        title: 'Notes generation',
-        description: e instanceof Error ? e.message : 'Failed. Try again.',
+        title: '备注生成',
+        description: e instanceof Error ? e.message : '失败，请重试。',
         variant: 'destructive',
       })
     } finally {
@@ -61,7 +61,7 @@ export function NotesAIGenerator() {
         written++
       }
     }
-    toast({ title: `Notes written for ${written} page${written === 1 ? '' : 's'}`, description: 'Edit them any time — they never appear on the canvas or in exports.' })
+    toast({ title: `已为 ${written} 个页面写好备注`, description: '随时可以编辑 — 它们不会出现在画布或导出文件中。' })
     setOpen(false)
   }
 
@@ -73,30 +73,30 @@ export function NotesAIGenerator() {
         className="flex items-center gap-1 text-[11px] text-[#02C0CC] hover:text-[#4de0e8] px-1.5 h-7 rounded-md hover:bg-[#02C0CC]/10 font-semibold"
         onClick={() => void generate()}
         disabled={busy}
-        title="Generate speaker notes for every page with AI"
-        aria-label="Generate speaker notes with AI"
+        title="使用 AI 为每一页生成演讲者备注"
+        aria-label="用 AI 生成演讲备注"
         data-testid="notes-ai-generate"
       >
         {busy ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
-        Generate with AI
+        使用 AI 生成
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-[560px] max-h-[80vh] overflow-y-auto rounded-2xl bg-[#14161B] border-white/10 text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-1.5 text-[15px]">
-              <NotebookPen size={15} className="text-[#02C0CC]" /> Speaker notes — review & edit
+              <NotebookPen size={15} className="text-[#02C0CC]" /> 演讲备注——查看与编辑
             </DialogTitle>
           </DialogHeader>
           <p className="text-[12px] text-white/55 -mt-1 mb-2 leading-snug">
-            AI drafts for {draft.length} page{draft.length === 1 ? '' : 's'}. Edit anything — Apply writes each
+            AI 草稿： {draft.length} page{draft.length === 1 ? '' : 's'}. Edit anything — Apply writes each
             page&apos;s notes (existing notes are replaced).
           </p>
           <div className="space-y-2.5">
             {draft.map((n, i) => (
               <div key={n.page}>
                 <div className="text-[11px] font-semibold text-white/60 mb-1 flex items-baseline gap-2">
-                  Page {n.page}
+                  页面 {n.page}
                   <span className="text-white/35 font-normal truncate">
                     {pages[n.page - 1]
                       ? (pages[n.page - 1].elements ?? [])
@@ -119,10 +119,10 @@ export function NotesAIGenerator() {
           </div>
           <div className="flex justify-end gap-2 mt-1">
             <Button variant="ghost" className="h-9 text-[12px] text-white/70 hover:text-white" onClick={() => setOpen(false)}>
-              Cancel
+              取消
             </Button>
             <Button className="btn-cv h-9 px-4 text-[12px]" onClick={apply}>
-              Apply to pages
+              应用到页面
             </Button>
           </div>
         </DialogContent>

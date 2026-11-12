@@ -80,35 +80,35 @@ function newProviderId(): string {
 }
 
 const SLOT_INFO: { key: string; label: string; hint: string; placeholder: string }[] = [
-  { key: 'text', label: 'Text', hint: 'Magic Write · Translate · Assistant', placeholder: 'e.g. meta/llama-3.1-70b-instruct' },
-  { key: 'vision', label: 'Vision', hint: 'Magic Layers — image understanding', placeholder: 'e.g. meta/llama-3.2-90b-vision-instruct' },
-  { key: 'image', label: 'Image generation', hint: 'Text-to-image in the Photos panel', placeholder: 'provider default' },
-  { key: 'imageEdit', label: 'Image editing', hint: 'Magic Eraser / Enhance', placeholder: 'provider default' },
+  { key: 'text', label: '文字', hint: '魔法写作 · 翻译 · 助手', placeholder: 'e.g. meta/llama-3.1-70b-instruct' },
+  { key: 'vision', label: '视觉', hint: '魔法图层 — 图片理解', placeholder: 'e.g. meta/llama-3.2-90b-vision-instruct' },
+  { key: 'image', label: '图片生成', hint: '照片面板中的文生图', placeholder: '服务商默认' },
+  { key: 'imageEdit', label: '图片编辑', hint: 'Magic Eraser / Enhance', placeholder: '服务商默认' },
   // v0.19 (Wave 4): the video slot — Sora-style async generation
-  { key: 'video', label: 'Video generation', hint: 'AI video card in the Videos panel', placeholder: 'provider default' },
+  { key: 'video', label: '视频生成', hint: '视频面板中的 AI 视频卡片', placeholder: '服务商默认' },
 ]
 
 const FEATURE_INFO: { key: string; label: string; hint: string }[] = [
-  { key: 'magicWrite', label: 'Magic Write', hint: 'AI copy suggestions in the text toolbar' },
-  { key: 'imageGeneration', label: 'Image generation', hint: 'Text-to-image in the Photos panel' },
-  { key: 'imageEditing', label: 'Image editing', hint: 'Magic Eraser / Enhance on selected images' },
-  { key: 'vision', label: 'Magic Layers', hint: 'Image understanding that rebuilds layered designs' },
-  { key: 'translation', label: 'Translate', hint: 'Text translation in the text toolbar' },
-  { key: 'assistant', label: 'Assistant', hint: 'The chat assistant that edits designs' },
-  { key: 'photoSearch', label: 'Photo search', hint: 'Stock photo search in the Photos panel — Pexels/Pixabay keys, not an AI provider' },
-  { key: 'soundSearch', label: 'Sound search', hint: 'Stock sound search in the Audio panel — Freesound key (CC0 by default), not an AI provider' },
+  { key: 'magicWrite', label: '魔法写作', hint: '文字工具栏中的 AI 文案建议' },
+  { key: 'imageGeneration', label: '图片生成', hint: '照片面板中的文生图' },
+  { key: 'imageEditing', label: '图片编辑', hint: 'Magic Eraser / Enhance on selected images' },
+  { key: 'vision', label: '魔法图层', hint: '理解图片并重建分层设计' },
+  { key: 'translation', label: '翻译', hint: '文字工具栏中的文本翻译' },
+  { key: 'assistant', label: '助手', hint: '可编辑设计的聊天助手' },
+  { key: 'photoSearch', label: '图片搜索', hint: 'Stock photo search in the Photos panel — Pexels/Pixabay keys, not an AI provider' },
+  { key: 'soundSearch', label: '声音搜索', hint: 'Stock sound search in the Audio panel — Freesound key (CC0 by default), not an AI provider' },
   // v0.19 (Wave 4 — AI Power-Up):
-  { key: 'agenticPlanning', label: 'AI design plan', hint: 'Describe → review the plan → apply editable pages' },
-  { key: 'notesGeneration', label: 'Speaker notes', hint: 'AI drafts presenter notes (reviewed before saving)' },
-  { key: 'themeGeneration', label: 'AI theme', hint: 'Palette + font pairing applied design-wide' },
-  { key: 'altText', label: 'Alt text', hint: 'AI alt-text suggestions for images (vision slot)' },
-  { key: 'videoGeneration', label: 'Video generation', hint: 'Text-to-video in the Videos panel (video slot)' },
+  { key: 'agenticPlanning', label: 'AI 设计方案', hint: '描述 → 审核方案 → 应用可编辑页面' },
+  { key: 'notesGeneration', label: '演讲者备注', hint: 'AI drafts presenter notes (reviewed before saving)' },
+  { key: 'themeGeneration', label: 'AI 主题', hint: '配色与字体搭配已应用于整个设计' },
+  { key: 'altText', label: '替代文本', hint: 'AI alt-text suggestions for images (vision slot)' },
+  { key: 'videoGeneration', label: '视频生成', hint: 'Text-to-video in the Videos panel (video slot)' },
 ]
 
 const SOURCE_LABEL: Record<string, string> = {
-  multi: 'providers table',
-  db: 'legacy override',
-  env: 'environment variables',
+  multi: '服务商表',
+  db: '旧版覆盖',
+  env: '环境变量',
   file: '.z-ai-config file',
 }
 
@@ -153,21 +153,21 @@ const STOCK_PROVIDERS = [
     label: 'Pexels',
     hint: 'Photos + Videos search · free key at pexels.com/api',
     env: 'PEXELS_API_KEY',
-    placeholder: 'free Pexels key',
+    placeholder: '免费 Pexels 密钥',
   },
   {
     key: 'pixabay',
     label: 'Pixabay',
     hint: 'Photos + Videos search · free key at pixabay.com/api/docs',
     env: 'PIXABAY_API_KEY',
-    placeholder: 'free Pixabay key',
+    placeholder: '免费 Pixabay 密钥',
   },
   {
     key: 'freesound',
     label: 'Freesound',
     hint: 'Audio search (CC0 by default) · free key at freesound.org/apiv2/apply',
     env: 'FREESOUND_API_KEY',
-    placeholder: 'free Freesound key',
+    placeholder: '免费 Freesound 密钥',
   },
 ] as const
 
@@ -277,7 +277,7 @@ export function AdminAiConfig() {
   /** Probe the ENDPOINT the slot actually uses (A3) — a chat-only
    * provider passes the text test but cannot generate images. */
   async function testSlot(slot: string) {
-    setSlotTest({ slot, ok: true, busy: true, message: 'probing…' })
+    setSlotTest({ slot, ok: true, busy: true, message: '检测中…' })
     const res = await sendJson<{ ok: boolean; endpoint?: string; providerLabel?: string; message?: string; reply?: string; error?: string }>(
       '/api/admin/config/ai-test',
       'POST',
@@ -312,7 +312,7 @@ export function AdminAiConfig() {
 
   /** Probe the provider's real search endpoint with the effective key. */
   async function testStockKey(name: 'pexels' | 'pixabay' | 'freesound') {
-    setStockTest({ provider: name, ok: true, busy: true, message: 'probing…' })
+    setStockTest({ provider: name, ok: true, busy: true, message: '检测中…' })
     const res = await sendJson<{ ok: boolean; message?: string; error?: string }>(
       '/api/admin/config/stock-test',
       'POST',
@@ -342,7 +342,7 @@ export function AdminAiConfig() {
 
   if (error && !view) {
     return (
-      <Card title="AI configuration">
+      <Card title="AI 配置">
         <p className="text-sm text-destructive">{error}</p>
       </Card>
     )
@@ -362,12 +362,12 @@ export function AdminAiConfig() {
       {notice && <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-700">{notice}</div>}
 
       <Card
-        title="AI providers"
+        title="AI 服务商"
         right={
           view.providers.set && rows.length > 0 ? (
-            <Chip tone="good">{rows.length} stored</Chip>
+            <Chip tone="good">{rows.length} 已存储</Chip>
           ) : (
-            <Chip tone={tableEmpty && !legacyStored && !view.provider.configured ? 'bad' : 'neutral'}>empty</Chip>
+            <Chip tone={tableEmpty && !legacyStored && !view.provider.configured ? 'bad' : 'neutral'}>未配置</Chip>
           )
         }
       >
@@ -380,7 +380,7 @@ export function AdminAiConfig() {
         {legacyStored && (
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm">
             <span>
-              A legacy single-provider override is stored ({view.provider.stored?.baseUrl}). It only answers slots that
+              已存储旧版单服务商覆盖配置（{view.provider.stored?.baseUrl}). It only answers slots that
               have no provider above — import it to manage it here.
             </span>
             <button
@@ -388,15 +388,15 @@ export function AdminAiConfig() {
               disabled={busy}
               className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-amber-600/40 bg-amber-500/20 px-3 py-1.5 text-sm font-medium text-amber-900 transition-colors hover:bg-amber-500/30 disabled:opacity-50"
             >
-              <Import size={14} /> Import into providers
+              <Import size={14} /> 导入到提供商
             </button>
           </div>
         )}
 
         {rows.length === 0 && (
           <p className="mb-4 rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
-            No providers yet. Add one below — you need its base URL (ending in <code className="rounded bg-muted px-1">/v1</code>{' '}
-            for most vendors) and an API key.
+            暂无服务商。请在下方添加一个 — 你需要它的基础 URL（以 <code className="rounded bg-muted px-1">/v1</code>{' '}
+            （适用于大多数服务商）和 API 密钥。
           </p>
         )}
 
@@ -408,7 +408,7 @@ export function AdminAiConfig() {
               <div key={row.id ?? `new-${i}`} className="rounded-xl border p-3">
                 <div className="grid gap-2 sm:grid-cols-[1fr_2fr_1fr_auto]">
                   <label className="text-xs">
-                    <span className="mb-1 block font-medium">Label</span>
+                    <span className="mb-1 block font-medium">标签</span>
                     <input
                       value={row.label}
                       onChange={(e) => setRows((rs) => rs.map((r, j) => (j === i ? { ...r, label: e.target.value } : r)))}
@@ -417,7 +417,7 @@ export function AdminAiConfig() {
                     />
                   </label>
                   <label className="text-xs">
-                    <span className="mb-1 block font-medium">Base URL</span>
+                    <span className="mb-1 block font-medium">基础 URL</span>
                     <input
                       value={row.baseUrl}
                       onChange={(e) => setRows((rs) => rs.map((r, j) => (j === i ? { ...r, baseUrl: e.target.value } : r)))}
@@ -426,7 +426,7 @@ export function AdminAiConfig() {
                     />
                   </label>
                   <label className="text-xs">
-                    <span className="mb-1 block font-medium">API key</span>
+                    <span className="mb-1 block font-medium">API 密钥</span>
                     <input
                       type="password"
                       value={row.apiKey}
@@ -440,15 +440,15 @@ export function AdminAiConfig() {
                     <button
                       onClick={() => void testProvider(row.id)}
                       disabled={busy || !saved}
-                      title={saved ? 'Send a minimal chat completion through this provider' : 'Save first, then test'}
+                      title={saved ? '通过此服务商发送一条最简聊天补全请求' : '请先保存，再测试'}
                       className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
                     >
-                      <Zap size={14} /> Test
+                      <Zap size={14} /> 测试
                     </button>
                     <button
                       onClick={() => setRows((rs) => rs.filter((_, j) => j !== i))}
                       disabled={busy}
-                      title="Remove this provider (saved on Save)"
+                      title="移除此服务商（保存时生效）"
                       className="inline-flex h-9 items-center rounded-lg border px-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive disabled:opacity-50"
                     >
                       <Trash2 size={14} />
@@ -474,14 +474,14 @@ export function AdminAiConfig() {
             disabled={busy || rows.length >= 8}
             className="inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
           >
-            <Plus size={14} /> Add provider
+            <Plus size={14} /> 添加服务商
           </button>
           <button
             onClick={() => void saveProviders()}
             disabled={busy || rows.length === 0}
             className="rounded-lg bg-primary px-3.5 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
           >
-            Save providers & slots
+            保存服务商与插槽
           </button>
         </div>
         {test && test.providerId === 'default' && (
@@ -490,7 +490,7 @@ export function AdminAiConfig() {
       </Card>
 
       <Card
-        title="Model slots"
+        title="模型插槽"
         right={
           <Chip tone={Object.values(view.providers.resolved).some((r) => r !== null) ? 'good' : 'neutral'}>
             {Object.values(view.providers.resolved).filter((r) => r !== null).length}/4 wired
@@ -498,8 +498,8 @@ export function AdminAiConfig() {
         }
       >
         <p className="mb-4 text-sm text-muted-foreground">
-          Pin each capability to a provider and model. A slot with no provider falls back to the legacy chain below —
-          every feature can run on a different vendor.
+          将每个功能固定到一个服务商和模型。未指定服务商的槽位会回退到下方的旧链路 —
+          每个功能都可以用不同的服务商。
         </p>
         {/* v0.16.4 (A4): photo search LEFT the AI table — it runs on the
             free stock-media keys (same keys as the Videos rail), not on a
@@ -509,7 +509,7 @@ export function AdminAiConfig() {
         <div className="mb-4 rounded-xl border border-cyan-500/30 bg-cyan-500/10 p-3 text-sm">
           <p>
             Photo search is not a model slot — it runs on the free stock-media keys (Pexels / Pixabay) managed in the{' '}
-            <strong>Stock media</strong> card below, shared with the Videos rail (docs/STOCK-PHOTO.md).
+            <strong>素材库</strong> 下方的卡片，与视频栏共用（docs/STOCK-PHOTO.md）。
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
             {view.stock.available
@@ -517,7 +517,7 @@ export function AdminAiConfig() {
                   .filter(([, p]) => p.set)
                   .map(([n, p]) => `${n}${p.source === 'db' ? ' (console)' : ' (env)'}`)
                   .join(' · ')}.`
-              : 'No stock key set — the Photos panel keeps only its bundled library.'}
+              : '未设置图库密钥 — 照片面板仅保留内置图库。'}
           </p>
         </div>
         <div className="space-y-3">
@@ -529,16 +529,16 @@ export function AdminAiConfig() {
                 <div>
                   <p className="text-sm font-medium">{s.label}</p>
                   <p className="text-xs text-muted-foreground">{s.hint}</p>
-                  <p className="mt-0.5 font-mono text-[11px] text-muted-foreground">uses {SLOT_ENDPOINT[s.key]}</p>
+                  <p className="mt-0.5 font-mono text-[11px] text-muted-foreground">使用 {SLOT_ENDPOINT[s.key]}</p>
                 </div>
                 <label className="text-xs">
-                  <span className="mb-1 block font-medium">Provider</span>
+                  <span className="mb-1 block font-medium">提供商</span>
                   <select
                     value={current.providerId}
                     onChange={(e) => setSlots((sl) => ({ ...sl, [s.key]: { ...current, providerId: e.target.value } }))}
                     className="h-9 w-full rounded-lg border bg-background px-2 text-sm outline-none focus:ring-2 focus:ring-ring"
                   >
-                    <option value="">— fall back —</option>
+                    <option value="">— 回退 —</option>
                     {rows.map((r) => (
                       <option key={r.id ?? r.label} value={r.id ?? ''} disabled={!r.id}>
                         {r.label || r.baseUrl || 'unsaved provider'}
@@ -547,7 +547,7 @@ export function AdminAiConfig() {
                   </select>
                 </label>
                 <label className="text-xs">
-                  <span className="mb-1 block font-medium">Model id</span>
+                  <span className="mb-1 block font-medium">模型 ID</span>
                   <input
                     value={current.model}
                     onChange={(e) => setSlots((sl) => ({ ...sl, [s.key]: { ...current, model: e.target.value } }))}
@@ -564,10 +564,10 @@ export function AdminAiConfig() {
                   <button
                     onClick={() => void testSlot(s.key)}
                     disabled={busy || slotTest?.busy === true}
-                    title={`Probe the real ${SLOT_ENDPOINT[s.key]} endpoint this slot uses`}
+                    title={`检测此槽位实际使用的 ${SLOT_ENDPOINT[s.key]} 端点`}
                     className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
                   >
-                    <Zap size={14} /> Test {s.label.toLowerCase()}
+                    <Zap size={14} /> 测试 {s.label.toLowerCase()}
                   </button>
                 </div>
                 {slotTest && slotTest.slot === s.key && !slotTest.busy && (
@@ -584,7 +584,7 @@ export function AdminAiConfig() {
           disabled={busy || rows.length === 0}
           className="mt-4 rounded-lg bg-primary px-3.5 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
         >
-          Save providers & slots
+          保存服务商与插槽
         </button>
       </Card>
 
@@ -595,8 +595,8 @@ export function AdminAiConfig() {
           one-result search through the effective key) and Clear (env
           fallback restored). NOT model slots — the A4 decision. */}
       <Card
-        title="Stock media — Pexels, Pixabay & Freesound"
-        right={<Chip tone={stockKeyedCount > 0 ? 'good' : 'neutral'}>{stockKeyedCount > 0 ? `${stockKeyedCount} keyed` : 'no keys'}</Chip>}
+        title="图库媒体 — Pexels、Pixabay 与 Freesound"
+        right={<Chip tone={stockKeyedCount > 0 ? 'good' : 'neutral'}>{stockKeyedCount > 0 ? `${stockKeyedCount} keyed` : '无密钥'}</Chip>}
       >
         <p className="mb-4 text-sm text-muted-foreground">
           The Pexels/Pixabay keys power the Photos and Videos search rails; the Freesound key powers the Audio rail
@@ -630,11 +630,11 @@ export function AdminAiConfig() {
                     <p className="text-sm font-medium">{s.label}</p>
                     <p className="text-xs text-muted-foreground">{s.hint}</p>
                     <p className="mt-0.5 text-[11px] text-muted-foreground">
-                      {state?.set ? `active · ${savedHere ? 'console key' : `env ${s.env}`}` : 'not keyed'}
+                      {state?.set ? `active · ${savedHere ? '控制台密钥' : `env ${s.env}`}` : '未配置密钥'}
                     </p>
                   </div>
                   <label className="text-xs">
-                    <span className="mb-1 block font-medium">API key</span>
+                    <span className="mb-1 block font-medium">API 密钥</span>
                     <input
                       type="password"
                       value={stockKeys[s.key] ?? ''}
@@ -643,7 +643,7 @@ export function AdminAiConfig() {
                         state?.keyMasked
                           ? `stored: ${state.keyMasked}`
                           : state?.source === 'env'
-                            ? 'env key active — store one to override'
+                            ? '环境变量密钥已生效 — 可保存一个来覆盖'
                             : s.placeholder
                       }
                       autoComplete="off"
@@ -654,15 +654,15 @@ export function AdminAiConfig() {
                     <button
                       onClick={() => void testStockKey(s.key)}
                       disabled={busy || stockTest?.busy === true || !state?.set}
-                      title={state?.set ? `One minimal real search through ${s.label}` : 'Save a key first, then test'}
+                      title={state?.set ? `One minimal real search through ${s.label}` : '请先保存密钥，再测试'}
                       className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
                     >
-                      <Zap size={14} /> Test
+                      <Zap size={14} /> 测试
                     </button>
                     <button
                       onClick={() => void clearStockKey(s.key)}
                       disabled={busy || !savedHere}
-                      title={savedHere ? 'Remove the stored key (env fallback restored)' : 'Nothing stored — env or unset'}
+                      title={savedHere ? 'Remove the stored key (env fallback restored)' : '未存储 — 环境变量或未设置'}
                       className="inline-flex h-9 items-center rounded-lg border px-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive disabled:opacity-50"
                     >
                       <Trash2 size={14} />
@@ -684,37 +684,37 @@ export function AdminAiConfig() {
             disabled={busy || !STOCK_PROVIDERS.some((p) => (stockKeys[p.key] ?? '').trim())}
             className="rounded-lg bg-primary px-3.5 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
           >
-            Save stock keys
+            保存图库密钥
           </button>
           <span className="text-xs text-muted-foreground">
             {view.stock.available
-              ? 'Stock search active — the keyed rails answer now.'
-              : 'No stock key set — Photos keeps its bundled library, the Videos and Audio web-search sections stay hidden.'}
+              ? '图库搜索已启用——已配置的渠道正在响应。'
+              : '未设置图库密钥 — 照片保留内置图库，视频和音频的网络搜索栏目将保持隐藏。'}
           </span>
         </div>
       </Card>
 
       <Card
-        title="Fallback — single provider & default models"
+        title="回退——单服务商与默认模型"
         right={
           view.provider.configured ? (
             <Chip tone={view.provider.source === 'db' ? 'good' : 'neutral'}>
-              fallback active · {SOURCE_LABEL[view.provider.source ?? ''] ?? view.provider.source}
+              备用已启用 · {SOURCE_LABEL[view.provider.source ?? ''] ?? view.provider.source}
             </Chip>
           ) : (
-            <Chip tone="bad">no fallback</Chip>
+            <Chip tone="bad">无回退</Chip>
           )
         }
       >
         <p className="mb-4 text-sm text-muted-foreground">
-          Only used by slots set to “— fall back —” above. The single override wins over the{' '}
+          仅适用于上方设为“— 回退 —”的插槽。单个覆盖配置优先于{' '}
           <code className="rounded bg-muted px-1">ZAI_BASE_URL</code> /{' '}
           <code className="rounded bg-muted px-1">ZAI_API_KEY</code> environment variables; model ids apply to the
           matching fallback slot. Keys are write-only — stored, never displayed again.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="text-sm">
-            <span className="mb-1 block font-medium">Base URL</span>
+            <span className="mb-1 block font-medium">基础 URL</span>
             <input
               value={baseUrl}
               onChange={(e) => setBaseUrl(e.target.value)}
@@ -723,12 +723,12 @@ export function AdminAiConfig() {
             />
           </label>
           <label className="text-sm">
-            <span className="mb-1 block font-medium">API key</span>
+            <span className="mb-1 block font-medium">API 密钥</span>
             <input
               type="password"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              placeholder={view.provider.stored ? `stored: ${view.provider.stored.keyMasked}` : 'provider API key'}
+              placeholder={view.provider.stored ? `stored: ${view.provider.stored.keyMasked}` : '提供商 API 密钥'}
               autoComplete="off"
               className="h-9 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
             />
@@ -737,11 +737,11 @@ export function AdminAiConfig() {
         <div className="mt-3 grid gap-3 sm:grid-cols-3">
           {(['text', 'vision', 'image'] as const).map((key) => (
             <label key={key} className="text-sm">
-              <span className="mb-1 block font-medium capitalize">{key} model</span>
+              <span className="mb-1 block font-medium capitalize">{key} 模型</span>
               <input
                 value={models[key]}
                 onChange={(e) => setModels((m) => ({ ...m, [key]: e.target.value }))}
-                placeholder={key === 'vision' ? 'glm-4.5v (default)' : 'SDK default'}
+                placeholder={key === 'vision' ? 'glm-4.5v (default)' : 'SDK 默认'}
                 className="h-9 w-full rounded-lg border bg-background px-3 font-mono text-sm outline-none focus:ring-2 focus:ring-ring"
               />
             </label>
@@ -749,9 +749,9 @@ export function AdminAiConfig() {
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
           <span>
-            env: {view.provider.env.urlSet ? 'base URL set' : 'no base URL'} · {view.provider.env.keySet ? 'key set' : 'no key'}
+            环境变量： {view.provider.env.urlSet ? '已设置基础 URL' : '未设置基础 URL'} · {view.provider.env.keySet ? '已设置密钥' : '无密钥'}
           </span>
-          {view.provider.activeBaseUrl && <span className="break-all">active fallback: {view.provider.activeBaseUrl}</span>}
+          {view.provider.activeBaseUrl && <span className="break-all">当前备用地址： {view.provider.activeBaseUrl}</span>}
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <button
@@ -763,26 +763,26 @@ export function AdminAiConfig() {
             disabled={busy || !providerSectionReady}
             className="rounded-lg bg-primary px-3.5 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
           >
-            {baseUrl.trim() && apiKey.trim() ? 'Save fallback override' : 'Clear fallback override'}
+            {baseUrl.trim() && apiKey.trim() ? '保存备用覆盖' : '清除备用覆盖'}
           </button>
           <button
             onClick={() => void put({ models }, 'Fallback models saved.')}
             disabled={busy}
             className="rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
           >
-            Save fallback models
+            保存回退模型
           </button>
           <button
             onClick={() => void testProvider(null)}
             disabled={busy}
             className="inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50"
           >
-            <Zap size={14} /> Test fallback (text slot)
+            <Zap size={14} /> 测试回退（文本插槽）
           </button>
         </div>
       </Card>
 
-      <Card title="AI features">
+      <Card title="AI 功能">
         <p className="mb-4 text-sm text-muted-foreground">
           Kill switches per feature. A switched-off feature reports as unavailable everywhere (panels grey out, the
           capabilities endpoint says no) and its API route refuses work — even with providers configured.
@@ -807,7 +807,7 @@ export function AdminAiConfig() {
           disabled={busy}
           className="mt-4 rounded-lg bg-primary px-3.5 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
         >
-          Save features
+          保存功能
         </button>
       </Card>
     </>

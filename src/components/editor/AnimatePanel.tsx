@@ -13,18 +13,18 @@ import { cn } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
 
 const EASINGS: { id: AnimationEasing; label: string }[] = [
-  { id: 'linear', label: 'Linear' },
-  { id: 'easeIn', label: 'Ease in' },
-  { id: 'easeOut', label: 'Ease out' },
-  { id: 'easeInOut', label: 'Ease in-out' },
-  { id: 'spring', label: 'Spring' },
+  { id: 'linear', label: '线性' },
+  { id: 'easeIn', label: '缓入' },
+  { id: 'easeOut', label: '缓出' },
+  { id: 'easeInOut', label: '缓入缓出' },
+  { id: 'spring', label: '弹性' },
 ]
 
 const DIRECTIONS: { id: AnimationDirection; label: string; icon: typeof ArrowLeft }[] = [
-  { id: 'left', label: 'From left', icon: ArrowLeft },
-  { id: 'right', label: 'From right', icon: ArrowRight },
-  { id: 'up', label: 'From bottom', icon: ArrowUp },
-  { id: 'down', label: 'From top', icon: ArrowDown },
+  { id: 'left', label: '从左侧', icon: ArrowLeft },
+  { id: 'right', label: '从右侧', icon: ArrowRight },
+  { id: 'up', label: '从底部', icon: ArrowUp },
+  { id: 'down', label: '从顶部', icon: ArrowDown },
 ]
 
 /**
@@ -90,14 +90,14 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-4 pt-4 pb-3 shrink-0">
         <h2 className="font-bold text-sm text-white flex items-center gap-2">
-          <Zap size={15} className="text-[#02C0CC]" /> Animate
+          <Zap size={15} className="text-[#02C0CC]" /> 动画
         </h2>
         <Button
           variant="ghost"
           size="icon"
           className="rounded-full text-white/70 hover:bg-white/10 hover:text-white h-7 w-7"
           onClick={onClose}
-          aria-label="Close animate panel"
+          aria-label="关闭动画面板"
         >
           <X size={14} />
         </Button>
@@ -115,7 +115,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                 tab === t ? 'bg-white/[0.12] text-white' : 'text-white/50 hover:text-white/80'
               )}
             >
-              {t === 'page' ? 'Page' : 'Element'}
+              {t === 'page' ? '页面' : '元素'}
             </button>
           ))}
         </div>
@@ -130,7 +130,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
               className="w-full rounded-xl bg-gradient-to-r from-[#00C4CC] to-[#7630D7] p-[1px] cursor-pointer group"
               onClick={() => {
                 magicAnimateCurrentPage(speed)
-                toast({ title: 'Magic Animate applied', description: 'Every element got a fitting animation. Preview to see it play.' })
+                toast({ title: '已应用魔法动画', description: '每个元素都已获得合适的动画，预览即可查看效果。' })
               }}
             >
               <div className="rounded-[11px] bg-[#16181D] px-3 py-3 flex items-center gap-2.5 group-hover:bg-transparent transition-colors">
@@ -138,8 +138,8 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                   <Sparkles size={16} className="text-white" />
                 </div>
                 <div className="text-left">
-                  <div className="text-[13px] font-bold text-white">Magic Animate</div>
-                  <div className="text-[11px] text-white/55">One click — animate everything on this page</div>
+                  <div className="text-[13px] font-bold text-white">魔法动画</div>
+                  <div className="text-[11px] text-white/55">一键为本页所有内容添加动画</div>
                 </div>
               </div>
             </button>
@@ -147,12 +147,12 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
             {/* speed */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[11px] font-semibold text-white/60">Animation speed</span>
+                <span className="text-[11px] font-semibold text-white/60">动画速度</span>
                 <button
                   className="text-[10px] text-[#02C0CC] font-semibold cursor-pointer"
                   onClick={() => setShowSpeed((v) => !v)}
                 >
-                  {showSpeed ? 'hide presets' : 'show presets'}
+                  {showSpeed ? '隐藏预设' : '显示预设'}
                 </button>
               </div>
               {showSpeed && (
@@ -175,8 +175,8 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
 
             {/* page transition */}
             <div>
-              <span className="text-[11px] font-semibold text-white/60 block mb-1.5">Page transition</span>
-              <p className="text-[10px] text-white/35 mb-2">Plays when this page appears after another.</p>
+              <span className="text-[11px] font-semibold text-white/60 block mb-1.5">页面过渡</span>
+              <p className="text-[10px] text-white/35 mb-2">当此页面在另一页之后出现时播放。</p>
               <div className="grid grid-cols-2 gap-1.5">
                 {TRANSITION_KINDS.map((t) => (
                   <button
@@ -198,7 +198,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
               {pageTransition && pageTransition.kind !== 'none' && (
                 <div className="mt-2.5">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-semibold text-white/50">Duration</span>
+                    <span className="text-[10px] font-semibold text-white/50">时长</span>
                     <span className="text-[10px] text-white/60">{pageTransition.duration.toFixed(1)}s</span>
                   </div>
                   <input
@@ -211,7 +211,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                       setPageTransition({ ...pageTransition, duration: Number(e.target.value) })
                     }
                     className="w-full accent-[#02C0CC]"
-                    aria-label="Transition duration"
+                    aria-label="过渡时长"
                   />
                   {(pageTransition.kind === 'slide') && (
                     <div className="flex gap-1 mt-2">
@@ -235,7 +235,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                   {/* Sound wave: transition SFX — the 16 offline pack sounds,
                       auditioned inline, stored on the transition config */}
                   <SfxPicker
-                    label="Transition sound"
+                    label="过渡音效"
                     value={pageTransition.sfxId}
                     onChange={(sfxId) => setPageTransition({ ...pageTransition, ...(sfxId ? { sfxId } : { sfxId: undefined }) })}
                   />
@@ -250,16 +250,16 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                 className="flex-1 btn-brand-gradient gap-1.5"
                 onClick={() => setPreviewOpen(true)}
               >
-                <Play size={12} /> Preview animations
+                <Play size={12} /> 预览动画
               </Button>
               <Button
                 size="sm"
                 variant="ghost"
                 className="text-white/70 hover:bg-white/10 hover:text-white gap-1.5"
                 onClick={() => clearPageAnimations()}
-                title="Remove all animations from this page"
+                title="移除本页所有动画"
               >
-                <RotateCcw size={12} /> Clear
+                <RotateCcw size={12} /> 清除
               </Button>
             </div>
           </div>
@@ -271,15 +271,15 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
             {!selection ? (
               <div className="text-center py-10 px-2">
                 <Zap size={26} className="mx-auto text-white/20 mb-2" />
-                <div className="text-[13px] font-semibold text-white/60">Select an element</div>
+                <div className="text-[13px] font-semibold text-white/60">选择一个元素</div>
                 <p className="text-[11px] text-white/40 mt-1">
-                  Pick one or more elements on the canvas, then choose an animation.
+                  在画布上选择一个或多个元素，然后选择动画。
                 </p>
               </div>
             ) : (
               <>
                 <p className="text-[11px] text-white/50">
-                  Animating {selectedIds.length} element{selectedIds.length > 1 ? 's' : ''}
+                  动画中 {selectedIds.length} element{selectedIds.length > 1 ? 's' : ''}
                 </p>
 
                 <div className="grid grid-cols-3 gap-1.5">
@@ -306,7 +306,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                   <div className="space-y-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-3">
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-semibold text-white/50">Duration</span>
+                        <span className="text-[10px] font-semibold text-white/50">时长</span>
                         <span className="text-[10px] text-white/60">{selectedAnim.duration.toFixed(1)}s</span>
                       </div>
                       <input
@@ -317,12 +317,12 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                         value={selectedAnim.duration}
                         onChange={(e) => patchAnim({ duration: Number(e.target.value) })}
                         className="w-full accent-[#02C0CC]"
-                        aria-label="Animation duration"
+                        aria-label="动画时长"
                       />
                     </div>
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-semibold text-white/50">Delay</span>
+                        <span className="text-[10px] font-semibold text-white/50">延迟</span>
                         <span className="text-[10px] text-white/60">{selectedAnim.delay.toFixed(1)}s</span>
                       </div>
                       <input
@@ -333,11 +333,11 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                         value={selectedAnim.delay}
                         onChange={(e) => patchAnim({ delay: Number(e.target.value) })}
                         className="w-full accent-[#02C0CC]"
-                        aria-label="Animation delay"
+                        aria-label="动画延迟"
                       />
                     </div>
                     <div>
-                      <span className="text-[10px] font-semibold text-white/50 block mb-1.5">Easing</span>
+                      <span className="text-[10px] font-semibold text-white/50 block mb-1.5">缓动</span>
                       <div className="grid grid-cols-3 gap-1">
                         {EASINGS.map((e) => (
                           <button
@@ -357,7 +357,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                     </div>
                     {['pan', 'rise', 'wipe', 'rotate'].includes(selectedAnim.kind) && (
                       <div>
-                        <span className="text-[10px] font-semibold text-white/50 block mb-1.5">Direction</span>
+                        <span className="text-[10px] font-semibold text-white/50 block mb-1.5">方向</span>
                         <div className="flex gap-1">
                           {DIRECTIONS.map((d) => (
                             <button
@@ -380,7 +380,7 @@ export function AnimatePanel({ onClose }: { onClose: () => void }) {
                     {/* Sound wave: element animation SFX — fires when the
                         animation triggers (at its delay) in preview/present */}
                     <SfxPicker
-                      label="Entrance sound"
+                      label="入场音效"
                       value={selectedAnim.sfxId}
                       onChange={(sfxId) => patchAnim({ ...(sfxId ? { sfxId } : { sfxId: undefined }) })}
                     />
@@ -401,21 +401,21 @@ function AnimationGlyph({ kind }: { kind: AnimationKind }) {
     case 'none':
       return <div className={cls}><RotateCcw size={12} /></div>
     case 'fade':
-      return <div className={cls}><span className="text-[10px] font-bold">Fa</span></div>
+      return <div className={cls}><span className="text-[10px] font-bold">淡入</span></div>
     case 'rise':
       return <div className={cls}><ArrowUp size={12} /></div>
     case 'pan':
       return <div className={cls}><ArrowRight size={12} /></div>
     case 'pop':
-      return <div className={cls}><span className="text-[10px] font-bold">Po</span></div>
+      return <div className={cls}><span className="text-[10px] font-bold">弹出</span></div>
     case 'wipe':
-      return <div className={cls}><span className="text-[10px] font-bold">Wi</span></div>
+      return <div className={cls}><span className="text-[10px] font-bold">擦除</span></div>
     case 'zoom':
-      return <div className={cls}><span className="text-[10px] font-bold">Zo</span></div>
+      return <div className={cls}><span className="text-[10px] font-bold">缩放</span></div>
     case 'rotate':
       return <div className={cls}><RotateCcw size={12} className="rotate-[135deg]" /></div>
     case 'breathe':
-      return <div className={cls}><span className="text-[10px] font-bold">Br</span></div>
+      return <div className={cls}><span className="text-[10px] font-bold">呼吸</span></div>
     default:
       return <div className={cls}>?</div>
   }
@@ -438,7 +438,7 @@ function SfxPicker({ label, value, onChange }: { label: string; value: string | 
           className="min-w-0 flex-1 rounded-md border border-white/10 bg-[#16181D] px-2 py-1.5 text-[11px] text-white/85 outline-none focus:border-[#02C0CC]"
           aria-label={label}
         >
-          <option value="">None</option>
+          <option value="">无</option>
           {SFX_PACK.map((s) => (
             <option key={s.id} value={s.id}>
               {s.label} · {s.seconds}s
@@ -448,7 +448,7 @@ function SfxPicker({ label, value, onChange }: { label: string; value: string | 
         <button
           onClick={() => value && playSfx(value, 0.8)}
           disabled={!value}
-          title={value ? 'Audition this sound' : 'Pick a sound first'}
+          title={value ? '试听此音效' : '请先选择音效'}
           aria-label={`Audition ${label}`}
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-white/10 text-white/60 transition-colors hover:text-white hover:border-white/25 disabled:opacity-40"
         >
@@ -456,7 +456,7 @@ function SfxPicker({ label, value, onChange }: { label: string; value: string | 
         </button>
       </div>
       <p className="mt-1 text-[9px] leading-snug text-white/30">
-        Plays in Preview and Present. For video export, insert the sound from the Audio panel as an autoplay element instead.
+        在预览和演示中播放。视频导出时，请改为从音频面板插入声音作为自动播放元素。
       </p>
     </div>
   )

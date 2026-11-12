@@ -86,7 +86,7 @@ export function BarChart({
       })}
       {bars.every((b) => b.value === 0 && !b.alt) && (
         <text x={W / 2} y={H / 2} textAnchor="middle" fontSize="11" fill="currentColor" opacity="0.4">
-          no data yet
+          暂无数据
         </text>
       )}
     </svg>
@@ -148,7 +148,7 @@ export function LineChart({
       ))}
       {points.every((p) => p.value === 0) && (
         <text x={W / 2} y={H / 2} textAnchor="middle" fontSize="11" fill="currentColor" opacity="0.4">
-          no data yet
+          暂无数据
         </text>
       )}
     </svg>
@@ -166,7 +166,7 @@ export function HBars({
   const max = Math.max(1, ...rows.map((r) => r.value))
   return (
     <div className="space-y-2">
-      {rows.length === 0 && <p className="text-sm text-muted-foreground">no data yet</p>}
+      {rows.length === 0 && <p className="text-sm text-muted-foreground">暂无数据</p>}
       {rows.map((r) => (
         <div key={r.label} className="flex items-center gap-3" title={r.hint}>
           <span className="w-28 shrink-0 truncate text-xs text-muted-foreground" title={r.label}>

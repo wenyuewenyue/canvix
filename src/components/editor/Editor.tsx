@@ -48,44 +48,44 @@ const CanvasStage = dynamic(() => import('./canvas/CanvasStage'), { ssr: false }
 const PluginServiceLayer = dynamic(() => import('./apps/PluginServiceLayer').then((m) => m.PluginServiceLayer), { ssr: false })
 
 const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
-  templates: 'Templates',
-  elements: 'Elements',
-  text: 'Text',
-  brand: 'Brand',
-  uploads: 'Uploads',
-  photos: 'Photos',
-  videos: 'Videos',
-  audio: 'Audio',
-  tools: 'Tools',
-  projects: 'Projects',
-  apps: 'Apps',
-  background: 'Background',
-  layers: 'Layers',
+  templates: '模板',
+  elements: '元素',
+  text: '文字',
+  brand: '品牌',
+  uploads: '上传',
+  photos: '照片',
+  videos: '视频',
+  audio: '音频',
+  tools: '工具',
+  projects: '项目',
+  apps: '应用',
+  background: '背景',
+  layers: '图层',
 }
 
 const SHORTCUTS: [string, string][] = [
-  ['Ctrl + Z / Ctrl + Shift + Z', 'Undo / redo'],
-  ['Ctrl + S', 'Save design'],
-  ['Ctrl + Alt + S', 'Save a version snapshot'],
-  ['Ctrl + D', 'Duplicate selection'],
-  ['Ctrl + C / X / V', 'Copy / cut / paste elements'],
-  ['Ctrl + G / Ctrl + Shift + G', 'Group / ungroup selection'],
-  ['Ctrl + A', 'Select all elements'],
-  ['Ctrl + L', 'Lock / unlock selection'],
-  ['Ctrl + ] / [', 'Bring forward / send backward'],
-  ['Shift + Ctrl + ] / [', 'Bring to front / send to back'],
-  ['Delete / Backspace', 'Delete selection'],
-  ['Arrows (+ Shift ×10)', 'Nudge selection'],
-  ['+ / −', 'Zoom in / out'],
-  ['Space + drag', 'Pan the canvas'],
-  ['Drag on empty canvas', 'Marquee (box) select'],
-  ['Double-click text', 'Edit text'],
-  ['Double-click layer name', 'Rename layer'],
-  ['V', 'Select tool'],
-  ['Shift + R', 'Show / hide rulers'],
-  ['Drag from a ruler', 'Pull out a guide line'],
-  ['Escape', 'Deselect / close'],
-  ['Ctrl + mouse wheel', 'Zoom at cursor'],
+  ['Ctrl + Z / Ctrl + Shift + Z', '撤销 / 重做'],
+  ['Ctrl + S', '保存设计'],
+  ['Ctrl + Alt + S', '保存版本快照'],
+  ['Ctrl + D', '复制所选内容'],
+  ['Ctrl + C / X / V', '复制 / 剪切 / 粘贴元素'],
+  ['Ctrl + G / Ctrl + Shift + G', '编组 / 取消编组所选内容'],
+  ['Ctrl + A', '全选元素'],
+  ['Ctrl + L', '锁定 / 解锁所选内容'],
+  ['Ctrl + ] / [', '上移一层 / 下移一层'],
+  ['Shift + Ctrl + ] / [', '置于顶层 / 置于底层'],
+  ['Delete / Backspace', '删除所选内容'],
+  ['方向键（+ Shift ×10）', '微移所选内容'],
+  ['+ / −', '放大 / 缩小'],
+  ['空格键 + 拖动', '平移画布'],
+  ['在空白画布上拖动', '框选'],
+  ['双击文字', '编辑文字'],
+  ['双击图层名称', '重命名图层'],
+  ['V', '选择工具'],
+  ['Shift + R', '显示 / 隐藏标尺'],
+  ['从标尺拖动', '拉出参考线'],
+  ['Escape', '取消选择 / 关闭'],
+  ['Ctrl + 鼠标滚轮', '以光标为中心缩放'],
 ]
 
 export default function Editor() {
@@ -277,7 +277,7 @@ export default function Editor() {
       if (mod && e.altKey && (e.code === 'KeyS' || e.key.toLowerCase() === 's')) {
         e.preventDefault()
         state.saveVersion()
-        toast({ title: 'Version saved' })
+        toast({ title: '版本已保存' })
         return
       }
 
@@ -295,7 +295,7 @@ export default function Editor() {
       if (mod && e.key.toLowerCase() === 's') {
         e.preventDefault()
         void save(true)
-        toast({ title: 'Design saved' })
+        toast({ title: '设计已保存' })
         return
       }
       if (mod && e.key.toLowerCase() === 'd') {
@@ -463,8 +463,8 @@ export default function Editor() {
           ok += 1
         } catch { /* ignore */ }
       }
-      if (filled) toast({ title: `Frame filled with ${filled} image${filled > 1 ? 's' : ''}` })
-      else if (ok) toast({ title: `${ok} image${ok > 1 ? 's' : ''} added` })
+      if (filled) toast({ title: `已用 ${filled} 张图片填充画框` })
+      else if (ok) toast({ title: `已添加 ${ok} 张图片` })
     }
     window.addEventListener('dragover', onDragOver)
     window.addEventListener('drop', onDrop)
@@ -501,7 +501,7 @@ export default function Editor() {
       <TopBar onSave={() => save(true)} onShortcuts={() => setShortcutsOpen(true)} />
       {readOnly && (
         <div className="flex items-center justify-center gap-2 bg-[#3B2A00] border-b border-[#F59E0B]/25 px-4 py-1.5 text-[12px] text-[#FBBF24]" role="status">
-          <Eye size={13} /> View-only — this design belongs to another account. Sign in as its owner to edit it.
+          <Eye size={13} /> 仅查看 — 此设计属于另一个账号，请以其所有者身份登录进行编辑。
         </div>
       )}
 
@@ -536,7 +536,7 @@ export default function Editor() {
             {isMobile && (
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.07] shrink-0">
                 <h2 className="font-bold text-sm text-white">{PANEL_TITLES[panel]}</h2>
-                <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/10 hover:text-white" onClick={() => setPanel(null)} aria-label="Close panel">
+                <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/10 hover:text-white" onClick={() => setPanel(null)} aria-label="关闭面板">
                   <X size={16} />
                 </Button>
               </div>
@@ -548,7 +548,7 @@ export default function Editor() {
         )}
 
         {/* canvas workspace */}
-        <main className="flex-1 relative min-w-0 min-h-0" aria-label="Design canvas">
+        <main className="flex-1 relative min-w-0 min-h-0" aria-label="设计画布">
           <CanvasStage />
           <PageBar />
           <ZoomControls />
@@ -579,7 +579,7 @@ export default function Editor() {
       {/* save indicator (mobile) */}
       {isMobile && saving && (
         <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 text-xs bg-[#7630D7] text-white px-3 py-1 rounded-full">
-          Saving…
+          保存中…
         </div>
       )}
 
@@ -596,7 +596,7 @@ export default function Editor() {
         <DialogContent className="rounded-[28px] bg-[#16181D] border-white/10 text-white sm:max-w-sm">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-lg font-bold">
-              <Keyboard size={18} className="text-[#02C0CC]" /> Keyboard shortcuts
+              <Keyboard size={18} className="text-[#02C0CC]" /> 键盘快捷键
             </DialogTitle>
           </DialogHeader>
           <div className="divide-y divide-white/[0.07]">

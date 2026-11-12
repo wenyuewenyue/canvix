@@ -13,17 +13,17 @@ import { Tip } from './tooltip'
  *  /api/stock-video/available says the instance has a stock-video key —
  *  no provider = feature hidden, everything else works (the F2b pattern). */
 const PANELS: { id: Exclude<PanelId, null>; label: string; icon: typeof LayoutTemplate }[] = [
-  { id: 'templates', label: 'Templates', icon: LayoutTemplate },
-  { id: 'elements', label: 'Elements', icon: Shapes },
-  { id: 'text', label: 'Text', icon: Type },
-  { id: 'brand', label: 'Brand', icon: BookMarked },
-  { id: 'uploads', label: 'Uploads', icon: Upload },
-  { id: 'photos', label: 'Photos', icon: Image },
-  { id: 'videos', label: 'Videos', icon: Video },
-  { id: 'audio', label: 'Audio', icon: AudioLines },
-  { id: 'tools', label: 'Tools', icon: Wrench },
-  { id: 'projects', label: 'Projects', icon: FolderOpen },
-  { id: 'apps', label: 'Apps', icon: LayoutGrid },
+  { id: 'templates', label: '模板', icon: LayoutTemplate },
+  { id: 'elements', label: '元素', icon: Shapes },
+  { id: 'text', label: '文字', icon: Type },
+  { id: 'brand', label: '品牌', icon: BookMarked },
+  { id: 'uploads', label: '上传', icon: Upload },
+  { id: 'photos', label: '照片', icon: Image },
+  { id: 'videos', label: '视频', icon: Video },
+  { id: 'audio', label: '音频', icon: AudioLines },
+  { id: 'tools', label: '工具', icon: Wrench },
+  { id: 'projects', label: '项目', icon: FolderOpen },
+  { id: 'apps', label: '应用', icon: LayoutGrid },
 ]
 
 export function LeftRail({ vertical = true }: { vertical?: boolean }) {
@@ -46,7 +46,7 @@ export function LeftRail({ vertical = true }: { vertical?: boolean }) {
         'bg-[#1D1F26] shrink-0 z-30 border-r border-white/[0.06]',
         vertical ? 'w-[72px] flex flex-col items-center pt-1 gap-0.5' : 'flex items-center justify-around px-2 h-14 overflow-x-auto cv-scroll-dark'
       )}
-      aria-label="Editor tools"
+      aria-label="编辑器工具"
     >
       {panels.map((p) => {
         const active = panel === p.id

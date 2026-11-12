@@ -57,14 +57,14 @@ export function CommentsPanel() {
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-4 pt-4 pb-3 shrink-0">
         <h2 className="font-bold text-sm text-white flex items-center gap-2">
-          <MessageSquare size={15} className="text-[#02C0CC]" /> Comments
+          <MessageSquare size={15} className="text-[#02C0CC]" /> 评论
         </h2>
         <Button
           variant="ghost"
           size="icon"
           className="rounded-full text-white/70 hover:bg-white/10 hover:text-white h-7 w-7"
           onClick={() => setCommentsOpen(false)}
-          aria-label="Close comments"
+          aria-label="关闭评论"
         >
           <X size={14} />
         </Button>
@@ -82,7 +82,7 @@ export function CommentsPanel() {
                 filter === f ? 'bg-white/[0.12] text-white' : 'text-white/50 hover:text-white/80'
               )}
             >
-              {f} {f === 'open' && threads.filter((t) => !t.root.resolved).length > 0 && `(${threads.filter((t) => !t.root.resolved).length})`}
+              {f === 'open' ? '待处理' : f === 'resolved' ? '已解决' : '全部'} {f === 'open' && threads.filter((t) => !t.root.resolved).length > 0 && `(${threads.filter((t) => !t.root.resolved).length})`}
             </button>
           ))}
         </div>
@@ -93,10 +93,10 @@ export function CommentsPanel() {
           <div className="text-center py-10 px-4">
             <MessageCircle size={26} className="mx-auto text-white/20 mb-2" />
             <div className="text-[13px] font-semibold text-white/60">
-              {filter === 'open' ? 'No open comments' : filter === 'resolved' ? 'No resolved comments' : 'No comments yet'}
+              {filter === 'open' ? '暂无待处理评论' : filter === 'resolved' ? '暂无已解决评论' : '暂无评论'}
             </div>
             <p className="text-[11px] text-white/40 mt-1">
-              In comments mode, click anywhere on the canvas to drop a pin.
+              在评论模式下，点击画布任意位置即可添加图钉。
             </p>
           </div>
         )}
@@ -161,7 +161,7 @@ function ThreadCard({
       setReplyText('')
       setReplyOpen(false)
     } catch {
-      toast({ title: 'Could not post the reply.' })
+      toast({ title: '无法发布回复。' })
     } finally {
       setBusy(false)
     }
@@ -182,7 +182,7 @@ function ThreadCard({
         window.dispatchEvent(new CustomEvent('canvix:comments-changed'))
       }
     } catch {
-      toast({ title: 'Could not update the comment.' })
+      toast({ title: '无法更新评论。' })
     }
   }
 
@@ -198,7 +198,7 @@ function ThreadCard({
         window.dispatchEvent(new CustomEvent('canvix:comments-changed'))
       }
     } catch {
-      toast({ title: 'Could not delete the comment.' })
+      toast({ title: '无法删除评论。' })
     }
   }
 
@@ -225,7 +225,7 @@ function ThreadCard({
             <span className="text-[10px] text-white/35 shrink-0">{timeAgo(root.createdAt)}</span>
             {root.resolved && (
               <span className="text-[9px] font-semibold text-emerald-300/80 flex items-center gap-0.5 shrink-0">
-                <Check size={9} /> resolved
+                <Check size={9} /> 已解决
               </span>
             )}
           </div>
@@ -259,7 +259,7 @@ function ThreadCard({
                 setReplyOpen((v) => !v)
               }}
             >
-              <Reply size={10} /> Reply
+              <Reply size={10} /> 回复
             </button>
             <button
               className="text-[10px] font-semibold text-white/50 hover:text-white px-1.5 py-0.5 rounded flex items-center gap-1 cursor-pointer"
@@ -268,7 +268,7 @@ function ThreadCard({
                 void toggleResolve()
               }}
             >
-              <CheckCircle2 size={10} /> {root.resolved ? 'Reopen' : 'Resolve'}
+              <CheckCircle2 size={10} /> {root.resolved ? '重新打开' : '解决'}
             </button>
             {root.authorId === meId && (
               <button
@@ -278,10 +278,10 @@ function ThreadCard({
                   void deleteComment()
                 }}
               >
-                <Trash2 size={10} /> Delete
+                <Trash2 size={10} /> 删除
               </button>
             )}
-            <span className="ml-auto text-[9px] text-white/25 shrink-0">Page {pageIndex + 1}</span>
+            <span className="ml-auto text-[9px] text-white/25 shrink-0">页面 {pageIndex + 1}</span>
           </div>
 
           {replyOpen && (
@@ -301,7 +301,7 @@ function ThreadCard({
                 disabled={!replyText.trim() || busy}
                 onClick={() => void addReply()}
               >
-                Send
+                发送
               </Button>
             </div>
           )}

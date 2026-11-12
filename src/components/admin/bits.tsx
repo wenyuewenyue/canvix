@@ -85,10 +85,10 @@ export function Toggle({
 
 /** Where admin rights come from — shown next to usernames. */
 export function RoleBadge({ admin, source }: { admin: boolean; source: string | null }) {
-  if (!admin) return <span className="text-xs text-muted-foreground">user</span>
+  if (!admin) return <span className="text-xs text-muted-foreground">用户</span>
   return (
     <span className="inline-flex items-center gap-1 rounded-full bg-[var(--cv-teal)]/15 px-2 py-0.5 text-xs font-medium text-[var(--cv-teal)]">
-      admin{source === 'env' ? ' · env' : source === 'both' ? ' · env+db' : ''}
+      管理员{source === 'env' ? ' · 环境变量' : source === 'both' ? ' · 环境变量+数据库' : ''}
     </span>
   )
 }

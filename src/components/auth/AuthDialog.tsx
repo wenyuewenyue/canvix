@@ -89,20 +89,20 @@ function AuthDialogForm({ onOpenChange, onAuthed, initialMode }: Omit<AuthDialog
             <div className="flex items-center gap-2.5">
               <Logo size={24} />
               <DialogTitle className="text-lg font-semibold">
-                {mode === 'login' ? 'Welcome back' : 'Create your free account'}
+                {mode === 'login' ? '欢迎回来' : '创建免费账号'}
               </DialogTitle>
             </div>
             <DialogDescription className="text-white/50 text-[13px] leading-relaxed text-left">
               {mode === 'login'
-                ? 'Sign in to keep your designs private to your account.'
-                : 'Free forever — every feature, every template, no subscriptions. Accounts just keep your work yours.'}
+                ? '登录后，设计仅对你的账号可见。'
+                : '永久免费 — 全部功能、全部模板，无需订阅。账号只是让作品始终属于你。'}
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={submit} className="mt-5 space-y-3.5">
             <div className="space-y-1.5">
               <label htmlFor="cv-auth-username" className="text-[12px] font-medium text-white/70">
-                Username
+                用户名
               </label>
               <Input
                 id="cv-auth-username"
@@ -117,7 +117,7 @@ function AuthDialogForm({ onOpenChange, onAuthed, initialMode }: Omit<AuthDialog
             </div>
             <div className="space-y-1.5">
               <label htmlFor="cv-auth-password" className="text-[12px] font-medium text-white/70">
-                Password
+                密码
               </label>
               <div className="relative">
                 <Input
@@ -126,14 +126,14 @@ function AuthDialogForm({ onOpenChange, onAuthed, initialMode }: Omit<AuthDialog
                   autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder={mode === 'login' ? 'Your password' : 'At least 8 characters'}
+                  placeholder={mode === 'login' ? '你的密码' : '至少 8 个字符'}
                   className="h-10 pr-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#7630D7]/50"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showPassword ? '隐藏密码' : '显示密码'}
                 >
                   {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
@@ -147,12 +147,12 @@ function AuthDialogForm({ onOpenChange, onAuthed, initialMode }: Omit<AuthDialog
             )}
 
             <Button type="submit" disabled={busy || !username.trim() || !password} className="btn-cv w-full h-10 rounded-full font-semibold">
-              {busy ? (mode === 'login' ? 'Signing in…' : 'Creating account…') : mode === 'login' ? 'Sign in' : 'Create account'}
+              {busy ? (mode === 'login' ? '正在登录…' : '正在创建账号…') : mode === 'login' ? '登录' : '创建账号'}
             </Button>
           </form>
 
           <p className="mt-4 text-center text-[12.5px] text-white/45">
-            {mode === 'login' ? "Don't have an account? " : 'Already have an account? '}
+            {mode === 'login' ? "还没有账号？ " : '已有账号？ '}
             <button
               type="button"
               onClick={() => {
@@ -161,7 +161,7 @@ function AuthDialogForm({ onOpenChange, onAuthed, initialMode }: Omit<AuthDialog
               }}
               className={cn('font-semibold text-[#00C4CC] hover:text-[#00C4CC]/80 underline-offset-2 hover:underline')}
             >
-              {mode === 'login' ? 'Create one — it’s free' : 'Sign in'}
+              {mode === 'login' ? '创建一个 — 免费' : 'Sign in'}
             </button>
           </p>
         </div>

@@ -3,24 +3,24 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Canvix — Design anything, free forever",
+  title: "Canvix — 免费设计，随心创作",
   description:
-    "Canvix is a free & open-source graphic design tool. Create social posts, presentations, posters, logos and more with a drag-and-drop editor that works on desktop, tablet and mobile.",
+    "Canvix 是一款免费开源的平面设计工具。用拖拽编辑器制作社交帖子、演示文稿、海报、标志等，桌面、平板和手机都可以用。",
   keywords: [
     "canvix",
-    "design tool",
-    "open source",
-    "canva alternative",
-    "graphic design",
-    "templates",
-    "drag and drop editor",
+    "设计工具",
+    "开源",
+    "Canva 替代品",
+    "平面设计",
+    "模板",
+    "拖拽编辑器",
   ],
   authors: [{ name: "Ashiq Hussain Mir" }],
   icons: { icon: "/canvix.svg" },
   openGraph: {
-    title: "Canvix — Design anything, free forever",
+    title: "Canvix — 免费设计，随心创作",
     description:
-      "Free & open-source graphic design tool. A community-built Canva alternative.",
+      "免费开源的平面设计工具，社区共建的 Canva 替代品。",
     siteName: "Canvix",
     type: "website",
   },
@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

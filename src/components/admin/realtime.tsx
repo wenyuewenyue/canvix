@@ -65,7 +65,7 @@ function Sparkline({ points }: { points: SecondPoint[] }) {
       className="w-full"
       style={{ height: H }}
       role="img"
-      aria-label="requests per second, last 60 seconds"
+      aria-label="每秒请求数，最近 60 秒"
     >
       <path d={area} fill="var(--cv-teal)" opacity={0.15} />
       <path d={line} fill="none" stroke="var(--cv-teal)" strokeWidth={1.6} vectorEffect="non-scaling-stroke" />
@@ -142,7 +142,7 @@ export function AdminRealtime() {
     <Card
       title={
         <span className="inline-flex items-center gap-2">
-          Live traffic
+          实时流量
           <span className="relative flex h-2.5 w-2.5" aria-hidden>
             <span
               className={`absolute inline-flex h-full w-full rounded-full ${paused || stale || error ? 'bg-muted-foreground/40' : 'animate-ping bg-emerald-500/60'}`}
@@ -156,9 +156,9 @@ export function AdminRealtime() {
       right={
         data ? (
           <div className="flex items-center gap-2">
-            {paused && <Chip>paused — tab hidden</Chip>}
-            {stale && <Chip tone="bad">reconnecting</Chip>}
-            <Chip>up {fmtUptime(data.uptimeSec)}</Chip>
+            {paused && <Chip>已暂停——标签页已隐藏</Chip>}
+            {stale && <Chip tone="bad">重新连接中</Chip>}
+            <Chip>运行中 {fmtUptime(data.uptimeSec)}</Chip>
           </div>
         ) : undefined
       }
@@ -171,31 +171,31 @@ export function AdminRealtime() {
         <>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Requests / min</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">请求/分钟</p>
               <p className="mt-0.5 text-2xl font-semibold tabular-nums text-card-foreground">{fmt(reqPerMin)}</p>
-              <p className="text-xs text-muted-foreground">last 60 s</p>
+              <p className="text-xs text-muted-foreground">最近 60 秒</p>
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Errors / min</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">错误 / 分钟</p>
               <p className={`mt-0.5 text-2xl font-semibold tabular-nums ${errPerMin > 0 ? 'text-destructive' : 'text-card-foreground'}`}>
                 {fmt(errPerMin)}
               </p>
               <p className="text-xs text-muted-foreground">4xx + 5xx</p>
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Active visitors</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">活跃访客</p>
               <p className="mt-0.5 text-2xl font-semibold tabular-nums text-card-foreground">{fmt(data.window5m.visitors)}</p>
-              <p className="text-xs text-muted-foreground">last 5 min</p>
+              <p className="text-xs text-muted-foreground">最近 5 分钟</p>
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Requests (5 min)</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">请求（5 分钟）</p>
               <p className="mt-0.5 text-2xl font-semibold tabular-nums text-card-foreground">{fmt(data.window5m.requests)}</p>
               <p className="text-xs text-muted-foreground">
-                {data.window5m.errors > 0 ? `${fmt(data.window5m.errors)} errors` : 'no errors'}
+                {data.window5m.errors > 0 ? `${fmt(data.window5m.errors)} errors` : '无错误'}
               </p>
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Latency p50 / p95</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">延迟 p50 / p95</p>
               <p className="mt-0.5 text-2xl font-semibold tabular-nums text-card-foreground">
                 {data.window5m.p50Ms !== null ? `${data.window5m.p50Ms}ms` : '—'}
               </p>
@@ -204,12 +204,12 @@ export function AdminRealtime() {
               </p>
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">AI calls (5 min)</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">AI 调用（5 分钟）</p>
               <p className="mt-0.5 text-2xl font-semibold tabular-nums text-card-foreground">{fmt(data.window5m.aiCalls)}</p>
               <p className="text-xs text-muted-foreground">
                 {data.window5m.aiCalls > 0
                   ? `${fmt(data.window5m.aiOk)} ok · ${fmt(Math.max(0, data.window5m.aiCalls - data.window5m.aiOk))} failed`
-                  : 'recent requests'}
+                  : '最近的请求'}
               </p>
             </div>
           </div>
@@ -223,7 +223,7 @@ export function AdminRealtime() {
 
           {data.topRoutes.length > 0 && (
             <div className="mt-4">
-              <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Top routes — last 5 min</p>
+              <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">热门路由 — 最近 5 分钟</p>
               <ul className="divide-y">
                 {data.topRoutes.map((r) => (
                   <li key={r.route} className="flex items-center justify-between gap-4 py-1.5 text-sm">

@@ -35,10 +35,10 @@ interface Overview {
 }
 
 const SOURCE_LABEL: Record<string, string> = {
-  multi: 'providers table',
-  db: 'console override',
+  multi: '提供商表',
+  db: '控制台覆盖',
   env: 'environment',
-  file: 'config file',
+  file: '配置文件',
 }
 
 export function AdminOverview() {
@@ -59,7 +59,7 @@ export function AdminOverview() {
 
   if (error) {
     return (
-      <Card title="Overview">
+      <Card title="总览">
         <p className="text-sm text-destructive">{error}</p>
       </Card>
     )
@@ -84,44 +84,44 @@ export function AdminOverview() {
       <AdminRealtime />
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        <StatCard label="Users" value={fmt(data.totals.users)} sub={`${data.windows.dauToday} active today`} />
-        <StatCard label="Designs" value={fmt(data.totals.designs)} sub={`${fmt(data.totals.templates)} templates`} />
-        <StatCard label="API requests" value={fmt(data.windows.requests24h)} sub={`${fmt(data.windows.requests7d)} in 7 days`} />
+        <StatCard label="用户" value={fmt(data.totals.users)} sub={`${data.windows.dauToday} 人今日活跃`} />
+        <StatCard label="设计" value={fmt(data.totals.designs)} sub={`${fmt(data.totals.templates)} 个模板`} />
+        <StatCard label="API 请求" value={fmt(data.windows.requests24h)} sub={`${fmt(data.windows.requests7d)} 次（7 天内）`} />
         <StatCard
-          label="AI calls"
+          label="AI 调用"
           value={fmt(data.windows.ai7d)}
-          sub={`7d · ${aiFail7d > 0 ? `${fmt(aiFail7d)} failed` : 'no failures'}`}
+          sub={`7 天 · ${aiFail7d > 0 ? `${fmt(aiFail7d)} 次失败` : '无失败'}`}
         />
-        <StatCard label="Active sessions" value={fmt(data.totals.activeSessions)} sub="unexpired" />
-        <StatCard label="Media stored" value={fmtBytes(data.totals.mediaBytes)} sub={`${fmt(data.totals.mediaCount)} files`} />
-        <StatCard label="Comments" value={fmt(data.totals.comments)} sub="all designs" />
+        <StatCard label="活跃会话" value={fmt(data.totals.activeSessions)} sub="未过期" />
+        <StatCard label="已存媒体" value={fmtBytes(data.totals.mediaBytes)} sub={`${fmt(data.totals.mediaCount)} 个文件`} />
+        <StatCard label="评论" value={fmt(data.totals.comments)} sub="全部设计" />
         <StatCard
-          label="AI providers"
-          value={data.provider.configured ? (data.provider.source === 'multi' ? String(data.provider.providerCount) : 'configured') : 'none'}
+          label="AI 服务商"
+          value={data.provider.configured ? (data.provider.source === 'multi' ? String(data.provider.providerCount) : '已配置') : '无'}
           sub={
             data.provider.configured
               ? data.provider.source === 'multi'
                 ? `${data.provider.slotsSet}/5 slots wired · via ${SOURCE_LABEL[data.provider.source] ?? data.provider.source}`
                 : `via ${SOURCE_LABEL[data.provider.source ?? ''] ?? data.provider.source}`
-              : 'local features only'
+              : '仅本地功能'
           }
         />
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
         <Card
-          title="API traffic — last 14 days"
-          right={<Chip>{fmt(data.series.traffic.reduce((a, p) => a + p.value, 0))} total</Chip>}
+          title="API 流量 — 最近 14 天"
+          right={<Chip>{fmt(data.series.traffic.reduce((a, p) => a + p.value, 0))} 总计</Chip>}
         >
           <BarChart bars={data.series.traffic.map((p) => ({ label: p.day, value: p.value }))} />
         </Card>
-        <Card title="Daily active users — last 14 days" right={<Chip tone={data.windows.dauToday > 0 ? 'good' : 'neutral'}>{data.windows.dauToday} today</Chip>}>
+        <Card title="日活跃用户 — 最近 14 天" right={<Chip tone={data.windows.dauToday > 0 ? 'good' : 'neutral'}>{data.windows.dauToday} 今天</Chip>}>
           <LineChart points={data.series.dau.map((p) => ({ label: p.day, value: p.value }))} />
         </Card>
-        <Card title="New sign-ups — last 14 days">
+        <Card title="新注册用户 — 最近 14 天">
           <BarChart bars={data.series.signups.map((p) => ({ label: p.day, value: p.value }))} color="var(--cv-violet)" />
         </Card>
-        <Card title="AI calls — last 14 days" right={<Chip tone={aiFail7d > 0 ? 'bad' : 'good'}>teal = ok · red = failed</Chip>}>
+        <Card title="AI 调用 — 最近 14 天" right={<Chip tone={aiFail7d > 0 ? 'bad' : 'good'}>青色 = 正常 · 红色 = 失败</Chip>}>
           <BarChart
             bars={data.series.aiCalls.map((p) => ({
               label: p.day,
@@ -133,7 +133,7 @@ export function AdminOverview() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        <Card title="Top routes — last 7 days">
+        <Card title="热门路由——最近 7 天">
           <HBars
             rows={data.topRoutes.map((r) => ({
               label: `${r.method} ${r.route.replace('/api/', '')}`,
@@ -142,7 +142,7 @@ export function AdminOverview() {
             }))}
           />
         </Card>
-        <Card title="AI usage by feature — last 7 days">
+        <Card title="按功能统计的 AI 用量 — 最近 7 天">
           <HBars
             rows={data.aiByFeature.map((f) => ({
               label: f.feature,
@@ -155,27 +155,27 @@ export function AdminOverview() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        <Card title="Newest accounts">
+        <Card title="最新账号">
           <ul className="divide-y">
-            {data.recentUsers.length === 0 && <li className="py-2 text-sm text-muted-foreground">no accounts yet</li>}
+            {data.recentUsers.length === 0 && <li className="py-2 text-sm text-muted-foreground">暂无账号</li>}
             {data.recentUsers.map((u) => (
               <li key={u.id} className="flex items-center justify-between py-2 text-sm">
                 <span className="font-medium">{u.username}</span>
                 <span className="flex items-center gap-2 text-xs text-muted-foreground">
-                  {u.admin && <Chip tone="good">admin</Chip>}
+                  {u.admin && <Chip tone="good">管理员</Chip>}
                   {new Date(u.createdAt).toLocaleDateString()}
                 </span>
               </li>
             ))}
           </ul>
         </Card>
-        <Card title="Instance">
+        <Card title="实例">
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <dt className="text-muted-foreground">Canvix version</dt>
+            <dt className="text-muted-foreground">Canvix 版本</dt>
             <dd className="text-right font-medium tabular-nums">{data.version}</dd>
-            <dt className="text-muted-foreground">Database latency</dt>
+            <dt className="text-muted-foreground">数据库延迟</dt>
             <dd className="text-right font-medium tabular-nums">{data.dbLatencyMs} ms</dd>
-            <dt className="text-muted-foreground">AI providers</dt>
+            <dt className="text-muted-foreground">AI 服务商</dt>
             <dd className="text-right font-medium">
               {data.provider.configured
                 ? data.provider.source === 'multi'

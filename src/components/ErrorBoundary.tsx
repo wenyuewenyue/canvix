@@ -151,10 +151,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   render() {
     if (this.state.error) {
+      const labelZh =
+        this.props.label === 'editor' ? '编辑器' : this.props.label === 'dashboard' ? '工作台' : '应用'
       return (
         <div
           role="alert"
-          aria-label={`${this.props.label} crashed`}
+          aria-label={`${labelZh}出现故障`}
           className="flex h-screen w-full items-center justify-center bg-[#0D0F14] p-6"
         >
           <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#181B23] p-6 text-white shadow-2xl">
@@ -162,40 +164,39 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <span aria-hidden className="text-xl">
                 ⚠️
               </span>
-              <h2 className="text-lg font-semibold">Something went wrong</h2>
+              <h2 className="text-lg font-semibold">出了点问题</h2>
             </div>
             <p className="mb-4 text-sm text-white/60">
-              The {this.props.label} hit an unexpected error and was stopped
-              safely. Your design is saved on the server up to the last
-              autosave.
+              {labelZh}遇到意外错误，已安全停止。设计已保存到服务器，截至上次
+              自动保存。
             </p>
             <div className="mb-4 rounded-lg bg-black/40 p-3 font-mono text-xs text-red-300">
-              {this.state.error.message || 'Unknown error'}
+              {this.state.error.message || '未知错误'}
             </div>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={this.reload}
                 className="rounded-lg bg-[#00C4CC] px-4 py-2 text-sm font-semibold text-black hover:bg-[#00b3ba]"
               >
-                Reload editor
+                重新加载编辑器
               </button>
               <button
                 onClick={this.backToDashboard}
                 className="rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20"
               >
-                Back to dashboard
+                返回工作台
               </button>
               <button
                 onClick={this.copyDiagnostics}
                 className="rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20"
               >
-                {this.state.copied ? 'Diagnostics copied ✓' : 'Copy diagnostics'}
+                {this.state.copied ? '已复制诊断信息 ✓' : '复制诊断信息'}
               </button>
             </div>
             {this.state.diagnostics?.designId ? (
               <p className="mt-4 text-xs text-white/40">
-                design {this.state.diagnostics.designId} · last saved seq{' '}
-                {this.state.diagnostics.lastSavedSeq ?? 'unknown'}
+                设计 {this.state.diagnostics.designId} · 上次保存序号{' '}
+                {this.state.diagnostics.lastSavedSeq ?? '未知'}
               </p>
             ) : null}
           </div>

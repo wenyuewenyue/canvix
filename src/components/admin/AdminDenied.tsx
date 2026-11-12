@@ -14,27 +14,26 @@ export function AdminDenied({ signedIn, username }: { signedIn: boolean; usernam
           {signedIn ? <ShieldAlert size={22} className="text-muted-foreground" /> : <LogIn size={22} className="text-muted-foreground" />}
         </div>
         <h1 className="text-lg font-semibold">
-          {signedIn ? 'No administrator access' : 'Sign in required'}
+          {signedIn ? '无管理员权限' : '需要登录'}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           {signedIn ? (
             <>
-              The account <span className="font-medium text-foreground">{username}</span> does not have admin rights on
-              this instance.
+              账号 <span className="font-medium text-foreground">{username}</span> 在此实例上没有管理员权限。
             </>
           ) : (
-            'The admin console needs a signed-in administrator account.'
+            '管理控制台需要已登录的管理员账号。'
           )}
         </p>
         <p className="mt-1 text-xs text-muted-foreground">
-          Administrators are granted via the <code className="rounded bg-muted px-1">CANVIX_ADMIN_USERS</code> environment
-          variable or by another administrator.
+          管理员权限通过 <code className="rounded bg-muted px-1">CANVIX_ADMIN_USERS</code> 环境变量设置，
+          或由另一位管理员授予。
         </p>
         <Link
           href="/"
           className="mt-6 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90"
         >
-          Back to Canvix
+          返回 Canvix
         </Link>
       </div>
     </div>

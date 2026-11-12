@@ -161,7 +161,7 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
       const rec = await reconstructDesign(analysis, imageUrl, width, height, [...discarded])
       applyReconstruction(rec)
       toast({
-        title: 'Magic Layers created',
+        title: '魔法图层已创建',
         description: `${rec.elements.length} editable layers extracted — each element can be selected, moved and restyled.`,
       })
       close(false)
@@ -201,10 +201,10 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
         y: 0,
         width,
         height,
-        name: 'Original image (flat)',
+        name: '原始图片（扁平）',
       }),
     ])
-    toast({ title: 'Image placed flat', description: 'The original image was placed as a single layer.' })
+    toast({ title: '图片已平铺放置', description: '原始图片已作为单个图层放置。' })
     close(false)
   }
 
@@ -229,10 +229,10 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
       <DialogContent className="rounded-[28px] sm:max-w-2xl bg-[#16181D] border-white/10 text-white max-h-[88vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
-            <Wand2 size={18} className="text-[#02C0CC]" /> Magic Layers
+            <Wand2 size={18} className="text-[#02C0CC]" /> 魔法图层
           </DialogTitle>
           <DialogDescription className="text-white/60">
-            Turn a flat design image into an editable layout — text, images and shapes become real layers you can move, restyle and edit.
+            将平面设计图片转换为可编辑的版式 — 文字、图片和形状会成为可移动、可重新设计、可编辑的真实图层。
           </DialogDescription>
         </DialogHeader>
 
@@ -240,11 +240,10 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
         {aiLoaded && !aiConfigured && stage === 'upload' && (
           <div className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm text-amber-200/90">
             <div className="flex items-center gap-2 font-semibold">
-              <AlertTriangle size={15} /> AI provider not configured
+              <AlertTriangle size={15} /> 未配置 AI 服务商
             </div>
             <p className="mt-1 text-amber-200/70">
-              Automatic layer extraction needs a vision AI provider configured on the server. You can still place the
-              image as a single flat layer.
+              自动图层提取需要在服务器上配置视觉 AI 服务。您仍可将图片作为单个扁平图层放置。
             </p>
           </div>
         )}
@@ -270,8 +269,8 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#00C4CC] to-[#7630D7] flex items-center justify-center">
                 <Upload size={22} className="text-white" />
               </div>
-              <div className="text-sm font-semibold">Upload a flat design</div>
-              <div className="text-xs text-white/50">PNG, JPG or WebP — drop it here or click to browse</div>
+              <div className="text-sm font-semibold">上传平面设计</div>
+              <div className="text-xs text-white/50">PNG、JPG 或 WebP——拖到此处或点击浏览</div>
             </button>
             <input
               ref={fileInputRef}
@@ -295,9 +294,9 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
                   <MousePointer2 size={16} className="text-[#c39bff]" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold">Analyze the selected image</div>
+                  <div className="text-sm font-semibold">分析所选图片</div>
                   <div className="text-xs text-white/50 truncate">
-                    Uses the image currently selected on your canvas
+                    使用当前在画布上选中的图片
                   </div>
                 </div>
               </button>
@@ -305,11 +304,11 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
 
             <div className="rounded-xl bg-white/[0.03] border border-white/[0.07] p-3.5 text-xs text-white/55 space-y-1.5">
               <div className="font-semibold text-white/75 flex items-center gap-1.5">
-                <Sparkles size={12} className="text-[#02C0CC]" /> How it works
+                <Sparkles size={12} className="text-[#02C0CC]" /> 工作原理
               </div>
               <p>
-                A vision model detects text, photos, shapes and the background, then Canvix rebuilds each region as a
-                <strong className="text-white/80"> native editable element</strong>. Exact fonts can&apos;t be recovered —
+                视觉模型会检测文字、照片、形状和背景，然后 Canvix 将每个区域重建为一个
+                <strong className="text-white/80"> 原生可编辑元素</strong>. Exact fonts can&apos;t be recovered —
                 the closest family from the Canvix library is used. Uncertain regions are flagged so you can review them.
               </p>
             </div>
@@ -321,11 +320,11 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
           <div className="py-10 flex flex-col items-center gap-4">
             {imageUrl && (
                
-              <img src={imageUrl} alt="Design being analyzed" className="max-h-44 rounded-xl border border-white/10 object-contain" />
+              <img src={imageUrl} alt="正在分析设计" className="max-h-44 rounded-xl border border-white/10 object-contain" />
             )}
             <Loader2 size={28} className="animate-spin text-[#02C0CC]" />
-            <div className="text-sm font-semibold">Detecting layers…</div>
-            <div className="text-xs text-white/50">Reading text, photos, shapes and the background.</div>
+            <div className="text-sm font-semibold">正在识别图层…</div>
+            <div className="text-xs text-white/50">正在读取文字、照片、形状和背景。</div>
           </div>
         )}
 
@@ -343,7 +342,7 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
               {/* preview with region outlines */}
               <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#0F1015]">
                 { }
-                <img src={imageUrl} alt="Analyzed design" className="w-full block" />
+                <img src={imageUrl} alt="已分析的设计" className="w-full block" />
                 {analysis.regions.map((r) => {
                   const isDiscarded = discarded.has(r.id)
                   const low = r.confidence < REVIEW_CONFIDENCE_THRESHOLD
@@ -352,7 +351,7 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
                       key={r.id}
                       type="button"
                       onClick={() => toggleDiscard(r.id)}
-                      title={`${r.type}${r.text ? `: ${r.text.slice(0, 40)}` : ''} — confidence ${(r.confidence * 100).toFixed(0)}% (click to ${isDiscarded ? 'keep' : 'discard'})`}
+                      title={`${r.type}${r.text ? `: ${r.text.slice(0, 40)}` : ''} — 置信度 ${(r.confidence * 100).toFixed(0)}%（点击${isDiscarded ? '保留' : '舍弃'}）`}
                       className={cn(
                         'absolute border-2 transition-all',
                         isDiscarded
@@ -385,7 +384,7 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
                     {keptCount} of {regionCount} layers kept
                     {lowConfidenceCount > 0 && (
                       <span className="ml-2 text-amber-300/80">
-                        {lowConfidenceCount} need review
+                        {lowConfidenceCount} 待检查
                       </span>
                     )}
                   </div>
@@ -395,7 +394,7 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
                     className="h-7 text-xs text-white/70 hover:bg-white/10 hover:text-white"
                     onClick={() => setDiscarded(new Set())}
                   >
-                    <RefreshCw size={11} className="mr-1" /> Keep all
+                    <RefreshCw size={11} className="mr-1" /> 全部保留
                   </Button>
                 </div>
                 <div className="max-h-64 overflow-y-auto pr-1 space-y-1.5">
@@ -410,9 +409,9 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
             <div className="grid grid-cols-3 gap-2">
               {(
                 [
-                  { id: 'replace', label: 'Replace page', hint: 'Rebuilds the current page' },
-                  { id: 'append', label: 'New page', hint: 'Adds a page after this one' },
-                  { id: 'overlay', label: 'Add to page', hint: 'Layers on top of existing elements' },
+                  { id: 'replace', label: '替换页面', hint: '重建当前页面' },
+                  { id: 'append', label: '新建页面', hint: '在此页后添加一页' },
+                  { id: 'overlay', label: '添加到页面', hint: '叠加在已有元素之上' },
                 ] as const
               ).map((m) => (
                 <button
@@ -435,7 +434,7 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
         {stage === 'rebuilding' && (
           <div className="py-10 flex flex-col items-center gap-4">
             <Loader2 size={28} className="animate-spin text-[#7630D7]" />
-            <div className="text-sm font-semibold">Building editable layers…</div>
+            <div className="text-sm font-semibold">正在构建可编辑图层…</div>
           </div>
         )}
 
@@ -443,22 +442,22 @@ export function MagicLayersDialog({ open, onOpenChange }: { open: boolean; onOpe
           {stage === 'review' && (
             <>
               <Button variant="ghost" className="text-white/70 hover:bg-white/10 hover:text-white" onClick={() => reset()}>
-                <RefreshCw size={14} className="mr-1.5" /> Start over
+                <RefreshCw size={14} className="mr-1.5" /> 重新开始
               </Button>
               <Button className="btn-brand-gradient gap-2 px-5" onClick={() => void createLayers()} disabled={keptCount === 0}>
                 <Layers size={15} />
-                Create {keptCount} editable layers
+                创建 {keptCount} 可编辑图层
               </Button>
             </>
           )}
           {stage === 'upload' && imageUrl === null && (
             <Button variant="ghost" className="text-white/70 hover:bg-white/10 hover:text-white" onClick={() => close(false)}>
-              <X size={14} className="mr-1.5" /> Close
+              <X size={14} className="mr-1.5" /> 关闭
             </Button>
           )}
           {(stage === 'upload' || stage === 'review') && imageUrl && (
             <Button variant="ghost" className="text-white/70 hover:bg-white/10 hover:text-white" onClick={insertAsImage}>
-              <ImageIcon size={14} className="mr-1.5" /> Place flat instead
+              <ImageIcon size={14} className="mr-1.5" /> 改为平铺放置
             </Button>
           )}
         </div>
@@ -531,7 +530,7 @@ function readableOn(hex?: string): string {
 /** reserved for future magic-layer element swapping (element metadata UI) */
 export function magicLayerBadge(el: { magicLayer?: { confidence: number } }): string | null {
   if (!el.magicLayer) return null
-  return el.magicLayer.confidence < REVIEW_CONFIDENCE_THRESHOLD ? 'low confidence' : null
+  return el.magicLayer.confidence < REVIEW_CONFIDENCE_THRESHOLD ? '置信度低' : null
 }
 
 void uid

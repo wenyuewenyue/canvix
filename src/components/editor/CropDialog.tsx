@@ -16,8 +16,8 @@ interface Rect { x: number; y: number; w: number; h: number }
 type Handle = 'nw' | 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'move'
 
 const ASPECTS: { id: string; label: string; ratio: number | null }[] = [
-  { id: 'free', label: 'Free', ratio: null },
-  { id: 'orig', label: 'Original', ratio: 0 }, // resolved per image
+  { id: 'free', label: '自由', ratio: null },
+  { id: 'orig', label: '原始', ratio: 0 }, // resolved per image
   { id: '1:1', label: '1:1', ratio: 1 },
   { id: '4:3', label: '4:3', ratio: 4 / 3 },
   { id: '3:4', label: '3:4', ratio: 3 / 4 },
@@ -228,9 +228,9 @@ function CropDialogInner({ element, onClose }: { element: ImageElement; onClose:
         flipV: false,
       })
       onClose()
-      toast({ title: 'Image cropped' })
+      toast({ title: '图片已裁剪' })
     } catch {
-      toast({ title: 'Could not crop this image', description: 'It may be from a site that blocks pixel access.' })
+      toast({ title: '无法裁剪此图片', description: '它可能来自禁止像素访问的网站。' })
     }
   }
 
@@ -249,10 +249,10 @@ function CropDialogInner({ element, onClose }: { element: ImageElement; onClose:
     <div className="flex flex-col items-center gap-3">
       <DialogHeader className="text-left w-full">
         <DialogTitle className="flex items-center gap-2">
-          <Crop size={18} className="text-[#02C0CC]" /> Crop image
+          <Crop size={18} className="text-[#02C0CC]" /> 裁剪图片
         </DialogTitle>
         <DialogDescription className="text-white/55">
-          Drag the handles, or draw a brand-new area anywhere outside the current one — aspect presets lock the shape.
+          拖动控制点，或在当前区域之外任意位置重新框选 — 纵横比预设会锁定形状。
         </DialogDescription>
       </DialogHeader>
 
@@ -266,7 +266,7 @@ function CropDialogInner({ element, onClose }: { element: ImageElement; onClose:
           {image && (
             <img
               src={element.src}
-              alt="Crop source"
+              alt="裁剪源"
               draggable={false}
               className="absolute inset-0 pointer-events-none"
               style={{ width: fit.w, height: fit.h }}
@@ -331,10 +331,10 @@ function CropDialogInner({ element, onClose }: { element: ImageElement; onClose:
               className="text-white/80 hover:bg-white/10 hover:text-white rounded-xl"
               onClick={reset}
             >
-              <RotateCcw size={14} /> Reset
+              <RotateCcw size={14} /> 重置
             </Button>
             <Button size="sm" className="btn-cv-white h-9 px-5 rounded-xl font-semibold" onClick={apply} disabled={!image}>
-              <Check size={15} /> Apply crop
+              <Check size={15} /> 应用裁剪
             </Button>
           </div>
         </div>

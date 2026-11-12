@@ -142,7 +142,7 @@ async function runImageAI(
 function EngineToggle({ engine, onChange }: { engine: ImageToolsEngine; onChange: (e: ImageToolsEngine) => void }) {
   return (
     <div>
-      <div className="flex gap-1 p-0.5 rounded-lg bg-white/[0.06] border border-white/10" role="group" aria-label="Engine — provider or this device">
+      <div className="flex gap-1 p-0.5 rounded-lg bg-white/[0.06] border border-white/10" role="group" aria-label="引擎 — 提供商或本设备">
         {IMAGE_TOOL_ENGINES.map((e) => (
           <button
             key={e.id}
@@ -164,7 +164,7 @@ function EngineToggle({ engine, onChange }: { engine: ImageToolsEngine; onChange
       <p className="text-[10px] text-white/40 mt-1 leading-snug">
         {engine === 'provider'
           ? 'Provider (default) — the configured AI provider does the work server-side.'
-          : 'This device — runs locally in your browser, works offline on any image.'}
+          : '本设备——在浏览器本地运行，可离线处理任意图片。'}
       </p>
     </div>
   )
@@ -266,7 +266,7 @@ export function BgRemoverPopover({ el }: { el: ImageElement }) {
             height: newHeight,
             aiEntId: r.entId,
           })
-          toast({ title: 'Background removed', description: 'Provider cut-out swapped in. Ctrl+Z to undo.' })
+          toast({ title: '背景已移除', description: '已换入服务商抠图，按 Ctrl+Z 可撤销。' })
           setOpen(false)
         } else if (r.code === 'SOURCE_NOT_EDITABLE') {
           setError(
@@ -282,13 +282,13 @@ export function BgRemoverPopover({ el }: { el: ImageElement }) {
         }
       } else {
         await runDevice()
-        toast({ title: 'Background removed', description: 'On-device cut-out replaced your image. Ctrl+Z to undo.' })
+        toast({ title: '背景已移除', description: '设备端抠图已替换你的图片，按 Ctrl+Z 可撤销。' })
         setOpen(false)
       }
     } catch (e) {
       toast({
-        title: 'Background remover',
-        description: e instanceof Error ? e.message : 'Could not remove the background. Please try again.',
+        title: '背景移除',
+        description: e instanceof Error ? e.message : '无法移除背景，请重试。',
         variant: 'destructive',
       })
     } finally {
@@ -299,25 +299,25 @@ export function BgRemoverPopover({ el }: { el: ImageElement }) {
 
   const label = busy
     ? phase === 'provider'
-      ? 'Removing…'
+      ? '移除中…'
       : phase === 'model'
-        ? 'Loading model…'
-        : 'Removing…'
+        ? '模型加载中…'
+        : '移除中…'
     : 'BG Remover'
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className={btnBase} data-active={open} disabled={busy} title="BG Remover — remove the image background" aria-label="Remove background">
+        <button className={btnBase} data-active={open} disabled={busy} title="背景移除——去除图片背景" aria-label="移除背景">
           {busy ? <Loader2 size={14} className="animate-spin" /> : <Eraser size={14} />}
           <span className="text-[12px] hidden lg:inline">{label}</span>
         </button>
       </PopoverTrigger>
       <PopoverContent align="center" side="bottom" className="w-[300px] rounded-2xl bg-[#1A1C22] border-white/10 text-white p-3.5">
         <div className="text-[13px] font-bold mb-1 flex items-center gap-1.5">
-          <Eraser size={13} className="text-[#02C0CC]" /> BG Remover
+          <Eraser size={13} className="text-[#02C0CC]" /> 背景移除
         </div>
         <p className="text-[11px] text-white/55 mb-2.5 leading-snug">
-          One click — the background disappears, the subject stays. Choose who does the work:
+          一键操作 — 背景消失，主体保留。选择由谁来处理：
         </p>
         <div className="mb-2.5">
           <EngineToggle engine={engine} onChange={setEngine} />
@@ -345,11 +345,11 @@ export function MagicEraserPopover({ el }: { el: ImageElement }) {
     if (!target.trim()) return
     setBusy(true)
     const ok = await runImageAI(el, { mode: 'erase', eraseTarget: target.trim() }, (msg) =>
-      toast({ title: 'Magic eraser', description: msg, variant: 'destructive' })
+      toast({ title: '魔法橡皮擦', description: msg, variant: 'destructive' })
     )
     setBusy(false)
     if (ok) {
-      toast({ title: 'Erased', description: `"${target.trim()}" was removed. Ctrl+Z to undo.` })
+      toast({ title: '已擦除', description: `已移除“${target.trim()}”。按 Ctrl+Z 撤销。` })
       setTarget('')
       setOpen(false)
     }
@@ -358,14 +358,14 @@ export function MagicEraserPopover({ el }: { el: ImageElement }) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className={btnBase} data-active={open} title="Magic eraser — remove unwanted objects" aria-label="Magic eraser">
+        <button className={btnBase} data-active={open} title="魔法橡皮擦——去除不需要的物体" aria-label="魔法橡皮擦">
           <Sparkles size={14} />
-          <span className="text-[12px] hidden lg:inline">Magic eraser</span>
+          <span className="text-[12px] hidden lg:inline">魔法橡皮擦</span>
         </button>
       </PopoverTrigger>
       <PopoverContent align="center" side="bottom" className="w-[300px] rounded-2xl bg-[#1A1C22] border-white/10 text-white p-3.5">
         <div className="text-[13px] font-bold mb-1 flex items-center gap-1.5">
-          <Wand2 size={13} className="text-[#02C0CC]" /> Magic eraser
+          <Wand2 size={13} className="text-[#02C0CC]" /> 魔法橡皮擦
         </div>
         <p className="text-[11px] text-white/55 mb-2.5 leading-snug">
           Remove an unwanted object from this photo. Describe it — e.g. &quot;the person in the
@@ -376,13 +376,13 @@ export function MagicEraserPopover({ el }: { el: ImageElement }) {
             value={target}
             onChange={(e) => setTarget(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && !busy && void run()}
-            placeholder="What should disappear?"
+            placeholder="什么应该消失？"
             className="h-9 bg-white/5 border-white/10 text-white text-[12px]"
-            aria-label="Object to remove"
+            aria-label="要移除的物体"
             maxLength={200}
           />
           <Button className="btn-cv h-9 px-3 shrink-0 text-[12px]" onClick={() => void run()} disabled={busy || !target.trim()}>
-            {busy ? <Loader2 size={13} className="animate-spin" /> : 'Erase'}
+            {busy ? <Loader2 size={13} className="animate-spin" /> : '擦除'}
           </Button>
         </div>
       </PopoverContent>
@@ -396,15 +396,15 @@ export function EnhanceButton({ el }: { el: ImageElement }) {
   const run = async () => {
     setBusy(true)
     const ok = await runImageAI(el, { mode: 'enhance' }, (msg) =>
-      toast({ title: 'Enhance image', description: msg, variant: 'destructive' })
+      toast({ title: '增强图片', description: msg, variant: 'destructive' })
     )
     setBusy(false)
-    if (ok) toast({ title: 'Image enhanced', description: 'Sharper, cleaner photo swapped in. Ctrl+Z to undo.' })
+    if (ok) toast({ title: '图片已增强', description: '已换入更清晰的照片，按 Ctrl+Z 可撤销。' })
   }
   return (
-    <button className={btnBase} onClick={() => void run()} disabled={busy} title="Enhance image — sharpen & clean up with AI" aria-label="Enhance image">
+    <button className={btnBase} onClick={() => void run()} disabled={busy} title="增强图片 — 使用 AI 锐化并清理" aria-label="增强图片">
       {busy ? <Loader2 size={14} className="animate-spin" /> : <Wand2 size={14} />}
-      <span className="text-[12px] hidden lg:inline">{busy ? 'Enhancing…' : 'Enhance'}</span>
+      <span className="text-[12px] hidden lg:inline">{busy ? '增强中…' : '增强'}</span>
     </button>
   )
 }
@@ -498,7 +498,7 @@ export function UpscaleButton({ el }: { el: ImageElement }) {
       const f = factorFor(src.width, src.height, factor)
       if (f === 1) {
         toast({
-          title: 'Upscale',
+          title: '高清放大',
           description: `This image is already at the size cap (${src.width}×${src.height}px).`,
         })
         return
@@ -571,8 +571,8 @@ export function UpscaleButton({ el }: { el: ImageElement }) {
       setOpen(false)
     } catch (e) {
       toast({
-        title: 'Upscale',
-        description: e instanceof Error ? e.message : 'Could not upscale this image.',
+        title: '高清放大',
+        description: e instanceof Error ? e.message : '无法放大此图片。',
         variant: 'destructive',
       })
     } finally {
@@ -584,17 +584,17 @@ export function UpscaleButton({ el }: { el: ImageElement }) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className={btnBase} data-active={open} title="Upscale — enlarge this image (provider or on-device)" aria-label="Upscale image">
+        <button className={btnBase} data-active={open} title="放大 — 放大此图片（提供商或设备端）" aria-label="放大图片">
           <Maximize2 size={14} />
-          <span className="text-[12px] hidden lg:inline">Upscale</span>
+          <span className="text-[12px] hidden lg:inline">高清放大</span>
         </button>
       </PopoverTrigger>
       <PopoverContent align="center" side="bottom" className="w-[300px] rounded-2xl bg-[#1A1C22] border-white/10 text-white p-3.5">
         <div className="text-[13px] font-bold mb-1 flex items-center gap-1.5">
-          <Maximize2 size={13} className="text-[#02C0CC]" /> Upscale
+          <Maximize2 size={13} className="text-[#02C0CC]" /> 高清放大
         </div>
         <p className="text-[11px] text-white/55 mb-2.5 leading-snug">
-          Enlarge to {target}px with alpha discipline. Now {el.naturalWidth}×{el.naturalHeight}px.
+          放大到 {target}px with alpha discipline. Now {el.naturalWidth}×{el.naturalHeight}px.
         </p>
         <div className="mb-2.5">
           <EngineToggle engine={engine} onChange={setEngine} />
@@ -768,14 +768,14 @@ export function BrushEraserDialog({ el }: { el: ImageElement }) {
       const dataUrl = srcCanvas.toDataURL('image/png')
       update([el.id], { src: dataUrl })
       toast({
-        title: 'Erased',
-        description: 'The painted region was reconstructed. Ctrl+Z to undo.',
+        title: '已擦除',
+        description: '涂抹区域已重建，按 Ctrl+Z 可撤销。',
       })
       setOpen(false)
     } catch (e) {
       toast({
-        title: 'Brush eraser',
-        description: e instanceof Error ? e.message : 'Could not erase. Please try again.',
+        title: '画笔橡皮擦',
+        description: e instanceof Error ? e.message : '无法擦除，请重试。',
         variant: 'destructive',
       })
     } finally {
@@ -785,14 +785,14 @@ export function BrushEraserDialog({ el }: { el: ImageElement }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <button className={btnBase} onClick={() => setOpen(true)} title="Brush eraser — paint over anything to remove it" aria-label="Brush eraser">
+      <button className={btnBase} onClick={() => setOpen(true)} title="画笔橡皮擦 — 涂抹任意内容即可擦除" aria-label="画笔橡皮擦">
         <Brush size={14} />
-        <span className="text-[12px] hidden lg:inline">Brush eraser</span>
+        <span className="text-[12px] hidden lg:inline">画笔橡皮擦</span>
       </button>
       <DialogContent className="max-w-[720px] rounded-2xl bg-[#14161B] border-white/10 text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-1.5 text-[15px]">
-            <Brush size={15} className="text-[#02C0CC]" /> Brush eraser
+            <Brush size={15} className="text-[#02C0CC]" /> 画笔橡皮擦
           </DialogTitle>
         </DialogHeader>
         <p className="text-[12px] text-white/55 -mt-1 mb-2 leading-snug">
@@ -809,7 +809,7 @@ export function BrushEraserDialog({ el }: { el: ImageElement }) {
             ref={maskRef}
             className="absolute inset-0 w-full h-full"
             style={{ cursor: 'crosshair' }}
-            aria-label="Erase brush area"
+            aria-label="擦除画笔区域"
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId)
               painting.current = true
@@ -832,11 +832,11 @@ export function BrushEraserDialog({ el }: { el: ImageElement }) {
             }}
           />
           {!disp && (
-            <div className="flex items-center justify-center h-56 text-[12px] text-white/45">Decoding image…</div>
+            <div className="flex items-center justify-center h-56 text-[12px] text-white/45">正在解码图片…</div>
           )}
         </div>
         <div className="flex items-center gap-3 mt-1">
-          <span className="text-[11px] text-white/55 shrink-0">Brush</span>
+          <span className="text-[11px] text-white/55 shrink-0">画笔</span>
           <input
             type="range"
             min={8}
@@ -844,22 +844,22 @@ export function BrushEraserDialog({ el }: { el: ImageElement }) {
             value={brush}
             onChange={(e) => setBrush(Number(e.target.value))}
             className="flex-1 accent-[#02C0CC]"
-            aria-label="Brush size"
+            aria-label="画笔大小"
           />
           <span className="text-[11px] text-white/40 w-8 text-right">{brush}px</span>
           <button
             className="text-[11px] text-white/55 hover:text-white px-2 h-7 rounded-md hover:bg-white/10"
             onClick={clearMask}
           >
-            Clear
+            清除
           </button>
         </div>
         <div className="flex justify-end gap-2 mt-1">
           <Button variant="ghost" className="h-9 text-[12px] text-white/70 hover:text-white" onClick={() => setOpen(false)}>
-            Cancel
+            取消
           </Button>
           <Button className="btn-cv h-9 px-4 text-[12px]" onClick={() => void run()} disabled={busy || !painted}>
-            {busy ? <Loader2 size={13} className="animate-spin" /> : 'Erase painted area'}
+            {busy ? <Loader2 size={13} className="animate-spin" /> : '擦除涂抹区域'}
           </Button>
         </div>
       </DialogContent>
@@ -899,12 +899,12 @@ export function AltTextPopover({ el }: { el: ImageElement }) {
         body: JSON.stringify({ image }),
       })
       const data = (await res.json()) as { alt?: string; error?: string }
-      if (!res.ok || !data.alt) throw new Error(data.error ?? 'Generation failed')
+      if (!res.ok || !data.alt) throw new Error(data.error ?? '生成失败')
       setValue(data.alt)
     } catch (e) {
       toast({
-        title: 'Alt text',
-        description: e instanceof Error ? e.message : 'Could not generate. Try again.',
+        title: '替代文本',
+        description: e instanceof Error ? e.message : '生成失败，请重试。',
         variant: 'destructive',
       })
     } finally {
@@ -915,33 +915,32 @@ export function AltTextPopover({ el }: { el: ImageElement }) {
   const save = () => {
     const alt = value.trim().slice(0, 200)
     update([el.id], alt ? { alt } : { alt: undefined })
-    toast({ title: alt ? 'Alt text saved' : 'Alt text cleared', description: 'Used by screen readers — never shown visually.' })
+    toast({ title: alt ? '已保存替代文本' : '已清除替代文本', description: '供屏幕阅读器使用——视觉上不显示。' })
     setOpen(false)
   }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className={btnBase} data-active={open} title="Alt text — describe this image for screen readers" aria-label="Alt text">
+        <button className={btnBase} data-active={open} title="替代文本 — 为屏幕阅读器描述此图片" aria-label="替代文本">
           <Accessibility size={14} />
-          <span className="text-[12px] hidden lg:inline">Alt</span>
-          {el.alt ? <span className="w-1.5 h-1.5 rounded-full bg-[#02C0CC]" title="Has alt text" /> : null}
+          <span className="text-[12px] hidden lg:inline">替代文本</span>
+          {el.alt ? <span className="w-1.5 h-1.5 rounded-full bg-[#02C0CC]" title="已有替代文本" /> : null}
         </button>
       </PopoverTrigger>
       <PopoverContent align="center" side="bottom" className="w-[300px] rounded-2xl bg-[#1A1C22] border-white/10 text-white p-3.5">
         <div className="text-[13px] font-bold mb-1 flex items-center gap-1.5">
-          <Accessibility size={13} className="text-[#02C0CC]" /> Alt text
+          <Accessibility size={13} className="text-[#02C0CC]" /> 替代文本
         </div>
         <p className="text-[11px] text-white/55 mb-2.5 leading-snug">
-          One sentence describing what is in the image — read aloud by screen readers, required for accessible
-          exports.
+          用一句话描述图片内容 — 供屏幕阅读器朗读，无障碍导出时必填。
         </p>
         <textarea
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="e.g. A barista pouring latte art in a sunlit café"
+          placeholder="例如：一位咖啡师在阳光明媚的咖啡馆里拉花"
           className="w-full h-20 resize-none rounded-lg bg-white/5 border border-white/10 px-2.5 py-2 text-[12px] text-white/85 placeholder:text-white/30 focus:outline-none focus:border-[#02C0CC]"
-          aria-label="Alt text"
+          aria-label="替代文本"
           maxLength={200}
           data-testid="alt-text-input"
         />
@@ -953,10 +952,10 @@ export function AltTextPopover({ el }: { el: ImageElement }) {
             disabled={busy}
           >
             {busy ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-[#02C0CC]" />}
-            Generate
+            生成
           </Button>
           <Button className="btn-cv h-9 px-3 ml-auto text-[12px]" onClick={save}>
-            Save
+            保存
           </Button>
         </div>
       </PopoverContent>

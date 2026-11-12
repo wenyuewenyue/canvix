@@ -8,11 +8,11 @@ import { cn } from '@/lib/utils'
 import { Logo } from '@/components/logo'
 
 const NAV = [
-  { href: '/admin', label: 'Overview', icon: LayoutDashboard, exact: true },
-  { href: '/admin/users', label: 'Users', icon: Users, exact: false },
-  { href: '/admin/ai', label: 'AI & models', icon: Sparkles, exact: false },
-  { href: '/admin/logs', label: 'Logs', icon: ScrollText, exact: false },
-  { href: '/admin/settings', label: 'Settings', icon: Settings, exact: false },
+  { href: '/admin', label: '总览', icon: LayoutDashboard, exact: true },
+  { href: '/admin/users', label: '用户', icon: Users, exact: false },
+  { href: '/admin/ai', label: 'AI 与模型', icon: Sparkles, exact: false },
+  { href: '/admin/logs', label: '日志', icon: ScrollText, exact: false },
+  { href: '/admin/settings', label: '设置', icon: Settings, exact: false },
 ] as const
 
 /**
@@ -37,9 +37,9 @@ export function AdminShell({
           <div className="flex items-center gap-3">
             <Logo size={30} />
             <div>
-              <h1 className="text-lg font-bold leading-tight">Admin console</h1>
+              <h1 className="text-lg font-bold leading-tight">管理控制台</h1>
               <p className="text-xs text-muted-foreground">
-                signed in as <span className="font-medium text-foreground">{username}</span>
+                已登录为 <span className="font-medium text-foreground">{username}</span>
               </p>
             </div>
           </div>
@@ -47,11 +47,11 @@ export function AdminShell({
             href="/"
             className="inline-flex items-center gap-1.5 rounded-lg border bg-card px-3 py-1.5 text-sm font-medium text-card-foreground transition-colors hover:bg-muted"
           >
-            <ArrowLeft size={15} /> Back to Canvix
+            <ArrowLeft size={15} /> 返回 Canvix
           </Link>
         </header>
 
-        <nav className="mb-6 flex gap-1 overflow-x-auto rounded-xl border bg-card p-1" aria-label="Admin sections">
+        <nav className="mb-6 flex gap-1 overflow-x-auto rounded-xl border bg-card p-1" aria-label="管理栏目">
           {NAV.map((item) => {
             const active = item.exact ? pathname === item.href : pathname.startsWith(item.href)
             return (

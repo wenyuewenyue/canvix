@@ -124,7 +124,7 @@ function apiErrorToast(error: unknown, fallbackTitle: string) {
   if (error instanceof ApiError) {
     const detail =
       error.code === 'DB_NOT_MIGRATED'
-        ? ' — run  npm run db:setup  once'
+        ? ' — 请运行一次 npm run db:setup'
         : error.code === 'DB_UNREACHABLE'
           ? ' — check DATABASE_URL (see /api/health)'
           : error.fix
@@ -178,7 +178,7 @@ export function Dashboard() {
     try {
       return csvToFieldRows(parseCsv(csvText), csvTarget.fields.map((f) => f.key))
     } catch (err) {
-      return { rows: [], missing: [], error: err instanceof Error ? err.message : 'CSV parse failed' }
+      return { rows: [], missing: [], error: err instanceof Error ? err.message : 'CSV 解析失败' }
     }
   }, [csvTarget, csvText])
 
@@ -193,12 +193,12 @@ export function Dashboard() {
       })
       if (!res.ok) throw new Error('fill failed')
       const body = (await res.json()) as { created?: { id: string }[] }
-      toast({ title: `Created ${body.created?.length ?? 0} design${(body.created?.length ?? 0) === 1 ? '' : 's'} from “${csvTarget.name}”` })
+      toast({ title: `已从“${csvTarget.name}”创建 ${body.created?.length ?? 0} 个设计` })
       setCsvTarget(null)
       setCsvText('')
       await refresh()
     } catch {
-      toast({ title: 'Bulk fill failed — try fewer rows', variant: 'destructive' })
+      toast({ title: '批量填充失败——请减少行数', variant: 'destructive' })
     } finally {
       setCsvBusy(false)
     }
@@ -233,9 +233,9 @@ export function Dashboard() {
     try {
       await restoreDesign(id)
       await Promise.all([refresh(), refreshTrash()])
-      toast({ title: `“${name}” restored` })
+      toast({ title: `已恢复“${name}”` })
     } catch {
-      toast({ title: 'Could not restore', variant: 'destructive' })
+      toast({ title: '无法恢复', variant: 'destructive' })
     }
   }
 
@@ -243,9 +243,9 @@ export function Dashboard() {
     try {
       await deleteDesignForever(id)
       await refreshTrash()
-      toast({ title: `“${name}” deleted forever` })
+      toast({ title: `已永久删除“${name}”` })
     } catch {
-      toast({ title: 'Could not delete', variant: 'destructive' })
+      toast({ title: '无法删除', variant: 'destructive' })
     }
   }
 
@@ -332,7 +332,7 @@ export function Dashboard() {
       openEditor(record)
       loadEditorDesign(record)
     } catch {
-      toast({ title: 'Could not open design', variant: 'destructive' })
+      toast({ title: '无法打开设计', variant: 'destructive' })
     }
   }
 
@@ -344,9 +344,9 @@ export function Dashboard() {
         d.folderId && (folders ?? []).some((f) => f.id === d.folderId) ? d.folderId : null
       await duplicateDesign(d.id, mineFolder)
       await Promise.all([refresh(), refreshFolders()])
-      toast({ title: 'Design duplicated' })
+      toast({ title: '已创建设计副本' })
     } catch {
-      toast({ title: 'Could not duplicate', variant: 'destructive' })
+      toast({ title: '无法创建副本', variant: 'destructive' })
     }
   }
 
@@ -355,9 +355,9 @@ export function Dashboard() {
     try {
       await deleteDesign(id)
       await refresh()
-      toast({ title: 'Design deleted' })
+      toast({ title: '设计已删除' })
     } catch {
-      toast({ title: 'Could not delete', variant: 'destructive' })
+      toast({ title: '无法删除', variant: 'destructive' })
     }
   }
 
@@ -370,7 +370,7 @@ export function Dashboard() {
       await renameDesign(target.id, renameValue.trim())
       await refresh()
     } catch {
-      toast({ title: 'Could not rename', variant: 'destructive' })
+      toast({ title: '无法重命名', variant: 'destructive' })
     }
   }
 
@@ -395,11 +395,11 @@ export function Dashboard() {
       if (dialog.mode === 'create') {
         const folder = await createFolder(name)
         await refreshFolders()
-        toast({ title: `Folder “${folder.name}” created` })
+        toast({ title: `已创建文件夹“${folder.name}”` })
       } else {
         await renameFolder(dialog.id, name)
         await refreshFolders()
-        toast({ title: 'Folder renamed' })
+        toast({ title: '文件夹已重命名' })
       }
     } catch (error) {
       apiErrorToast(error, 'Could not save the folder')
@@ -415,9 +415,9 @@ export function Dashboard() {
       await deleteFolder(id)
       if (activeFolder === id) setActiveFolder(null)
       await Promise.all([refreshFolders(), refresh()])
-      toast({ title: `Folder “${name}” deleted — its designs are in All designs` })
+      toast({ title: `已删除文件夹“${name}” — 其中的设计已移到「全部设计」` })
     } catch {
-      toast({ title: 'Could not delete the folder', variant: 'destructive' })
+      toast({ title: '无法删除文件夹', variant: 'destructive' })
     }
   }
 
@@ -438,21 +438,21 @@ export function Dashboard() {
   return (
     <div className="min-h-screen flex bg-[#1F142E] text-[#EDEEF2]">
       {/* ── Canva-style left rail (desktop) ── */}
-      <nav className="hidden md:flex w-[72px] shrink-0 flex-col items-center bg-[#1C1229] border-r border-white/[0.06] py-3 gap-1 sticky top-0 h-screen" aria-label="Primary">
+      <nav className="hidden md:flex w-[72px] shrink-0 flex-col items-center bg-[#1C1229] border-r border-white/[0.06] py-3 gap-1 sticky top-0 h-screen" aria-label="主导航">
         <button
           onClick={() => setCustomOpen(true)}
           className="h-9 w-9 rounded-full bg-[#7630D7] hover:bg-[#8B5CF6] text-white flex items-center justify-center shadow-lg shadow-[#7630D7]/40 transition-colors"
-          aria-label="Create a design"
-          title="Create a design"
+          aria-label="创建设计"
+          title="创建设计"
         >
           <Plus size={20} />
         </button>
         <div className="h-3" />
         {[
-          { label: 'Home', icon: LayoutGrid, active: true },
-          { label: 'Templates', icon: LayoutTemplate, target: 'templates' },
-          { label: 'Projects', icon: FolderOpen, target: 'recents' },
-          { label: 'Brand', icon: BookMarked, target: 'brand' },
+          { label: '首页', icon: LayoutGrid, active: true },
+          { label: '模板', icon: LayoutTemplate, target: 'templates' },
+          { label: '项目', icon: FolderOpen, target: 'recents' },
+          { label: '品牌', icon: BookMarked, target: 'brand' },
         ].map((item) => (
           <button
             key={item.label}
@@ -473,8 +473,8 @@ export function Dashboard() {
             <a
               href="/admin"
               className="w-9 h-9 rounded-full text-white/50 hover:text-white hover:bg-white/10 flex items-center justify-center transition-colors"
-              aria-label="Admin console"
-              title="Admin console"
+              aria-label="管理控制台"
+              title="管理控制台"
             >
               <Shield size={18} />
             </a>
@@ -484,16 +484,16 @@ export function Dashboard() {
             target="_blank"
             rel="noreferrer"
             className="w-9 h-9 rounded-full text-white/50 hover:text-white hover:bg-white/10 flex items-center justify-center transition-colors"
-            aria-label="GitHub repository"
-            title="GitHub repository"
+            aria-label="GitHub 仓库"
+            title="GitHub 仓库"
           >
             <Github size={18} />
           </a>
           <button
             onClick={goLanding}
             className="h-9 w-9 rounded-full cv-topbar-gradient text-white text-[13px] font-bold flex items-center justify-center"
-            aria-label="About Canvix"
-            title="About Canvix"
+            aria-label="关于 Canvix"
+            title="关于 Canvix"
           >
             C
           </button>
@@ -504,7 +504,7 @@ export function Dashboard() {
       {/* ── Header ── */}
       <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#1F142E]/90 backdrop-blur-lg">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center gap-3">
-          <button onClick={goLanding} aria-label="Canvix home" className="shrink-0 md:hidden">
+          <button onClick={goLanding} aria-label="Canvix 首页" className="shrink-0 md:hidden">
             <Logo size={26} />
           </button>
           <div className="relative flex-1 max-w-md">
@@ -512,9 +512,9 @@ export function Dashboard() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search your designs"
+              placeholder="搜索你的设计"
               className="pl-10 h-10 rounded-full bg-white/[0.06] border-white/10 text-white placeholder:text-white/35 focus-visible:ring-[#7630D7]/50 focus-visible:border-[#7630D7]/60"
-              aria-label="Search designs"
+              aria-label="搜索设计"
             />
           </div>
           <div className="ml-auto flex items-center gap-2">
@@ -523,15 +523,15 @@ export function Dashboard() {
               className="btn-cv rounded-full px-4 gap-1.5 h-10"
               onClick={() => setCustomOpen(true)}
             >
-              <Plus size={16} /> <span className="hidden sm:inline">Custom size</span>
+              <Plus size={16} /> <span className="hidden sm:inline">自定义尺寸</span>
             </Button>
             {/* ── account area (v0.9: real accounts, free forever) ── */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
                   className="h-10 w-10 rounded-full bg-gradient-to-br from-[#02C0CC] to-[#7630D7] text-white text-[13px] font-extrabold flex items-center justify-center shrink-0 hover:brightness-110 transition-all"
-                  aria-label="Account menu"
-                  title={user ? `Signed in as ${user.username}` : 'Sign in — free forever'}
+                  aria-label="账号菜单"
+                  title={user ? `Signed in as ${user.username}` : '登录 — 永久免费'}
                 >
                   {user ? user.username.slice(0, 2).toUpperCase() : 'CV'}
                 </button>
@@ -541,12 +541,12 @@ export function Dashboard() {
                   {user ? (
                     <>
                       <div className="text-[13px] font-semibold text-[#00C4CC]">@{user.username}</div>
-                      <div className="text-[11px] text-white/45">Your designs are private to your account</div>
+                      <div className="text-[11px] text-white/45">你的设计仅你的账号可见</div>
                     </>
                   ) : (
                     <>
-                      <div className="text-[13px] font-semibold">You are browsing anonymously</div>
-                      <div className="text-[11px] text-white/45">Free account — keep your designs yours</div>
+                      <div className="text-[13px] font-semibold">你正在匿名浏览</div>
+                      <div className="text-[11px] text-white/45">免费账号 — 设计永远属于你</div>
                     </>
                   )}
                 </div>
@@ -561,15 +561,15 @@ export function Dashboard() {
                           try {
                             const adopted = await adoptAllDesigns()
                             await refresh()
-                            toast({ title: `${adopted} design${adopted === 1 ? '' : 's'} moved into your account` })
+                            toast({ title: `已将 ${adopted} 个设计移入当前账号` })
                           } catch {
-                            toast({ title: 'Could not adopt designs', variant: 'destructive' })
+                            toast({ title: '无法将设计移入此账号', variant: 'destructive' })
                           } finally {
                             setAdopting(false)
                           }
                         }}
                       >
-                        <FolderInput size={14} /> {adopting ? 'Adopting…' : `Save my designs to this account (${mineCount})`}
+                        <FolderInput size={14} /> {adopting ? '应用中…' : `Save my designs to this account (${mineCount})`}
                       </DropdownMenuItem>
                     )}
                     {legacyCount > 0 && (
@@ -587,9 +587,9 @@ export function Dashboard() {
                           try {
                             const adopted = await adoptAllDesigns(true)
                             await Promise.all([refreshAuth(), refresh()])
-                            toast({ title: `${adopted} design${adopted === 1 ? '' : 's'} moved into your account` })
+                            toast({ title: `已将 ${adopted} 个设计移入当前账号` })
                           } catch {
-                            toast({ title: 'Could not adopt designs', variant: 'destructive' })
+                            toast({ title: '无法将设计移入此账号', variant: 'destructive' })
                           } finally {
                             setAdopting(false)
                           }
@@ -599,34 +599,34 @@ export function Dashboard() {
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem className="gap-2" onClick={() => void logout().then(() => { void refreshAuth(); void refresh() })}>
-                      <LogOut size={14} /> Sign out
+                      <LogOut size={14} /> 退出登录
                     </DropdownMenuItem>
                   </>
                 ) : (
                   <>
                     <DropdownMenuItem className="gap-2" onClick={() => { setAuthMode('login'); setAuthOpen(true) }}>
-                      <LogIn size={14} /> Sign in
+                      <LogIn size={14} /> 登录
                     </DropdownMenuItem>
                     <DropdownMenuItem className="gap-2" onClick={() => { setAuthMode('register'); setAuthOpen(true) }}>
-                      <LogIn size={14} /> Create a free account
+                      <LogIn size={14} /> 创建免费账号
                     </DropdownMenuItem>
                   </>
                 )}
                 <div className="my-1 border-t border-white/[0.07]" />
                 <DropdownMenuItem className="gap-2" onClick={() => setHelpOpen(true)}>
-                  <CircleHelp size={14} /> Help &amp; shortcuts
+                  <CircleHelp size={14} /> 帮助与快捷键
                 </DropdownMenuItem>
                 <DropdownMenuItem className="gap-2" onClick={goLanding}>
-                  <Info size={14} /> About Canvix
+                  <Info size={14} /> 关于 Canvix
                 </DropdownMenuItem>
                 <DropdownMenuItem className="gap-2" asChild>
                   <a href="https://github.com/mir-ashiq/canvix" target="_blank" rel="noreferrer">
-                    <Github size={14} /> GitHub repository
+                    <Github size={14} /> GitHub 仓库
                   </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="gap-2" asChild>
                   <a href="https://github.com/mir-ashiq/canvix/stargazers" target="_blank" rel="noreferrer">
-                    <Heart size={14} /> Star the project
+                    <Heart size={14} /> 为项目点星
                   </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -639,15 +639,15 @@ export function Dashboard() {
         {/* ── Hero — canva “What will you design today?” ── */}
         <section className="pt-8 pb-2">
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-center">
-            What will you <span className="text-brand-gradient">design</span> today?
+            今天你想 <span className="text-brand-gradient">设计</span> 什么？
           </h1>
-          <p className="mt-2 text-center text-sm text-white/50">Free, open-source, and yours forever.</p>
+          <p className="mt-2 text-center text-sm text-white/50">免费、开源，永远属于你。</p>
         </section>
 
         {/* ── Start a new design ── */}
         <section className="pt-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">Start a new design</h2>
+            <h2 className="text-xl font-bold">开始新设计</h2>
           </div>
           <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-9 gap-3">
             {PRESET_SIZES.map((preset, i) => {
@@ -672,13 +672,13 @@ export function Dashboard() {
               onClick={() => { setSizesOpen(true); setSizeQuery('') }}
               disabled={creating}
               className="group flex flex-col items-center gap-2 rounded-2xl border border-dashed border-white/20 bg-transparent p-4 hover:border-[#7630D7]/60 hover:bg-[#1C1E28] transition-all disabled:opacity-50"
-              aria-label="Browse all design sizes"
+              aria-label="浏览全部设计尺寸"
             >
               <span className="h-10 w-10 rounded-xl bg-brand-gradient-soft text-[#A78BFA] flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Maximize size={19} />
               </span>
-              <span className="text-[13px] font-semibold text-center leading-tight">More sizes</span>
-              <span className="text-[11px] text-white/40">60+ presets</span>
+              <span className="text-[13px] font-semibold text-center leading-tight">更多尺寸</span>
+              <span className="text-[11px] text-white/40">60+ 预设</span>
             </button>
           </div>
         </section>
@@ -686,7 +686,7 @@ export function Dashboard() {
         {/* ── Templates ── */}
         <section id="cv-templates" className="pt-12 scroll-mt-20">
           <div className="flex items-center justify-between flex-wrap gap-3">
-            <h2 className="text-xl font-bold">Templates</h2>
+            <h2 className="text-xl font-bold">模板</h2>
             <div className="flex items-center gap-2 flex-wrap">
               <button
                 onClick={() => setCategory('all')}
@@ -697,7 +697,7 @@ export function Dashboard() {
                     : 'bg-transparent border-white/12 text-white/60 hover:border-white/30 hover:text-white'
                 )}
               >
-                <LayoutGrid size={14} /> All
+                <LayoutGrid size={14} /> 全部
               </button>
               {TEMPLATE_CATEGORIES.map((c) => {
                 const Icon = CATEGORY_ICONS[c.id] ?? LayoutGrid
@@ -744,7 +744,7 @@ export function Dashboard() {
                       onClick={(e) => { e.stopPropagation(); setCsvTarget(t); setCsvText('') }}
                       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); setCsvTarget(t); setCsvText('') } }}
                       className="absolute top-2 left-2 h-7 px-2 rounded-full bg-[#02C0CC] text-[#083344] text-[10px] font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                      title="Bulk-fill with CSV"
+                      title="用 CSV 批量填充"
                     >
                       <FileSpreadsheet size={12} /> CSV
                     </span>
@@ -759,7 +759,7 @@ export function Dashboard() {
 
         {/* ── Brand kit ── */}
         <section id="cv-brand" className="pt-12 scroll-mt-20">
-          <h2 className="text-xl font-bold">Brand kit</h2>
+          <h2 className="text-xl font-bold">品牌套件</h2>
           <div className="mt-4 rounded-2xl border border-white/10 bg-[#16171D] p-5 flex flex-col sm:flex-row items-center gap-6">
             <div className="flex gap-2">
               {(['#7630D7', '#02C0CC', '#FF5C8A', '#1F142E', '#FFD166'] as const).map((c) => (
@@ -767,8 +767,8 @@ export function Dashboard() {
               ))}
             </div>
             <div className="flex-1 text-center sm:text-left">
-              <div className="text-sm font-semibold">Set your brand colors &amp; fonts in the editor</div>
-              <div className="text-xs text-white/40 mt-0.5">Open any design → Brand tab. Saved locally, applied anywhere.</div>
+              <div className="text-sm font-semibold">在编辑器中设置品牌颜色和字体</div>
+              <div className="text-xs text-white/40 mt-0.5">打开任意设计 → 「品牌」选项卡，本地保存，随处可用。</div>
             </div>
             <Button
               variant="outline"
@@ -776,10 +776,10 @@ export function Dashboard() {
               onClick={() => {
                 const first = filteredDesigns[0] ?? null
                 if (first) void openDesign(first.id)
-                else toast({ title: 'Open a design first, then click the Brand tab' })
+                else toast({ title: '请先打开一个设计，然后点击“品牌”选项卡' })
               }}
             >
-              Open editor
+              打开编辑器
             </Button>
           </div>
         </section>
@@ -792,11 +792,11 @@ export function Dashboard() {
           <section className="mt-6 rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 flex items-start gap-3">
             <AlertTriangle className="size-5 text-amber-300 shrink-0 mt-0.5" />
             <div className="text-sm">
-              <p className="font-semibold text-amber-200">Database needs attention</p>
+              <p className="font-semibold text-amber-200">数据库需要注意</p>
               <p className="text-white/70 mt-1">
-                Designs and templates can’t be saved until the database is set up on this host.
-                Run <code className="rounded bg-black/40 px-1.5 py-0.5 text-amber-200">npm run db:setup</code> in the project
-                (migrations + template seed), then reload. Full diagnosis:{' '}
+                在此主机上设置数据库之前，无法保存设计和模板。
+                请在项目中运行 <code className="rounded bg-black/40 px-1.5 py-0.5 text-amber-200">npm run db:setup</code>
+                （迁移 + 模板种子数据），然后重新加载。完整诊断：{' '}
                 <a href="/api/health" target="_blank" rel="noreferrer" className="underline text-amber-200 hover:text-amber-100">
                   /api/health
                 </a>
@@ -810,11 +810,11 @@ export function Dashboard() {
           <div className="flex items-center justify-between flex-wrap gap-3">
             <h2 className="text-xl font-bold">
               {activeFolder
-                ? (folders ?? []).find((f) => f.id === activeFolder)?.name ?? 'Folder'
-                : 'Recent designs'}
+                ? (folders ?? []).find((f) => f.id === activeFolder)?.name ?? '文件夹'
+                : '最近的设计'}
             </h2>
             {/* v0.4: canva-style sort control */}
-            <div className="flex items-center gap-1 rounded-full border border-white/10 p-0.5" role="group" aria-label="Sort designs">
+            <div className="flex items-center gap-1 rounded-full border border-white/10 p-0.5" role="group" aria-label="设计排序">
               {(['recent', 'name'] as const).map((mode) => (
                 <button
                   key={mode}
@@ -825,14 +825,14 @@ export function Dashboard() {
                   )}
                   aria-pressed={sort === mode}
                 >
-                  {mode === 'recent' ? 'Recent' : 'Name'}
+                  {mode === 'recent' ? '最近' : '名称'}
                 </button>
               ))}
             </div>
           </div>
 
           {/* v0.14 (D6): folder chips — All designs + the caller's folders. */}
-          <div className="mt-3 flex items-center gap-2 flex-wrap" role="group" aria-label="Design folders">
+          <div className="mt-3 flex items-center gap-2 flex-wrap" role="group" aria-label="设计文件夹">
             <button
               onClick={() => setActiveFolder(null)}
               className={cn(
@@ -843,7 +843,7 @@ export function Dashboard() {
               )}
               aria-pressed={activeFolder === null}
             >
-              <LayoutGrid size={14} /> All designs
+              <LayoutGrid size={14} /> 全部设计
             </button>
             {(folders ?? []).map((f) => (
               <span
@@ -877,10 +877,10 @@ export function Dashboard() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start" className="w-40 bg-[#16181D] border-white/10 text-white">
                     <DropdownMenuItem onClick={() => openRenameFolder(f.id, f.name)}>
-                      <Pencil size={14} className="mr-2" /> Rename
+                      <Pencil size={14} className="mr-2" /> 重命名
                     </DropdownMenuItem>
                     <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={() => void doDeleteFolder(f.id, f.name)}>
-                      <Trash2 size={14} className="mr-2" /> Delete folder
+                      <Trash2 size={14} className="mr-2" /> 删除文件夹
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -889,9 +889,9 @@ export function Dashboard() {
             <button
               onClick={openCreateFolder}
               className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium border border-dashed border-white/20 text-white/50 hover:border-white/40 hover:text-white transition-colors"
-              aria-label="New folder"
+              aria-label="新建文件夹"
             >
-              <FolderPlus size={14} /> New folder
+              <FolderPlus size={14} /> 新建文件夹
             </button>
           </div>
           {loading ? (
@@ -909,11 +909,11 @@ export function Dashboard() {
               <div className="mx-auto h-14 w-14 rounded-2xl bg-brand-gradient-soft flex items-center justify-center text-[#A78BFA]">
                 {activeFolder ? <Folder size={24} /> : <Plus size={24} />}
               </div>
-              <p className="mt-4 font-semibold">{activeFolder ? 'This folder is empty' : 'No designs yet'}</p>
+              <p className="mt-4 font-semibold">{activeFolder ? '此文件夹为空' : '暂无设计'}</p>
               <p className="mt-1 text-sm text-white/45">
                 {activeFolder
                   ? 'Open a design’s ⋯ menu and “Move to folder”, or create something new — it lands here.'
-                  : 'Pick a preset or template above to get started.'}
+                  : '请在上方选择预设或模板开始。'}
               </p>
             </div>
           ) : (
@@ -947,7 +947,7 @@ export function Dashboard() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-44 bg-[#16181D] border-white/10 text-white">
                         <DropdownMenuItem onClick={() => openDesign(d.id)}>
-                          <Pencil size={14} className="mr-2" /> Open
+                          <Pencil size={14} className="mr-2" /> 打开
                         </DropdownMenuItem>
                         {user && d.ownerId === null && d.claimable && (
                           <DropdownMenuItem
@@ -955,29 +955,29 @@ export function Dashboard() {
                               const r = await adoptDesign(d.id)
                               if (r.ok) {
                                 await refresh()
-                                toast({ title: `“${d.name}” moved into your account` })
+                                toast({ title: `已将“${d.name}”移入当前账号` })
                               } else {
                                 toast({ title: r.error ?? 'Could not save this design', variant: 'destructive' })
                               }
                             }}
                           >
-                            <FolderInput size={14} className="mr-2" /> Save to my account
+                            <FolderInput size={14} className="mr-2" /> 保存到我的账号
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem onClick={() => { setRenameTarget({ id: d.id, name: d.name }); setRenameValue(d.name) }}>
-                          <Pencil size={14} className="mr-2" /> Rename
+                          <Pencil size={14} className="mr-2" /> 重命名
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => void doDuplicate(d)}>
-                          <Copy size={14} className="mr-2" /> Duplicate
+                          <Copy size={14} className="mr-2" /> 复制
                         </DropdownMenuItem>
                         <DropdownMenuSub>
                           <DropdownMenuSubTrigger className="gap-2">
-                            <Folder size={14} /> Move to folder
+                            <Folder size={14} /> 移动到文件夹
                           </DropdownMenuSubTrigger>
                           <DropdownMenuSubContent className="w-44 bg-[#16181D] border-white/10 text-white">
                             {(folders ?? []).length === 0 ? (
                               <DropdownMenuItem disabled>
-                                Create a folder first — “New folder” above
+                                请先创建一个文件夹 — 点击上方的“新建文件夹”
                               </DropdownMenuItem>
                             ) : (
                               (folders ?? []).map((f) => (
@@ -999,14 +999,14 @@ export function Dashboard() {
                               <>
                                 <DropdownMenuSeparator className="bg-white/10" />
                                 <DropdownMenuItem onClick={() => void doMoveDesign(d.id, null, d.name)}>
-                                  <FolderMinus size={14} className="mr-2" /> Remove from folder
+                                  <FolderMinus size={14} className="mr-2" /> 移出文件夹
                                 </DropdownMenuItem>
                               </>
                             )}
                           </DropdownMenuSubContent>
                         </DropdownMenuSub>
                         <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={() => setDeleteTarget(d.id)}>
-                          <Trash2 size={14} className="mr-2" /> Delete
+                          <Trash2 size={14} className="mr-2" /> 删除
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -1022,7 +1022,7 @@ export function Dashboard() {
                 className="rounded-full px-6 gap-2 border-white/15 text-white/80 hover:bg-white/10 hover:text-white"
                 onClick={() => void loadMore()}
               >
-                Load more designs
+                加载更多设计
               </Button>
             </div>
           )}
@@ -1036,7 +1036,7 @@ export function Dashboard() {
             aria-controls="trash-list"
           >
             <ChevronDown size={18} className={cn('text-white/50 transition-transform', trashOpen ? '' : '-rotate-90')} />
-            <h2 className="text-xl font-bold group-hover:text-[#A78BFA] transition-colors">Trash</h2>
+            <h2 className="text-xl font-bold group-hover:text-[#A78BFA] transition-colors">回收站</h2>
             {trash !== null && (
               <span className="text-xs text-white/40 font-medium">· {trash.length} item{trash.length === 1 ? '' : 's'}</span>
             )}
@@ -1055,7 +1055,7 @@ export function Dashboard() {
                 </div>
               ) : trash.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-white/12 p-8 text-center text-sm text-white/45">
-                  Trash is empty. Deleted designs land here first — nothing is lost forever.
+                  回收站为空。已删除的设计会先来到这里 — 不会永久丢失。
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -1077,7 +1077,7 @@ export function Dashboard() {
                         <div className="min-w-0">
                           <div className="text-sm font-medium truncate text-white/85">{d.name}</div>
                           <div className="text-xs text-white/40">
-                            deleted {timeAgo(d.deletedAt ?? d.updatedAt)}
+                            已删除 {timeAgo(d.deletedAt ?? d.updatedAt)}
                           </div>
                         </div>
                         <div className="flex gap-0.5 shrink-0">
@@ -1087,7 +1087,7 @@ export function Dashboard() {
                             className="h-7 w-7 rounded-lg text-white/60 hover:bg-white/10 hover:text-white"
                             onClick={() => void doRestore(d.id, d.name)}
                             aria-label={`Restore ${d.name}`}
-                            title="Restore"
+                            title="恢复"
                           >
                             <RotateCcw size={14} />
                           </Button>
@@ -1097,7 +1097,7 @@ export function Dashboard() {
                             className="h-7 w-7 rounded-lg text-white/60 hover:bg-red-500/15 hover:text-red-400"
                             onClick={() => void doDeleteForever(d.id, d.name)}
                             aria-label={`Delete ${d.name} forever`}
-                            title="Delete forever"
+                            title="永久删除"
                           >
                             <Trash2 size={14} />
                           </Button>
@@ -1117,7 +1117,7 @@ export function Dashboard() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-white/40">
           <div className="flex items-center gap-2.5">
             <Logo size={20} />
-            <span>© 2026 · MIT License</span>
+            <span>© 2026 · MIT 许可证</span>
           </div>
           <a
             href="https://github.com/mir-ashiq/canvix"
@@ -1135,8 +1135,8 @@ export function Dashboard() {
       <button
         onClick={() => setHelpOpen(true)}
         className="fixed bottom-5 right-5 z-50 h-12 w-12 rounded-full bg-[#7630D7] hover:bg-[#8B5CF6] text-white flex items-center justify-center shadow-xl shadow-[#7630D7]/40 transition-colors"
-        aria-label="Get help"
-        title="Get help"
+        aria-label="获取帮助"
+        title="获取帮助"
       >
         <CircleHelp size={22} />
       </button>
@@ -1146,13 +1146,13 @@ export function Dashboard() {
         <DialogContent className="rounded-[28px] sm:max-w-md bg-[#16181D] border-white/10 text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <CircleHelp size={18} className="text-[#02C0CC]" /> Help &amp; shortcuts
+              <CircleHelp size={18} className="text-[#02C0CC]" /> 帮助与快捷键
             </DialogTitle>
-            <DialogDescription className="text-white/55">Everything you need to design faster.</DialogDescription>
+            <DialogDescription className="text-white/55">设计更快所需的一切。</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 max-h-[60vh] overflow-y-auto cv-scroll-dark">
             <div>
-              <div className="text-[12px] font-bold text-white/85 mb-2 uppercase tracking-wide">Editor shortcuts</div>
+              <div className="text-[12px] font-bold text-white/85 mb-2 uppercase tracking-wide">编辑器快捷键</div>
               <div className="space-y-1.5">
                 {[
                   ['Ctrl+Z / Ctrl+Shift+Z', 'Undo / redo'],
@@ -1178,15 +1178,15 @@ export function Dashboard() {
               </div>
             </div>
             <div>
-              <div className="text-[12px] font-bold text-white/85 mb-2 uppercase tracking-wide">Where things live</div>
+              <div className="text-[12px] font-bold text-white/85 mb-2 uppercase tracking-wide">内容位置</div>
               <ul className="text-[12px] text-white/70 space-y-1.5 leading-relaxed">
-                <li>· <b className="text-white/90">Templates / Elements / Text</b> — left rail in the editor</li>
-                <li>· <b className="text-white/90">Brand</b> — colors, palettes, fonts &amp; logos (saved locally)</li>
-                <li>· <b className="text-white/90">Apps</b> — charts, QR codes, icons, palettes &amp; placeholder text</li>
-                <li>· <b className="text-white/90">Uploads</b> — drop images onto the canvas anytime</li>
-                <li>· <b className="text-white/90">Layers</b> — rename (double-click), reorder, lock &amp; hide</li>
-                <li>· <b className="text-white/90">File menu</b> — rulers, version history &amp; downloads</li>
-                <li>· <b className="text-white/90">Crop</b> — select an image → Crop button or right-click</li>
+                <li>· <b className="text-white/90">模板 / 元素 / 文字</b> — 位于编辑器左侧栏</li>
+                <li>· <b className="text-white/90">品牌</b> ——颜色、调色板、字体和标志（本地保存）</li>
+                <li>· <b className="text-white/90">应用</b> — charts, QR codes, icons, palettes &amp; placeholder text</li>
+                <li>· <b className="text-white/90">上传</b> — 随时将图片拖到画布上</li>
+                <li>· <b className="text-white/90">图层</b> ——重命名（双击）、排序、锁定与隐藏</li>
+                <li>· <b className="text-white/90">文件菜单</b> — rulers, version history &amp; downloads</li>
+                <li>· <b className="text-white/90">裁剪</b> ——选择图片 → 点击「裁剪」按钮或右键</li>
               </ul>
             </div>
             <a
@@ -1195,7 +1195,7 @@ export function Dashboard() {
               rel="noreferrer"
               className="flex items-center gap-2 text-[12px] text-[#02C0CC] hover:underline"
             >
-              <Github size={13} /> Still stuck? Ask in GitHub discussions
+              <Github size={13} /> 还有问题？请在 GitHub 讨论区提问
             </a>
           </div>
         </DialogContent>
@@ -1205,35 +1205,35 @@ export function Dashboard() {
       <Dialog open={customOpen} onOpenChange={setCustomOpen}>
         <DialogContent className="rounded-[28px] sm:max-w-sm bg-[#16181D] border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>Create a custom design</DialogTitle>
-            <DialogDescription className="text-white/55">Pick any pixel size — you can resize later.</DialogDescription>
+            <DialogTitle>创建自定义设计</DialogTitle>
+            <DialogDescription className="text-white/55">选择任意像素尺寸 — 之后可以调整大小。</DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium" htmlFor="custom-w">Width (px)</label>
+              <label className="text-sm font-medium" htmlFor="custom-w">宽度（px）</label>
               <Input id="custom-w" type="number" min={40} max={8000} value={customW} onChange={(e) => setCustomW(e.target.value)} className="mt-1 bg-white/[0.06] border-white/10 text-white [color-scheme:dark]" />
             </div>
             <div>
-              <label className="text-sm font-medium" htmlFor="custom-h">Height (px)</label>
+              <label className="text-sm font-medium" htmlFor="custom-h">高度（px）</label>
               <Input id="custom-h" type="number" min={40} max={8000} value={customH} onChange={(e) => setCustomH(e.target.value)} className="mt-1 bg-white/[0.06] border-white/10 text-white [color-scheme:dark]" />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setCustomOpen(false)}>Cancel</Button>
+            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setCustomOpen(false)}>取消</Button>
             <Button
               className="btn-cv"
               onClick={() => {
                 const w = parseInt(customW, 10)
                 const h = parseInt(customH, 10)
                 if (!Number.isFinite(w) || !Number.isFinite(h) || w < 40 || h < 40 || w > 8000 || h > 8000) {
-                  toast({ title: 'Size must be between 40 and 8000 px', variant: 'destructive' })
+                  toast({ title: '尺寸须在 40 至 8000 px 之间', variant: 'destructive' })
                   return
                 }
                 setCustomOpen(false)
                 void startBlank(w, h)
               }}
             >
-              Create
+              创建
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1243,11 +1243,11 @@ export function Dashboard() {
       <Dialog open={sizesOpen} onOpenChange={setSizesOpen}>
         <DialogContent className="rounded-[28px] sm:max-w-2xl bg-[#16181D] border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>All design sizes</DialogTitle>
+            <DialogTitle>全部设计尺寸</DialogTitle>
             <DialogDescription className="text-white/55">
               {PRESET_GROUPS.reduce((n, g) => n + g.presets.length, 0)} presets across five categories — or{' '}
               <button className="text-[#A78BFA] underline" onClick={() => { setSizesOpen(false); setCustomOpen(true) }}>
-                create a custom size
+                创建自定义尺寸
               </button>
               .
             </DialogDescription>
@@ -1258,8 +1258,8 @@ export function Dashboard() {
               value={sizeQuery}
               onChange={(e) => setSizeQuery(e.target.value)}
               className="bg-transparent outline-none text-sm text-white w-full placeholder:text-white/35"
-              placeholder="Search sizes — try “story”, “A4”, “logo”…"
-              aria-label="Search design sizes"
+              placeholder="搜索尺寸 — 试试“story”、“A4”、“logo”…"
+              aria-label="搜索设计尺寸"
             />
           </div>
           <div className="max-h-[52vh] overflow-y-auto cv-scroll pr-1 -mr-1">
@@ -1297,9 +1297,9 @@ export function Dashboard() {
             })}
             {sizeQuery.trim() && !PRESET_GROUPS.some((g) => g.presets.some((p) => p.name.toLowerCase().includes(sizeQuery.trim().toLowerCase()))) && (
               <p className="text-center text-sm text-white/40 py-6">
-                No size matches “{sizeQuery}” —{' '}
+                没有匹配“{sizeQuery}”的尺寸 —{' '}
                 <button className="text-[#A78BFA] underline" onClick={() => { setSizesOpen(false); setCustomOpen(true) }}>
-                  create a custom size
+                  创建自定义尺寸
                 </button>
               </p>
             )}
@@ -1312,17 +1312,17 @@ export function Dashboard() {
         <DialogContent className="rounded-[28px] sm:max-w-md bg-[#16181D] border-white/10 text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <FileSpreadsheet size={16} className="text-[#02C0CC]" /> Bulk-fill “{csvTarget?.name}”
+              <FileSpreadsheet size={16} className="text-[#02C0CC]" /> 批量填充“{csvTarget?.name}”
             </DialogTitle>
             <DialogDescription className="text-white/55">
-              Upload a CSV whose header row names the fields — one design is created per data row (up to 100).
+              上传一个 CSV 文件，其标题行注明字段名称 — 每个数据行将生成一个设计（最多 100 个）。
             </DialogDescription>
           </DialogHeader>
 
           {csvTarget?.fields?.length ? (
             <>
               <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
-                <div className="text-[11px] font-bold text-white/45 uppercase tracking-wide mb-1.5">Expected columns</div>
+                <div className="text-[11px] font-bold text-white/45 uppercase tracking-wide mb-1.5">预期列</div>
                 <div className="flex gap-1.5 flex-wrap">
                   {csvTarget.fields.map((f) => (
                     <code key={f.key} className="text-[11px] px-2 py-0.5 rounded-md bg-[#02C0CC]/10 border border-[#02C0CC]/25 text-[#7DE9E1]">{f.key}</code>
@@ -1336,7 +1336,7 @@ export function Dashboard() {
                     setCsvText(`${header}\n${sample}\n`)
                   }}
                 >
-                  Insert a sample CSV
+                  插入示例 CSV
                 </button>
               </div>
 
@@ -1349,7 +1349,7 @@ export function Dashboard() {
                   if (file) setCsvText(await file.text())
                   e.target.value = ''
                 }}
-                aria-label="Upload CSV file"
+                aria-label="上传 CSV 文件"
               />
               <textarea
                 value={csvText}
@@ -1357,16 +1357,16 @@ export function Dashboard() {
                 rows={5}
                 className="w-full rounded-xl bg-white/[0.06] border border-white/10 px-3 py-2 text-[12px] font-mono text-white outline-none focus:border-[#7630D7] placeholder:text-white/30"
                 placeholder={'…or paste CSV here\nname,date\nAda,2026-03-14'}
-                aria-label="CSV content"
+                aria-label="CSV 内容"
               />
 
               {csvParsed && 'error' in csvParsed && csvParsed.error ? (
                 <p className="text-[12px] text-red-300">{csvParsed.error}</p>
               ) : csvParsed ? (
                 <p className="text-[12px] text-white/60">
-                  {csvParsed.rows.length} row{csvParsed.rows.length === 1 ? '' : 's'} detected
+                  检测到 {csvParsed.rows.length} 行数据
                   {csvParsed.missing.length > 0 && (
-                    <span className="text-amber-300"> · missing columns: {csvParsed.missing.join(', ')}</span>
+                    <span className="text-amber-300"> · 缺少列：{csvParsed.missing.join(', ')}</span>
                   )}
                 </p>
               ) : null}
@@ -1375,7 +1375,7 @@ export function Dashboard() {
 
           <DialogFooter>
             <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setCsvTarget(null)}>
-              Cancel
+              取消
             </Button>
             <Button className="btn-cv" disabled={!csvParsed?.rows.length || csvBusy} onClick={() => void generateCsvDesigns()}>
               {csvBusy ? <Loader2 size={14} className="animate-spin" /> : <FileSpreadsheet size={14} />}
@@ -1389,12 +1389,12 @@ export function Dashboard() {
       <Dialog open={!!renameTarget} onOpenChange={(open) => !open && setRenameTarget(null)}>
         <DialogContent className="rounded-[28px] sm:max-w-sm bg-[#16181D] border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>Rename design</DialogTitle>
+            <DialogTitle>重命名设计</DialogTitle>
           </DialogHeader>
           <Input value={renameValue} onChange={(e) => setRenameValue(e.target.value)} autoFocus onKeyDown={(e) => e.key === 'Enter' && doRename()} className="bg-white/[0.06] border-white/10 text-white" />
           <DialogFooter>
-            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setRenameTarget(null)}>Cancel</Button>
-            <Button className="btn-cv" onClick={doRename}>Save</Button>
+            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setRenameTarget(null)}>取消</Button>
+            <Button className="btn-cv" onClick={doRename}>保存</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -1403,14 +1403,14 @@ export function Dashboard() {
       <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <DialogContent className="rounded-[28px] sm:max-w-sm bg-[#16181D] border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>Delete this design?</DialogTitle>
+            <DialogTitle>删除此设计？</DialogTitle>
             <DialogDescription className="text-white/55">
-              It will move to your Trash. You can restore it anytime — or delete it forever from there.
+              它将被移入回收站，你可以随时恢复，或在回收站中永久删除。
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setDeleteTarget(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={() => deleteTarget && doDelete(deleteTarget)}>Move to Trash</Button>
+            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setDeleteTarget(null)}>取消</Button>
+            <Button variant="destructive" onClick={() => deleteTarget && doDelete(deleteTarget)}>移入回收站</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -1419,10 +1419,10 @@ export function Dashboard() {
       <Dialog open={!!folderDialog} onOpenChange={(open) => !open && setFolderDialog(null)}>
         <DialogContent className="rounded-[28px] sm:max-w-sm bg-[#16181D] border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>{folderDialog?.mode === 'rename' ? 'Rename folder' : 'New folder'}</DialogTitle>
+            <DialogTitle>{folderDialog?.mode === 'rename' ? '重命名文件夹' : '新建文件夹'}</DialogTitle>
             {folderDialog?.mode === 'create' && (
               <DialogDescription className="text-white/55">
-                Folders organize your designs — deleting one never deletes the designs inside.
+                文件夹用于整理设计 — 删除文件夹不会删除其中的设计。
               </DialogDescription>
             )}
           </DialogHeader>
@@ -1431,15 +1431,15 @@ export function Dashboard() {
             onChange={(e) => setFolderValue(e.target.value)}
             autoFocus
             maxLength={60}
-            placeholder="Folder name"
+            placeholder="文件夹名称"
             onKeyDown={(e) => e.key === 'Enter' && void doFolderSubmit()}
             className="bg-white/[0.06] border-white/10 text-white"
-            aria-label="Folder name"
+            aria-label="文件夹名称"
           />
           <DialogFooter>
-            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setFolderDialog(null)}>Cancel</Button>
+            <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => setFolderDialog(null)}>取消</Button>
             <Button className="btn-cv" onClick={() => void doFolderSubmit()}>
-              {folderDialog?.mode === 'rename' ? 'Save' : 'Create'}
+              {folderDialog?.mode === 'rename' ? '保存' : '创建'}
             </Button>
           </DialogFooter>
         </DialogContent>

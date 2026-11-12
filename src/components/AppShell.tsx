@@ -14,7 +14,7 @@ const Editor = dynamic(() => import('@/components/editor/Editor'), {
     <div className="h-screen w-full flex items-center justify bg-[#E9EAF0]">
       <div className="flex flex-col items-center gap-4">
         <div className="h-10 w-10 rounded-full border-4 border-[#00C4CC] border-t-transparent animate-spin" />
-        <p className="text-sm text-muted-foreground font-medium">Loading editor…</p>
+        <p className="text-sm text-muted-foreground font-medium">正在加载编辑器…</p>
       </div>
     </div>
   ),
