@@ -42,7 +42,7 @@ function SaveAsTemplateForm({ onOpenChange }: { onOpenChange: (open: boolean) =>
   const save = async () => {
     const state = useEditorStore.getState()
     if (!state.pages.some((p) => p.elements.length)) {
-      toast({ title: 'Nothing to save — the design is empty', variant: 'destructive' })
+      toast({ title: '无内容可保存——设计为空', variant: 'destructive' })
       return
     }
     setSaving(true)
@@ -63,10 +63,10 @@ function SaveAsTemplateForm({ onOpenChange }: { onOpenChange: (open: boolean) =>
         const body = (await res.json().catch(() => ({}))) as { error?: string }
         throw new Error(body.error ?? 'Save failed')
       }
-      toast({ title: `Saved “${name.trim() || 'My template'}” as a template`, description: 'Find it under Templates → Your templates.' })
+      toast({ title: `Saved “${name.trim() || 'My template'}” as a template`, description: '可在「模板 → 我的模板」中找到。' })
       onOpenChange(false)
     } catch (err) {
-      toast({ title: err instanceof Error ? err.message : 'Save failed', variant: 'destructive' })
+      toast({ title: err instanceof Error ? err.message : '保存失败', variant: 'destructive' })
     } finally {
       setSaving(false)
     }
@@ -76,27 +76,27 @@ function SaveAsTemplateForm({ onOpenChange }: { onOpenChange: (open: boolean) =>
       <DialogContent className="rounded-[28px] sm:max-w-sm bg-[#16181D] border-white/10 text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <BookMarked size={16} className="text-[#02C0CC]" /> Save as template
+            <BookMarked size={16} className="text-[#02C0CC]" /> 另存为模板
           </DialogTitle>
           <DialogDescription className="text-white/55">
-            Your design becomes a private starter template — reuse it anytime from the Templates panel.
+            你的设计将成为私人起始模板——可随时从「模板」面板重复使用。
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
           <div>
-            <label className="text-sm font-medium" htmlFor="tpl-name">Template name</label>
+            <label className="text-sm font-medium" htmlFor="tpl-name">模板名称</label>
             <Input
               id="tpl-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={80}
               className="mt-1 bg-white/[0.06] border-white/10 text-white [color-scheme:dark]"
-              placeholder="My template"
+              placeholder="我的模板"
             />
           </div>
           <div>
-            <span className="text-sm font-medium">Category</span>
+            <span className="text-sm font-medium">分类</span>
             <div className="flex gap-1.5 flex-wrap mt-1.5">
               {TEMPLATE_CATEGORIES.map((c) => (
                 <button
@@ -113,13 +113,13 @@ function SaveAsTemplateForm({ onOpenChange }: { onOpenChange: (open: boolean) =>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">Card colour</span>
+            <span className="text-sm font-medium">卡片颜色</span>
             <input
               type="color"
               value={accent}
               onChange={(e) => setAccent(e.target.value)}
               className="h-8 w-12 rounded-lg border border-white/15 cursor-pointer bg-transparent"
-              aria-label="Template card colour"
+              aria-label="模板卡片颜色"
             />
             <span className="text-xs text-white/40">{sizeLabel}</span>
           </div>
@@ -127,10 +127,10 @@ function SaveAsTemplateForm({ onOpenChange }: { onOpenChange: (open: boolean) =>
 
         <DialogFooter>
           <Button variant="outline" className="border-white/15 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={() => onOpenChange(false)}>
-            Cancel
+            取消
           </Button>
           <Button className="btn-cv" onClick={() => void save()} disabled={saving || !name.trim()}>
-            {saving ? <Loader2 size={14} className="animate-spin" /> : <BookMarked size={14} />} Save template
+            {saving ? <Loader2 size={14} className="animate-spin" /> : <BookMarked size={14} />} 保存模板
           </Button>
         </DialogFooter>
     </DialogContent>

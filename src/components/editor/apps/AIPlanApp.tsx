@@ -93,13 +93,13 @@ export function AIPlanApp({ onClose }: AppPanelProps) {
     if (!plan) return
     const pages = planToPages(plan)
     if (!pages.length) {
-      toast({ title: 'Nothing to apply', description: 'Enable at least one page with elements.' })
+      toast({ title: '没有可应用的内容', description: '请至少启用一个包含元素的页面。' })
       return
     }
     useEditorStore.getState().appendPages(pages)
     toast({
       title: `${pages.length} page${pages.length > 1 ? 's' : ''} added`,
-      description: 'Fully editable elements. Ctrl+Z removes them all.',
+      description: '元素完全可编辑，按 Ctrl+Z 可全部撤销。',
     })
     onClose()
   }
@@ -110,23 +110,22 @@ export function AIPlanApp({ onClose }: AppPanelProps) {
 
   return (
     <div>
-      <AppHeader icon={Bot} title="AI design plan" onClose={onClose} />
+      <AppHeader icon={Bot} title="AI 设计方案" onClose={onClose} />
       <p className="text-[11.5px] text-white/50 leading-snug mb-3">
-        Describe the design — the agent drafts a full multi-page plan you REVIEW and EDIT before a single
-        element lands on the canvas.
+        描述设计 — 智能体会起草完整的多页方案，在任何元素落到画布之前，你都可以审核和编辑。
       </p>
 
       <textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        placeholder="e.g. A 3-page menu for an Italian trattoria — rustic, warm, handwritten accents"
+        placeholder="例如：意大利小餐馆的三页菜单——质朴、温暖、手写风格"
         className="w-full h-24 rounded-xl bg-white/[0.05] border border-white/10 text-white text-[12.5px] p-3 resize-none focus:outline-none focus:border-[#02C0CC]"
         maxLength={2000}
-        aria-label="Design brief"
+        aria-label="设计简报"
       />
 
       <div className="flex items-center gap-2 mt-2.5">
-        <span className="text-[11px] text-white/50">Pages</span>
+        <span className="text-[11px] text-white/50">页面</span>
         <div className="flex gap-1">
           {[1, 2, 3, 4, 6].map((n) => (
             <button
@@ -148,7 +147,7 @@ export function AIPlanApp({ onClose }: AppPanelProps) {
           disabled={busy || !prompt.trim()}
         >
           {busy ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
-          {busy ? 'Planning…' : 'Plan my design'}
+          {busy ? '规划中…' : '规划我的设计'}
         </button>
       </div>
 
@@ -184,10 +183,10 @@ export function AIPlanApp({ onClose }: AppPanelProps) {
                 className="text-[11px] text-white/55 hover:text-white px-2.5 h-8 rounded-lg hover:bg-white/10"
                 onClick={() => setPlan(null)}
               >
-                Redraft
+                重新起草
               </button>
               <button className="btn-cv h-8 px-3.5 text-[11.5px] flex items-center gap-1.5" onClick={apply}>
-                <Check size={12} /> Apply {enabledPages > 0 ? `(${enabledPages}p · ${enabledElements}el)` : ''}
+                <Check size={12} /> 应用 {enabledPages > 0 ? `(${enabledPages}p · ${enabledElements}el)` : ''}
               </button>
             </div>
           </div>
@@ -309,7 +308,7 @@ function PageCard({
                   value={el.text ?? ''}
                   onChange={(e) => onEditText(page.id, el.id, e.target.value)}
                   className="flex-1 min-w-0 h-7 rounded-md bg-white/[0.05] border border-white/10 text-[11px] text-white px-2 focus:outline-none focus:border-[#02C0CC]"
-                  aria-label="Element text"
+                  aria-label="元素文字"
                   maxLength={400}
                 />
               ) : (

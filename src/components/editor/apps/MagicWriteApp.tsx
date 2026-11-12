@@ -10,10 +10,10 @@ import { cn } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
 
 const KINDS = [
-  { id: 'headline', label: 'Headline', fontSize: 64, bold: true },
-  { id: 'tagline', label: 'Tagline', fontSize: 44, bold: true },
-  { id: 'body', label: 'Body', fontSize: 28, bold: false },
-  { id: 'social', label: 'Caption', fontSize: 30, bold: false },
+  { id: 'headline', label: '标题', fontSize: 64, bold: true },
+  { id: 'tagline', label: '标语', fontSize: 44, bold: true },
+  { id: 'body', label: '正文', fontSize: 28, bold: false },
+  { id: 'social', label: '配文', fontSize: 30, bold: false },
 ] as const
 
 const TONES = ['bold', 'playful', 'elegant', 'minimal', 'corporate', 'warm'] as const
@@ -51,10 +51,10 @@ export function MagicWriteApp({ onClose }: AppPanelProps) {
         body: JSON.stringify({ prompt, kind, tone }),
       })
       const data = (await res.json()) as { options?: string[]; error?: string }
-      if (!res.ok || !data.options) throw new Error(data.error ?? 'Generation failed')
+      if (!res.ok || !data.options) throw new Error(data.error ?? '生成失败')
       setOptions(data.options)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Generation failed')
+      setError(e instanceof Error ? e.message : '生成失败')
     } finally {
       setBusy(false)
     }
@@ -74,12 +74,12 @@ export function MagicWriteApp({ onClose }: AppPanelProps) {
         align: 'center',
       })
     )
-    toast({ title: 'Added to canvas' })
+    toast({ title: '已添加到画布' })
   }
 
   return (
     <div>
-      <AppHeader icon={Wand2} title="Magic Write" onClose={onClose} />
+      <AppHeader icon={Wand2} title="魔法写作" onClose={onClose} />
 
       <div
         className="rounded-xl border border-white/10 bg-white/[0.04] focus-within:border-[#7630D7] transition-colors p-3 mb-2.5"
@@ -90,9 +90,9 @@ export function MagicWriteApp({ onClose }: AppPanelProps) {
           onKeyDown={(e) => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) generate() }}
           rows={2}
           maxLength={500}
-          placeholder="Describe what you need — e.g. “A poster tagline for a summer music festival”"
+          placeholder="描述你的需求——例如：“夏季音乐节海报标语”"
           className="w-full bg-transparent outline-none text-[12.5px] text-white resize-none placeholder:text-white/35"
-          aria-label="Magic Write prompt"
+          aria-label="魔法写作提示词"
         />
       </div>
 
@@ -130,10 +130,10 @@ export function MagicWriteApp({ onClose }: AppPanelProps) {
         onClick={generate}
         disabled={busy || !prompt.trim()}
         className="w-full h-10 rounded-xl bg-gradient-to-r from-[#7630D7] to-[#9B6BFF] text-white text-[13px] font-bold flex items-center justify-center gap-2 disabled:opacity-40 hover:brightness-110 transition-all"
-        aria-label="Generate copy"
+        aria-label="生成文案"
       >
         {busy ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-        {busy ? 'Writing…' : 'Generate 3 options'}
+        {busy ? '写作中…' : '生成 3 个选项'}
       </button>
 
       {error && <p className="text-[11px] text-[#FF8095] mt-2.5">{error}</p>}
@@ -141,13 +141,13 @@ export function MagicWriteApp({ onClose }: AppPanelProps) {
       {options.length > 0 && (
         <div className="mt-3 space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-[10.5px] font-bold text-white/60 uppercase tracking-wide">Results</span>
+            <span className="text-[10.5px] font-bold text-white/60 uppercase tracking-wide">结果</span>
             <button
               onClick={generate}
               className="text-[10px] text-white/50 hover:text-white flex items-center gap-1"
-              aria-label="Regenerate"
+              aria-label="重新生成"
             >
-              <RefreshCw size={10} /> Regenerate
+              <RefreshCw size={10} /> 重新生成
             </button>
           </div>
           {options.map((opt, i) => (
@@ -160,7 +160,7 @@ export function MagicWriteApp({ onClose }: AppPanelProps) {
             >
               <p className="text-[12px] text-white/90 leading-snug">{opt}</p>
               <span className="hidden group-hover:flex items-center gap-1 mt-1.5 text-[10px] font-bold text-[#02C0CC]">
-                <Plus size={10} /> Add to canvas
+                <Plus size={10} /> 添加到画布
               </span>
             </button>
           ))}
@@ -169,7 +169,7 @@ export function MagicWriteApp({ onClose }: AppPanelProps) {
 
       {options.length === 0 && !busy && !error && (
         <div className="mt-3.5">
-          <p className="text-[10.5px] font-bold text-white/60 uppercase tracking-wide mb-1.5">Try asking for…</p>
+          <p className="text-[10.5px] font-bold text-white/60 uppercase tracking-wide mb-1.5">试着问问…</p>
           <div className="space-y-1">
             {IDEAS.map((idea) => (
               <button

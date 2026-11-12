@@ -85,21 +85,21 @@ function PresenterOverlayInner() {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#0B0C10] flex flex-col" role="dialog" aria-label="Presenter view">
+    <div className="fixed inset-0 z-[100] bg-[#0B0C10] flex flex-col" role="dialog" aria-label="演讲者视图">
       {/* top bar */}
       <div className="h-12 flex items-center justify-between px-3 shrink-0 border-b border-white/10">
         <div className="flex items-center gap-2 text-sm font-semibold text-white/90 px-2">
           <NotebookPen size={15} className="text-[#02C0CC]" />
-          Presenter
+          演示者
           <span className="text-white/50 font-normal">
-            — page {safeIndex + 1} of {pages.length}
+            — 第 {safeIndex + 1} 页，共 {pages.length} 页
           </span>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={() => setRunning((r) => !r)}
             className="flex items-center gap-1.5 h-8 px-2.5 rounded-lg text-xs text-white/70 hover:bg-white/10 hover:text-white transition-colors"
-            title={running ? 'Pause timer' : 'Resume timer'}
+            title={running ? '暂停计时' : '继续计时'}
           >
             <Timer size={14} />
             <span className="tabular-nums">{running ? formatElapsed(elapsed) : formatElapsed(elapsed) + ' ⏸'}</span>
@@ -109,8 +109,8 @@ function PresenterOverlayInner() {
             size="icon"
             className={cn('rounded-full text-white hover:bg-white/15 hover:text-white', notesOpen && 'bg-white/15 text-[#02C0CC]')}
             onClick={() => setNotesOpen((v) => !v)}
-            aria-label="Toggle notes"
-            title="Notes (N)"
+            aria-label="切换备注"
+            title="备注 (N)"
           >
             <NotebookPen size={17} />
           </Button>
@@ -122,8 +122,8 @@ function PresenterOverlayInner() {
               if (document.fullscreenElement) void document.exitFullscreen()
               else void document.documentElement.requestFullscreen()
             }}
-            aria-label="Fullscreen"
-            title="Fullscreen"
+            aria-label="全屏"
+            title="全屏"
           >
             <Maximize2 size={17} />
           </Button>
@@ -132,7 +132,7 @@ function PresenterOverlayInner() {
             size="icon"
             className="rounded-full text-white hover:bg-white/15 hover:text-white"
             onClick={() => setOpen(false)}
-            aria-label="Close presenter view"
+            aria-label="关闭演示者视图"
           >
             <X size={19} />
           </Button>
@@ -151,7 +151,7 @@ function PresenterOverlayInner() {
                 onClick={prev}
                 disabled={safeIndex === 0}
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#16171D]/90 text-white flex items-center justify-center hover:bg-[#7630D7] transition-colors disabled:opacity-30"
-                aria-label="Previous page"
+                aria-label="上一页"
               >
                 <ChevronLeft size={22} />
               </button>
@@ -159,7 +159,7 @@ function PresenterOverlayInner() {
                 onClick={next}
                 disabled={safeIndex === pages.length - 1}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#16171D]/90 text-white flex items-center justify-center hover:bg-[#7630D7] transition-colors disabled:opacity-30"
-                aria-label="Next page"
+                aria-label="下一页"
               >
                 <ChevronRight size={22} />
               </button>
@@ -171,25 +171,25 @@ function PresenterOverlayInner() {
         {notesOpen && (
           <aside className="w-[340px] shrink-0 border-l border-white/10 flex flex-col bg-[#0F1015]">
             <div className="px-4 pt-4 pb-2 text-xs font-semibold uppercase tracking-wide text-white/50">
-              Speaker notes
+              演讲者备注
             </div>
             <textarea
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               readOnly={readOnly}
-              placeholder={readOnly ? 'View-only design — notes are read-only.' : 'Type notes for this page…'}
+              placeholder={readOnly ? '仅查看的设计——备注为只读。' : '为本页输入备注…'}
               data-testid="presenter-notes"
               className="flex-1 min-h-0 resize-none bg-transparent px-4 pb-4 text-sm leading-relaxed text-white/85 placeholder:text-white/30 focus:outline-none"
             />
             {nextPage && (
               <div className="p-3 border-t border-white/10">
                 <div className="text-[11px] font-semibold uppercase tracking-wide text-white/45 mb-2">
-                  Next up
+                  接下来
                 </div>
                 <button
                   onClick={() => goTo(safeIndex + 1)}
                   className="block w-full rounded-lg overflow-hidden ring-1 ring-white/15 hover:ring-[#02C0CC] transition-all"
-                  aria-label="Jump to next page"
+                  aria-label="跳到下一页"
                 >
                   <div
                     className="relative bg-white"

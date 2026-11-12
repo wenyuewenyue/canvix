@@ -90,26 +90,26 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
         'flex items-center gap-0.5 min-w-0 overflow-x-auto cv-scroll-dark',
         isTopbar ? 'h-14 items-center px-1' : 'h-14 items-center px-2 bg-[#16181D] border-t border-white/[0.09]'
       )}
-      aria-label="Selected element common controls"
+      aria-label="所选元素的常用控件"
       style={{ scrollbarWidth: 'none' }}
     >
       {/* ── multi-select ─────────────────────────────────────── */}
       {isMulti ? (
         <>
-          <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0">{sel.length} selected</span>
-          <TBtn onClick={() => state.groupSelection()} disabled={!canGroup} title="Group (Ctrl+G)" ariaLabel="Group">
+          <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0">{sel.length} 已选中</span>
+          <TBtn onClick={() => state.groupSelection()} disabled={!canGroup} title="编组 (Ctrl+G)" ariaLabel="成组">
             <Group size={15} />
           </TBtn>
-          <TBtn onClick={() => state.ungroupSelection()} disabled={!canUngroup} title="Ungroup (Ctrl+Shift+G)" ariaLabel="Ungroup">
+          <TBtn onClick={() => state.ungroupSelection()} disabled={!canUngroup} title="取消编组 (Ctrl+Shift+G)" ariaLabel="取消成组">
             <Ungroup size={15} />
           </TBtn>
           <Divider />
           <PositionPopover ids={ids} count={sel.length} />
           <Divider />
-          <TBtn onClick={() => state.duplicateSelection()} title="Duplicate (Ctrl+D)" ariaLabel="Duplicate">
+          <TBtn onClick={() => state.duplicateSelection()} title="复制（Ctrl+D）" ariaLabel="复制">
             <CopyPlus size={15} />
           </TBtn>
-          <TBtn onClick={() => state.deleteSelection()} title="Delete (Del)" ariaLabel="Delete" danger>
+          <TBtn onClick={() => state.deleteSelection()} title="删除 (Del)" ariaLabel="删除" danger>
             <Trash2 size={15} />
           </TBtn>
         </>
@@ -118,7 +118,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           <FontDropdown value={text.fontFamily} onChange={(f) => update(ids, { fontFamily: f })} />
           {/* size stepper */}
           <div className="flex items-center shrink-0">
-            <TBtn onClick={() => update(ids, { fontSize: Math.max(6, text.fontSize - 2) })} title="Decrease font size" ariaLabel="Decrease font size" className="!rounded-r-none">
+            <TBtn onClick={() => update(ids, { fontSize: Math.max(6, text.fontSize - 2) })} title="减小字号" ariaLabel="减小字号" className="!rounded-r-none">
               <Minus size={14} />
             </TBtn>
             <input
@@ -129,9 +129,9 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
               onChange={(e) => { const v = Number(e.target.value); if (v >= 6 && v <= 400) updateLive(ids, { fontSize: v }) }}
               onBlur={() => update(ids, { fontSize: text.fontSize })}
               className="h-8 w-10 bg-white/[0.06] border-y border-white/10 text-white text-[12px] text-center outline-none focus:border-[#7630D7] [color-scheme:dark]"
-              aria-label="Font size"
+              aria-label="字号"
             />
-            <TBtn onClick={() => update(ids, { fontSize: Math.min(400, text.fontSize + 2) })} title="Increase font size" ariaLabel="Increase font size" className="!rounded-l-none">
+            <TBtn onClick={() => update(ids, { fontSize: Math.min(400, text.fontSize + 2) })} title="增大字号" ariaLabel="增大字号" className="!rounded-l-none">
               <Plus size={14} />
             </TBtn>
           </div>
@@ -141,7 +141,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
             gradient={text.fillGradient ?? null}
             onChange={(c, committed) => committed ? update(ids, { fill: c, fillGradient: null }) : updateLive(ids, { fill: c, fillGradient: null })}
             onGradient={(g, committed) => { const patch = g ? { fillGradient: g, fill: g.from } : { fillGradient: null }; if (committed) update(ids, patch); else updateLive(ids, patch) }}
-            title="Text colour"
+            title="文字颜色"
           />
 
           {/* v0.15 (R1): while the element carries rich spans, per-range
@@ -152,36 +152,36 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
               className="cv-tbtn"
               style={{ width: 'auto', padding: '0 10px', fontSize: 11, gap: 6 }}
               onClick={() => update(ids, { spans: null })}
-              title="Rich text active — clear per-range styling back to the base style"
-              aria-label="Clear rich text styling"
+              title="富文本已启用 — 将分段样式清除回基础样式"
+              aria-label="清除富文本样式"
               data-testid="clear-rich-text"
             >
-              Rich text · Clear
+              富文本 · 清除
             </button>
           ) : (
             <>
-              <TBtn onClick={() => update(ids, { bold: !text.bold })} dataActive={text.bold} title="Bold" ariaLabel="Bold">
+              <TBtn onClick={() => update(ids, { bold: !text.bold })} dataActive={text.bold} title="加粗" ariaLabel="加粗">
                 <Bold size={14} />
               </TBtn>
-              <TBtn onClick={() => update(ids, { italic: !text.italic })} dataActive={text.italic} title="Italic" ariaLabel="Italic">
+              <TBtn onClick={() => update(ids, { italic: !text.italic })} dataActive={text.italic} title="斜体" ariaLabel="斜体">
                 <Italic size={14} />
               </TBtn>
-              <TBtn onClick={() => update(ids, { underline: !text.underline })} dataActive={text.underline} title="Underline" ariaLabel="Underline">
+              <TBtn onClick={() => update(ids, { underline: !text.underline })} dataActive={text.underline} title="下划线" ariaLabel="下划线">
                 <Underline size={14} />
               </TBtn>
-              <TBtn onClick={() => update(ids, { strike: !text.strike })} dataActive={text.strike} title="Strikethrough" ariaLabel="Strikethrough">
+              <TBtn onClick={() => update(ids, { strike: !text.strike })} dataActive={text.strike} title="删除线" ariaLabel="删除线">
                 <Strikethrough size={14} />
               </TBtn>
             </>
           )}
-          <TBtn onClick={() => update(ids, { uppercase: !text.uppercase })} dataActive={text.uppercase} title="Uppercase" ariaLabel="Uppercase">
+          <TBtn onClick={() => update(ids, { uppercase: !text.uppercase })} dataActive={text.uppercase} title="大写" ariaLabel="全部大写">
             <CaseUpper size={14} />
           </TBtn>
 
           {/* alignment */}
           <ToolbarPopover
             trigger={(open) => (
-              <button className="cv-tbtn" data-active={open} aria-label="Toggle text alignment" title="Text alignment">
+              <button className="cv-tbtn" data-active={open} aria-label="切换文字对齐" title="文字对齐">
                 {(() => { const I = ALIGN_ICONS[text.align] ?? AlignLeft; return <I size={14} /> })()}
               </button>
             )}
@@ -205,7 +205,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           {/* spacing */}
           <ToolbarPopover
             trigger={(open) => (
-              <button className="cv-tbtn" data-active={open} aria-label="Advanced settings" title="Letter & line spacing">
+              <button className="cv-tbtn" data-active={open} aria-label="高级设置" title="字距与行距">
                 <LetterText size={14} />
               </button>
             )}
@@ -218,40 +218,40 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           <ToolbarPopover
             width={228}
             trigger={(open) => (
-              <button className="cv-tbtn" data-active={open || !!text.listStyle || !!text.autoFit} aria-label="List and fit options" title="List & auto-fit">
+              <button className="cv-tbtn" data-active={open || !!text.listStyle || !!text.autoFit} aria-label="列表与适配选项" title="列表与自适应">
                 <List size={14} />
               </button>
             )}
           >
-            <div className="text-[12px] font-bold text-white/90 mb-1.5">List style</div>
+            <div className="text-[12px] font-bold text-white/90 mb-1.5">列表样式</div>
             <div className="flex gap-1 mb-2.5">
-              <TBtn onClick={() => update(ids, { listStyle: 'none' })} dataActive={!text.listStyle || text.listStyle === 'none'} title="No list" ariaLabel="No list">
+              <TBtn onClick={() => update(ids, { listStyle: 'none' })} dataActive={!text.listStyle || text.listStyle === 'none'} title="无列表" ariaLabel="无列表">
                 <List size={13} className="opacity-40 line-through" />
               </TBtn>
-              <TBtn onClick={() => update(ids, { listStyle: 'bullet' })} dataActive={text.listStyle === 'bullet'} title="Bulleted list" ariaLabel="Bulleted list" data-testid="list-bullet">
+              <TBtn onClick={() => update(ids, { listStyle: 'bullet' })} dataActive={text.listStyle === 'bullet'} title="项目符号列表" ariaLabel="项目符号列表" data-testid="list-bullet">
                 <List size={13} />
               </TBtn>
-              <TBtn onClick={() => update(ids, { listStyle: 'number' })} dataActive={text.listStyle === 'number'} title="Numbered list" ariaLabel="Numbered list" data-testid="list-number">
+              <TBtn onClick={() => update(ids, { listStyle: 'number' })} dataActive={text.listStyle === 'number'} title="编号列表" ariaLabel="编号列表" data-testid="list-number">
                 <ListOrdered size={13} />
               </TBtn>
             </div>
-            <div className="text-[12px] font-bold text-white/90 mb-1.5">Direction</div>
+            <div className="text-[12px] font-bold text-white/90 mb-1.5">方向</div>
             <div className="flex gap-1 mb-2.5">
-              <TBtn onClick={() => update(ids, { direction: 'ltr' })} dataActive={text.direction !== 'rtl'} title="Left to right" ariaLabel="Left to right">
+              <TBtn onClick={() => update(ids, { direction: 'ltr' })} dataActive={text.direction !== 'rtl'} title="从左到右" ariaLabel="从左到右">
                 <span className="text-[11px] font-semibold px-1">LTR</span>
               </TBtn>
-              <TBtn onClick={() => update(ids, { direction: 'rtl' })} dataActive={text.direction === 'rtl'} title="Right to left (Arabic, Hebrew…)" ariaLabel="Right to left" data-testid="dir-rtl">
+              <TBtn onClick={() => update(ids, { direction: 'rtl' })} dataActive={text.direction === 'rtl'} title="从右到左（阿拉伯语、希伯来语…）" ariaLabel="从右到左" data-testid="dir-rtl">
                 <Languages size={13} />
               </TBtn>
             </div>
             <label className="flex items-center justify-between text-[12px] text-white/80 mb-1 cursor-pointer" data-testid="autofit-toggle">
               <span className="flex items-center gap-1.5">
-                <Shrink size={13} /> Auto-fit
+                <Shrink size={13} /> 自适应
               </span>
               <input type="checkbox" checked={!!text.autoFit} onChange={(e) => update(ids, { autoFit: e.target.checked })} className="accent-[#7630D7]" />
             </label>
             <div className="text-[11px] text-white/40 leading-snug">
-              Shrinks the font so the text fits its box — never grows past the set size.
+              缩小字体以使文字适应文本框 — 永远不会超过设定大小。
             </div>
           </ToolbarPopover>
 
@@ -259,19 +259,19 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           <ToolbarPopover
             width={228}
             trigger={(open) => (
-              <button className="cv-tbtn" data-active={open || !!text.curve} aria-label="Curve text" title="Curve text">
+              <button className="cv-tbtn" data-active={open || !!text.curve} aria-label="弯曲文字" title="弯曲文字">
                 <Spline size={14} />
               </button>
             )}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <div className="text-[12px] font-bold text-white/90">Curved text</div>
-              <button className="text-[11px] text-white/60 hover:text-white" onClick={() => update(ids, { curve: 0 })}>Reset</button>
+              <div className="text-[12px] font-bold text-white/90">弯曲文字</div>
+              <button className="text-[11px] text-white/60 hover:text-white" onClick={() => update(ids, { curve: 0 })}>重置</button>
             </div>
             <SliderRow label="Curve" value={text.curve ?? 0} min={-180} max={180} step={5} onChange={(v) => updateLive(ids, { curve: v })} onCommit={() => update(ids, { curve: text.curve ?? 0 })} format={(v) => `${v}°`} />
             <div className="flex justify-center pt-1.5">
               <span className="text-[15px] text-white/85" style={{ fontFamily: text.fontFamily, color: text.fill }} aria-hidden="true">
-                {(text.curve ?? 0) >= 0 ? '◠' : '◡'} Curved preview
+                {(text.curve ?? 0) >= 0 ? '◠' : '◡'} 弯曲预览
               </span>
             </div>
           </ToolbarPopover>
@@ -279,7 +279,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           {/* transparency */}
           <ToolbarPopover
             trigger={(open) => (
-              <button className="cv-tbtn" data-active={open} aria-label="Transparency" title="Transparency">
+              <button className="cv-tbtn" data-active={open} aria-label="透明度" title="透明度">
                 <Percent size={14} />
               </button>
             )}
@@ -292,11 +292,11 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
 
           {/* effects */}
           <ToolbarPopover width={264} trigger={(open) => (
-            <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Effects" title="Effects">
-              <Sparkles size={14} /> <span className="text-[12px] hidden lg:inline">Effects</span>
+            <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="效果" title="效果">
+              <Sparkles size={14} /> <span className="text-[12px] hidden lg:inline">效果</span>
             </button>
           )}>
-            <div className="text-[12px] font-bold text-white/90 mb-2">Text effects</div>
+            <div className="text-[12px] font-bold text-white/90 mb-2">文字特效</div>
             <div className="grid grid-cols-3 gap-1.5">
               {TEXT_EFFECTS.map((fx) => (
                 <button
@@ -315,7 +315,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
             </div>
             {text.effect === 'background' && (
               <div className="mt-2.5 border-t border-white/[0.08] pt-2.5">
-                <div className="text-[11px] text-white/60 mb-1.5 font-medium">Background block</div>
+                <div className="text-[11px] text-white/60 mb-1.5 font-medium">背景块</div>
                 <div className="flex flex-wrap gap-1.5">
                   {['#EFEFEF', '#7630D7', '#00C4CC', '#FF5C8A', '#1F2226', '#FFE066'].map((c) => (
                     <button key={c} className="cv-swatch h-6 w-6" style={{ background: c }} onClick={() => update(ids, { effectBackground: c })} data-selected={text.effectBackground === c} aria-label={`Background ${c}`} />
@@ -337,18 +337,18 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
                 gradient={shape.fillGradient ?? null}
                 onChange={(c, committed) => committed ? update(ids, { fill: c, fillGradient: null }) : updateLive(ids, { fill: c, fillGradient: null })}
                 onGradient={(g, committed) => { const patch = g ? { fillGradient: g, fill: g.from } : { fillGradient: null }; if (committed) update(ids, patch); else updateLive(ids, patch) }}
-                title="Fill"
+                title="填充"
               />
               {/* border colour + width */}
               <ToolbarPopover trigger={(open) => (
-                <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Border" title="Border">
-                  <SquareDashed size={14} /> <span className="text-[12px] hidden lg:inline">Border</span>
+                <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="边框" title="边框">
+                  <SquareDashed size={14} /> <span className="text-[12px] hidden lg:inline">边框</span>
                 </button>
               )}>
-                <div className="text-[12px] font-bold text-white/90 mb-2">Border</div>
+                <div className="text-[12px] font-bold text-white/90 mb-2">边框</div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[11px] text-white/60">Colour</span>
-                  <ColorMenu value={shape.stroke === 'transparent' ? '#FFFFFF' : shape.stroke} onChange={(c, committed) => committed ? update(ids, { stroke: c, strokeWidth: shape.strokeWidth || 4 }) : updateLive(ids, { stroke: c, strokeWidth: shape.strokeWidth || 4 })} title="Border colour" />
+                  <span className="text-[11px] text-white/60">颜色</span>
+                  <ColorMenu value={shape.stroke === 'transparent' ? '#FFFFFF' : shape.stroke} onChange={(c, committed) => committed ? update(ids, { stroke: c, strokeWidth: shape.strokeWidth || 4 }) : updateLive(ids, { stroke: c, strokeWidth: shape.strokeWidth || 4 })} title="边框颜色" />
                 </div>
                 <SliderRow label="Width" value={shape.strokeWidth} min={0} max={40} step={1} onChange={(v) => updateLive(ids, { strokeWidth: v })} onCommit={() => update(ids, { strokeWidth: shape.strokeWidth })} />
                 {shape.type === 'rect' && <SliderRow label="Corner radius" value={shape.cornerRadius} min={0} max={Math.round(shape.width / 2)} step={1} onChange={(v) => updateLive(ids, { cornerRadius: v })} onCommit={() => update(ids, { cornerRadius: shape.cornerRadius })} />}
@@ -358,17 +358,17 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
                 <ToolbarPopover
                   width={228}
                   trigger={(open) => (
-                    <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Shape properties" title="Shape properties">
+                    <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="形状属性" title="形状属性">
                       {shape.type === 'polygon' ? <Hexagon size={14} /> : <Shapes size={14} />}
-                      <span className="text-[12px] hidden lg:inline">Shape</span>
+                      <span className="text-[12px] hidden lg:inline">形状</span>
                     </button>
                   )}
                 >
                   <div className="text-[12px] font-bold text-white/90 mb-1.5">
-                    {shape.type === 'polygon' ? 'Polygon' : 'Star'}
+                    {shape.type === 'polygon' ? '多边形' : '星形'}
                   </div>
                   <SliderRow
-                    label={shape.type === 'polygon' ? 'Sides' : 'Points'}
+                    label={shape.type === 'polygon' ? '边数' : '点数'}
                     value={shape.type === 'polygon' ? (shape.sides ?? 6) : (shape.numPoints ?? 5)}
                     min={3}
                     max={shape.type === 'polygon' ? 12 : 16}
@@ -395,20 +395,20 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           )}
           {line && (
             <>
-              <ColorMenu value={line.stroke} onChange={(c, committed) => committed ? update(ids, { stroke: c }) : updateLive(ids, { stroke: c })} title="Line colour" />
+              <ColorMenu value={line.stroke} onChange={(c, committed) => committed ? update(ids, { stroke: c }) : updateLive(ids, { stroke: c })} title="线条颜色" />
               <ToolbarPopover trigger={(open) => (
-                <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Line style" title="Line style">
-                  <Minus size={14} /> <span className="text-[12px] hidden lg:inline">Style</span>
+                <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="线条样式" title="线条样式">
+                  <Minus size={14} /> <span className="text-[12px] hidden lg:inline">样式</span>
                 </button>
               )}>
                 <SliderRow label="Thickness" value={line.strokeWidth} min={1} max={40} step={1} onChange={(v) => updateLive(ids, { strokeWidth: v })} onCommit={() => update(ids, { strokeWidth: line.strokeWidth })} />
                 <label className="flex items-center justify-between text-[12px] text-white/80 mb-2.5 cursor-pointer">
-                  Dashed
+                  虚线
                   <input type="checkbox" checked={line.dashed} onChange={(e) => update(ids, { dashed: e.target.checked })} className="accent-[#7630D7]" />
                 </label>
                 <div className="flex gap-1.5">
-                  <TBtn onClick={() => update(ids, { arrowEnd: !line.arrowEnd })} dataActive={line.arrowEnd} title="Arrow end" ariaLabel="Arrow end">→</TBtn>
-                  <TBtn onClick={() => update(ids, { arrowStart: !line.arrowStart })} dataActive={line.arrowStart} title="Arrow start" ariaLabel="Arrow start">←</TBtn>
+                  <TBtn onClick={() => update(ids, { arrowEnd: !line.arrowEnd })} dataActive={line.arrowEnd} title="箭头末端" ariaLabel="箭头末端">→</TBtn>
+                  <TBtn onClick={() => update(ids, { arrowStart: !line.arrowStart })} dataActive={line.arrowStart} title="箭头起点" ariaLabel="箭头起点">←</TBtn>
                 </div>
               </ToolbarPopover>
             </>
@@ -418,11 +418,11 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           )}
           {group && (
             <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0 flex items-center gap-1.5">
-              <Layers size={13} /> Group
+              <Layers size={13} /> 成组
             </span>
           )}
           <ToolbarPopover trigger={(open) => (
-            <button className="cv-tbtn" data-active={open} aria-label="Transparency" title="Transparency">
+            <button className="cv-tbtn" data-active={open} aria-label="透明度" title="透明度">
               <Percent size={14} />
             </button>
           )}>
@@ -436,7 +436,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
         </>
       ) : image ? (
         <>
-          <TBtn onClick={() => state.openCrop(image.id)} title="Crop image" ariaLabel="Crop image">
+          <TBtn onClick={() => state.openCrop(image.id)} title="裁剪图片" ariaLabel="裁剪图片">
             <Crop size={14} />
           </TBtn>
           {/* v0.18 (Wave 3): shape masks */}
@@ -453,7 +453,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
           <Divider />
           <ImageFilterPopover el={image} ids={ids} />
           <ToolbarPopover trigger={(open) => (
-            <button className="cv-tbtn" data-active={open} aria-label="Transparency" title="Transparency">
+            <button className="cv-tbtn" data-active={open} aria-label="透明度" title="透明度">
               <Percent size={14} />
             </button>
           )}>
@@ -482,7 +482,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
       ) : table ? (
         <>
           <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0 flex items-center gap-1.5">
-            <Table2 size={13} /> Table
+            <Table2 size={13} /> 表格
           </span>
           <TableToolbar table={table} ids={ids} />
           <Divider />
@@ -491,7 +491,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
       ) : frame ? (
         <>
           <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0 flex items-center gap-1.5">
-            <SquareDashed size={13} /> Frame
+            <SquareDashed size={13} /> 画框
           </span>
           <FrameToolbar frame={frame} ids={ids} />
           <Divider />
@@ -500,11 +500,11 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
       ) : embed ? (
         <>
           <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0 flex items-center gap-1.5 capitalize">
-            <ExternalLink size={13} /> {embed.kind} card
+            <ExternalLink size={13} /> {embed.kind} 卡片
           </span>
           <EmbedToolbar embed={embed} ids={ids} />
           <ToolbarPopover trigger={(open) => (
-            <button className="cv-tbtn" data-active={open} aria-label="Transparency" title="Transparency">
+            <button className="cv-tbtn" data-active={open} aria-label="透明度" title="透明度">
               <Percent size={14} />
             </button>
           )}>
@@ -537,7 +537,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
       ) : audio ? (
         <>
           <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0 flex items-center gap-1.5">
-            <Music size={13} /> Audio
+            <Music size={13} /> 音频
           </span>
           <MediaToolbar
             ids={ids}
@@ -550,7 +550,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
             trim={undefined}
           />
           {audio.bpm ? (
-            <span className="text-[11px] font-semibold text-[#02C0CC] bg-[#02C0CC]/10 border border-[#02C0CC]/25 rounded-full px-2 py-0.5 shrink-0 tabular-nums" title="Detected tempo (Beat Sync grid)">
+            <span className="text-[11px] font-semibold text-[#02C0CC] bg-[#02C0CC]/10 border border-[#02C0CC]/25 rounded-full px-2 py-0.5 shrink-0 tabular-nums" title="检测到的节拍（节拍同步网格）">
               {Math.round(audio.bpm)} BPM
             </span>
           ) : null}
@@ -574,7 +574,7 @@ export function ContextToolbar({ variant = 'topbar' }: { variant?: 'topbar' | 'm
       ) : video ? (
         <>
           <span className="text-[12px] font-semibold text-white/85 px-2 shrink-0 flex items-center gap-1.5">
-            <Film size={13} /> Video
+            <Film size={13} /> 视频
           </span>
           <MediaToolbar
             ids={ids}
@@ -644,8 +644,8 @@ function MediaToolbar({
     <ToolbarPopover
       width={264}
       trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Media settings" title="Media settings">
-          <SlidersHorizontal size={14} /> <span className="text-[12px] hidden lg:inline">Media</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="媒体设置" title="媒体设置">
+          <SlidersHorizontal size={14} /> <span className="text-[12px] hidden lg:inline">媒体</span>
         </button>
       )}
     >
@@ -654,14 +654,14 @@ function MediaToolbar({
         onCommit={() => update(ids, { volume })}
         format={(v) => `${v}%`} />
       <div className="flex gap-1.5 mt-1">
-        <TBtn onClick={() => update(ids, { loop: !loop })} dataActive={loop} title="Loop" ariaLabel="Loop">
+        <TBtn onClick={() => update(ids, { loop: !loop })} dataActive={loop} title="循环" ariaLabel="循环">
           <Repeat size={14} />
         </TBtn>
-        <TBtn onClick={() => update(ids, { autoplay: !autoplay })} dataActive={autoplay} title="Play when the page appears (Preview / Present / video export)" ariaLabel="Play on page open">
+        <TBtn onClick={() => update(ids, { autoplay: !autoplay })} dataActive={autoplay} title="Play when the page appears (Preview / Present / video export)" ariaLabel="打开页面时播放">
           <Play size={14} />
         </TBtn>
         {onMuted ? (
-          <TBtn onClick={() => onMuted(!muted)} dataActive={muted} title="Mute" ariaLabel="Mute">
+          <TBtn onClick={() => onMuted(!muted)} dataActive={muted} title="静音" ariaLabel="静音">
             {muted ? <VolumeX size={14} /> : <Volume2 size={14} />}
           </TBtn>
         ) : null}
@@ -679,7 +679,7 @@ function MediaToolbar({
         </div>
       ) : null}
       <p className="text-[10px] text-white/40 leading-relaxed mt-2">
-        Media plays in Preview / Present mode and in exported video (audio muxing is best-effort per browser).
+        媒体可在预览/演示模式和导出的视频中播放（音频混流效果因浏览器而异）。
       </p>
     </ToolbarPopover>
   )
@@ -693,13 +693,13 @@ function BeatSyncPopover({ el, ids, bpm }: { el: AnyElement; ids: string[]; bpm:
     <ToolbarPopover
       width={252}
       trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open || strength > 0} aria-label="Beat Sync" title="Beat Sync — pulse this element on the music's beats">
-          <Activity size={14} /> <span className="text-[12px] hidden lg:inline">Beat{strength > 0 ? ` ${strength}%` : ''}</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open || strength > 0} aria-label="节拍同步" title="节拍同步——让该元素随音乐节拍跳动">
+          <Activity size={14} /> <span className="text-[12px] hidden lg:inline">节拍{strength > 0 ? ` ${strength}%` : ''}</span>
         </button>
       )}
     >
       <div className="text-[10px] font-semibold text-white/45 uppercase tracking-wide mb-1.5">
-        Beat Sync · {Math.round(bpm)} BPM
+        节拍同步 · {Math.round(bpm)} BPM
       </div>
       <SliderRow label="Pulse" value={strength} min={0} max={100} step={1}
         onChange={(v) => updateLive(ids, { beatPulse: v / 100 })}
@@ -750,23 +750,23 @@ function TableToolbar({ table, ids }: { table: TableElement; ids: string[] }) {
 
   return (
     <>
-      <TBtn onClick={addRow} title="Add row" ariaLabel="Add row"><Rows3 size={15} /><Plus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
-      <TBtn onClick={removeRow} title="Remove row" ariaLabel="Remove row"><Rows3 size={15} /><Minus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
-      <TBtn onClick={addCol} title="Add column" ariaLabel="Add column"><Columns3 size={15} /><Plus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
-      <TBtn onClick={removeCol} title="Remove column" ariaLabel="Remove column"><Columns3 size={15} /><Minus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
+      <TBtn onClick={addRow} title="添加行" ariaLabel="添加行"><Rows3 size={15} /><Plus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
+      <TBtn onClick={removeRow} title="删除行" ariaLabel="删除行"><Rows3 size={15} /><Minus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
+      <TBtn onClick={addCol} title="添加列" ariaLabel="添加列"><Columns3 size={15} /><Plus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
+      <TBtn onClick={removeCol} title="删除列" ariaLabel="删除列"><Columns3 size={15} /><Minus size={9} className="-ml-1.5 -mb-1.5" /></TBtn>
       <ToolbarPopover trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Table style" title="Table style">
-          <Palette size={14} /> <span className="text-[12px] hidden lg:inline">Style</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="表格样式" title="表格样式">
+          <Palette size={14} /> <span className="text-[12px] hidden lg:inline">样式</span>
         </button>
       )}>
-        <div className="text-[12px] font-bold text-white/90 mb-2">Table style</div>
+        <div className="text-[12px] font-bold text-white/90 mb-2">表格样式</div>
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[11px] text-white/60">Border</span>
-          <ColorMenu value={table.borderColor} onChange={(c, committed) => committed ? update(ids, { borderColor: c }) : updateLive(ids, { borderColor: c })} title="Border colour" />
+          <span className="text-[11px] text-white/60">边框</span>
+          <ColorMenu value={table.borderColor} onChange={(c, committed) => committed ? update(ids, { borderColor: c }) : updateLive(ids, { borderColor: c })} title="边框颜色" />
         </div>
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[11px] text-white/60">Header</span>
-          <ColorMenu value={table.headerFill} onChange={(c, committed) => committed ? update(ids, { headerFill: c }) : updateLive(ids, { headerFill: c })} title="Header fill" />
+          <span className="text-[11px] text-white/60">表头</span>
+          <ColorMenu value={table.headerFill} onChange={(c, committed) => committed ? update(ids, { headerFill: c }) : updateLive(ids, { headerFill: c })} title="表头填充" />
         </div>
         <SliderRow label="Border width" value={table.borderWidth} min={0} max={6} step={0.5} onChange={(v) => updateLive(ids, { borderWidth: v })} onCommit={() => update(ids, { borderWidth: table.borderWidth })} />
         <SliderRow label="Text size" value={table.fontSize} min={8} max={40} step={1} onChange={(v) => updateLive(ids, { fontSize: v })} onCommit={() => update(ids, { fontSize: table.fontSize })} />
@@ -794,16 +794,16 @@ function FrameToolbar({ frame, ids }: { frame: FrameElement; ids: string[] }) {
 
   return (
     <>
-      <label className="cv-tbtn gap-1 !px-2.5 cursor-pointer" title="Fill frame with an image" aria-label="Fill frame with an image">
-        <Upload size={14} /> <span className="text-[12px] hidden lg:inline">Fill</span>
+      <label className="cv-tbtn gap-1 !px-2.5 cursor-pointer" title="用图片填充画框" aria-label="用图片填充画框">
+        <Upload size={14} /> <span className="text-[12px] hidden lg:inline">填充</span>
         <input type="file" accept="image/*" className="hidden" onChange={onFill} />
       </label>
       <ToolbarPopover trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Frame shape" title="Frame shape">
-          <SquareDashed size={14} /> <span className="text-[12px] hidden lg:inline">Shape</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="画框形状" title="画框形状">
+          <SquareDashed size={14} /> <span className="text-[12px] hidden lg:inline">形状</span>
         </button>
       )}>
-        <div className="text-[12px] font-bold text-white/90 mb-2">Frame shape</div>
+        <div className="text-[12px] font-bold text-white/90 mb-2">画框形状</div>
         <div className="grid grid-cols-3 gap-1.5">
           {FRAME_SHAPES.map((fs: FrameShape) => (
             <button
@@ -836,11 +836,11 @@ function EmbedToolbar({ embed, ids }: { embed: EmbedElement; ids: string[] }) {
   return (
     <>
       <ToolbarPopover width={280} trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Edit link" title="Edit link">
-          <ExternalLink size={14} /> <span className="text-[12px] hidden lg:inline">Link</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="编辑链接" title="编辑链接">
+          <ExternalLink size={14} /> <span className="text-[12px] hidden lg:inline">链接</span>
         </button>
       )}>
-        <div className="text-[12px] font-bold text-white/90 mb-2">Embed link</div>
+        <div className="text-[12px] font-bold text-white/90 mb-2">嵌入链接</div>
         <input
           value={editingUrl}
           onChange={(e) => setEditingUrl(e.target.value)}
@@ -848,13 +848,13 @@ function EmbedToolbar({ embed, ids }: { embed: EmbedElement; ids: string[] }) {
             if (e.key === 'Enter' && editingUrl.trim()) update(ids, { url: editingUrl.trim(), title: undefined })
           }}
           className="w-full h-8 rounded-lg bg-white/[0.06] border border-white/10 px-2.5 text-[12px] text-white outline-none focus:border-[#7630D7]"
-          aria-label="Embed URL"
+          aria-label="嵌入链接"
         />
         <div className="flex gap-1.5 mt-2">
-          <button className="btn-cv h-8 px-3 text-[11px]" onClick={() => editingUrl.trim() && update(ids, { url: editingUrl.trim(), title: undefined })}>Apply</button>
-          <button className="h-8 px-3 text-[11px] rounded-lg border border-white/10 text-white/70 hover:bg-white/[0.07]" onClick={() => setEditingUrl(embed.url)}>Reset</button>
+          <button className="btn-cv h-8 px-3 text-[11px]" onClick={() => editingUrl.trim() && update(ids, { url: editingUrl.trim(), title: undefined })}>应用</button>
+          <button className="h-8 px-3 text-[11px] rounded-lg border border-white/10 text-white/70 hover:bg-white/[0.07]" onClick={() => setEditingUrl(embed.url)}>重置</button>
         </div>
-        <p className="text-[10px] text-white/40 mt-2 leading-relaxed">Cards open their link in Preview &amp; shared views.</p>
+        <p className="text-[10px] text-white/40 mt-2 leading-relaxed">卡片链接将在预览和共享视图中打开。</p>
       </ToolbarPopover>
     </>
   )
@@ -877,8 +877,8 @@ function PositionPopover({ ids, count, element }: { ids: string[]; count: number
     <ToolbarPopover
       width={252}
       trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Position" title="Position, layer ordering & size">
-          <Move size={14} /> <span className="text-[12px] hidden lg:inline">Position</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="位置" title="位置、图层顺序和大小">
+          <Move size={14} /> <span className="text-[12px] hidden lg:inline">位置</span>
         </button>
       )}
     >
@@ -891,7 +891,7 @@ function PositionPopover({ ids, count, element }: { ids: string[]; count: number
       </div>
 
       <div className="border-t border-white/[0.08] pt-2 mb-2.5">
-        <div className="text-[10px] font-semibold text-white/45 uppercase tracking-wide mb-1.5">Align to page</div>
+        <div className="text-[10px] font-semibold text-white/45 uppercase tracking-wide mb-1.5">对齐到页面</div>
         <div className="grid grid-cols-3 gap-1">
           <IconTile icon={<AlignVerticalJustifyStart size={15} />} label="Top" onClick={() => store.alignElements(ids, 'top')} />
           <IconTile icon={<AlignVerticalJustifyCenter size={15} />} label="Middle" onClick={() => store.alignElements(ids, 'cy')} />
@@ -904,7 +904,7 @@ function PositionPopover({ ids, count, element }: { ids: string[]; count: number
 
       {count >= 3 && (
         <div className="border-t border-white/[0.08] pt-2 mb-2.5">
-          <div className="text-[10px] font-semibold text-white/45 uppercase tracking-wide mb-1.5">Distribute</div>
+          <div className="text-[10px] font-semibold text-white/45 uppercase tracking-wide mb-1.5">分布</div>
           <div className="grid grid-cols-3 gap-1">
             <IconTile icon={<AlignHorizontalDistributeCenter size={15} />} label="Spacing H" onClick={() => store.distributeElements(ids, 'x')} />
             <IconTile icon={<AlignVerticalDistributeCenter size={15} />} label="Spacing V" onClick={() => store.distributeElements(ids, 'y')} />
@@ -914,17 +914,17 @@ function PositionPopover({ ids, count, element }: { ids: string[]; count: number
 
       {count === 1 && el && (
         <div className="border-t border-white/[0.08] pt-2">
-          <div className="text-[10px] font-semibold text-white/45 uppercase tracking-wide mb-1.5">Advanced</div>
+          <div className="text-[10px] font-semibold text-white/45 uppercase tracking-wide mb-1.5">高级</div>
           <div className="grid grid-cols-3 gap-1.5 mb-1.5">
-            <NumField label="W" value={W} onCommit={(v) => setSize(ratio ? v * (H / W) : v, ratio ? v * (H / W) : H)} />
-            <NumField label="H" value={H} onCommit={(v) => setSize(ratio ? v * (W / H) : W, ratio ? v * (W / H) : v)} />
+            <NumField label="宽" value={W} onCommit={(v) => setSize(ratio ? v * (H / W) : v, ratio ? v * (H / W) : H)} />
+            <NumField label="高" value={H} onCommit={(v) => setSize(ratio ? v * (W / H) : W, ratio ? v * (W / H) : v)} />
             <button
               className="flex flex-col items-center justify-center gap-0.5 rounded-lg border border-white/10 text-white/75 hover:bg-white/[0.09] text-[10px] font-medium py-1"
               onClick={() => setRatio(!ratio)}
-              title="Lock aspect ratio"
+              title="锁定宽高比"
             >
               <Lock size={12} className={ratio ? 'text-[#7630D7]' : 'opacity-50'} />
-              Ratio
+              比例
             </button>
           </div>
           <div className="grid grid-cols-3 gap-1.5">
@@ -970,12 +970,12 @@ function MaskPopover({ el, ids }: { el: ImageElement; ids: string[] }) {
     <ToolbarPopover
       width={244}
       trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open || (current !== 'none' && !!current)} aria-label="Image mask" title="Mask shape">
-          <Shapes size={14} /> <span className="text-[12px] hidden lg:inline">Mask</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open || (current !== 'none' && !!current)} aria-label="图片遮罩" title="遮罩形状">
+          <Shapes size={14} /> <span className="text-[12px] hidden lg:inline">遮罩</span>
         </button>
       )}
     >
-      <div className="text-[12px] font-bold text-white/90 mb-1.5">Mask shape</div>
+      <div className="text-[12px] font-bold text-white/90 mb-1.5">遮罩形状</div>
       <div className="grid grid-cols-4 gap-1.5" data-testid="mask-grid">
         {MASK_SHAPES.map((m) => (
           <button
@@ -996,7 +996,7 @@ function MaskPopover({ el, ids }: { el: ImageElement; ids: string[] }) {
       {(current === 'poly' || current === 'polyStar') && (
         <div className="mt-2">
           <SliderRow
-            label={current === 'poly' ? 'Sides' : 'Points'}
+            label={current === 'poly' ? '边数' : '点数'}
             value={el.maskSides ?? 6}
             min={3}
             max={current === 'poly' ? 12 : 16}
@@ -1020,7 +1020,7 @@ function MaskPopover({ el, ids }: { el: ImageElement; ids: string[] }) {
         </div>
       )}
       <div className="text-[11px] text-white/40 leading-snug mt-2">
-        Clips the image to the shape — corner radius is ignored while a mask is set.
+        将图片裁剪为该形状——设置遮罩后圆角将被忽略。
       </div>
     </ToolbarPopover>
   )
@@ -1033,8 +1033,8 @@ function ImageAdjustPopover({ el, ids }: { el: ImageElement; ids: string[] }) {
     <ToolbarPopover
       width={252}
       trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Adjust image" title="Adjust image">
-          <Sun size={14} /> <span className="text-[12px] hidden lg:inline">Adjust</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="调整图片" title="调整图片">
+          <Sun size={14} /> <span className="text-[12px] hidden lg:inline">调整</span>
         </button>
       )}
     >
@@ -1042,10 +1042,10 @@ function ImageAdjustPopover({ el, ids }: { el: ImageElement; ids: string[] }) {
       <SliderRow label="Contrast" value={el.contrast ?? 0} min={-100} max={100} step={1} onChange={(v) => updateLive(ids, { contrast: v })} onCommit={() => update(ids, { contrast: el.contrast ?? 0 })} />
       <SliderRow label="Saturation" value={el.saturation ?? 0} min={-100} max={100} step={1} onChange={(v) => updateLive(ids, { saturation: v })} onCommit={() => update(ids, { saturation: el.saturation ?? 0 })} />
       <div className="flex gap-1.5 mt-1 border-t border-white/[0.08] pt-2.5">
-        <TBtn onClick={() => update(ids, { flipH: !el.flipH })} dataActive={el.flipH} title="Flip horizontal" ariaLabel="Flip horizontal"><FlipHorizontal size={14} /></TBtn>
-        <TBtn onClick={() => update(ids, { flipV: !el.flipV })} dataActive={el.flipV} title="Flip vertical" ariaLabel="Flip vertical"><FlipVertical size={14} /></TBtn>
-        <TBtn onClick={() => update(ids, { brightness: 0, contrast: 0, saturation: 0 })} title="Reset adjustments" ariaLabel="Reset adjustments"><RotateCcw size={14} /></TBtn>
-        <TBtn onClick={() => useEditorStore.getState().setPanel('uploads')} title="Replace image" ariaLabel="Replace image"><Replace size={14} /></TBtn>
+        <TBtn onClick={() => update(ids, { flipH: !el.flipH })} dataActive={el.flipH} title="水平翻转" ariaLabel="水平翻转"><FlipHorizontal size={14} /></TBtn>
+        <TBtn onClick={() => update(ids, { flipV: !el.flipV })} dataActive={el.flipV} title="垂直翻转" ariaLabel="垂直翻转"><FlipVertical size={14} /></TBtn>
+        <TBtn onClick={() => update(ids, { brightness: 0, contrast: 0, saturation: 0 })} title="重置调整" ariaLabel="重置调整"><RotateCcw size={14} /></TBtn>
+        <TBtn onClick={() => useEditorStore.getState().setPanel('uploads')} title="替换图片" ariaLabel="替换图片"><Replace size={14} /></TBtn>
       </div>
     </ToolbarPopover>
   )
@@ -1064,8 +1064,8 @@ function ImageFilterPopover({ el, ids }: { el: ImageElement; ids: string[] }) {
     <ToolbarPopover
       width={268}
       trigger={(open) => (
-        <button className="cv-tbtn gap-1 !px-2.5" data-active={open || active !== 'none'} aria-label="Filters" title="Filters">
-          <Wand2 size={14} /> <span className="text-[12px] hidden lg:inline">Filters</span>
+        <button className="cv-tbtn gap-1 !px-2.5" data-active={open || active !== 'none'} aria-label="滤镜" title="滤镜">
+          <Wand2 size={14} /> <span className="text-[12px] hidden lg:inline">滤镜</span>
         </button>
       )}
     >
@@ -1283,11 +1283,11 @@ function PluginToolbar({ plugin, ids }: { plugin: PluginElement; ids: string[] }
           )
         })
       ) : (
-        <span className="text-[11px] text-white/40 shrink-0" title="Install the app to edit this element's settings">
-          {install ? `"${plugin.kind}" settings` : 'App not installed — settings unavailable'}
+        <span className="text-[11px] text-white/40 shrink-0" title="安装该应用以编辑此元素的设置">
+          {install ? `"${plugin.kind}" settings` : '应用未安装 — 设置不可用'}
         </span>
       )}
-      <TBtn onClick={() => setPanel('apps')} title="Open in app (Apps panel)" ariaLabel="Open in app">
+      <TBtn onClick={() => setPanel('apps')} title="在应用中打开（应用面板）" ariaLabel="在应用中打开">
         <LayoutGrid size={14} />
       </TBtn>
     </>
@@ -1336,8 +1336,8 @@ function ChartToolbar({ chart, ids }: { chart: ChartElement; ids: string[] }) {
       <ToolbarPopover
         width={540}
         trigger={(open) => (
-          <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Edit chart data" title="Edit chart data">
-            <Table2 size={14} /> <span className="text-[12px] hidden lg:inline">Edit data</span>
+          <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="编辑图表数据" title="编辑图表数据">
+            <Table2 size={14} /> <span className="text-[12px] hidden lg:inline">编辑数据</span>
           </button>
         )}
       >
@@ -1345,15 +1345,15 @@ function ChartToolbar({ chart, ids }: { chart: ChartElement; ids: string[] }) {
       </ToolbarPopover>
       <ToolbarPopover
         trigger={(open) => (
-          <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="Chart options" title="Chart options">
-            <SlidersHorizontal size={14} /> <span className="text-[12px] hidden lg:inline">Options</span>
+          <button className="cv-tbtn gap-1 !px-2.5" data-active={open} aria-label="图表选项" title="图表选项">
+            <SlidersHorizontal size={14} /> <span className="text-[12px] hidden lg:inline">选项</span>
           </button>
         )}
       >
-        <div className="text-[12px] font-bold text-white/90 mb-2">Chart options</div>
+        <div className="text-[12px] font-bold text-white/90 mb-2">图表选项</div>
         {chart.kind === 'bar' && (
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[11px] text-white/60 w-16">Bars</span>
+            <span className="text-[11px] text-white/60 w-16">柱形</span>
             <ChartToggle label="Group" active={chart.barMode !== 'stack'} onClick={() => update(ids, { barMode: 'group' })} />
             <ChartToggle label="Stack" active={chart.barMode === 'stack'} onClick={() => update(ids, { barMode: 'stack' })} />
           </div>
@@ -1372,8 +1372,8 @@ function ChartToolbar({ chart, ids }: { chart: ChartElement; ids: string[] }) {
         )}
         {chart.kind === 'line' && (
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[11px] text-white/60 w-16">Line</span>
-            <ChartToggle label="Smooth" active={chart.smooth} onClick={() => update(ids, { smooth: !chart.smooth })} />
+            <span className="text-[11px] text-white/60 w-16">线条</span>
+            <ChartToggle label="流畅" active={chart.smooth} onClick={() => update(ids, { smooth: !chart.smooth })} />
           </div>
         )}
         <div className="flex items-center gap-2 mb-2 flex-wrap">
@@ -1382,10 +1382,10 @@ function ChartToolbar({ chart, ids }: { chart: ChartElement; ids: string[] }) {
           <ChartToggle label="Legend" active={chart.showLegend} onClick={() => update(ids, { showLegend: !chart.showLegend })} />
         </div>
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[11px] text-white/60">Panel</span>
-          <ColorMenu value={chart.fill} onChange={(c, committed) => committed ? update(ids, { fill: c }) : updateLive(ids, { fill: c })} title="Chart background" />
-          <span className="text-[11px] text-white/60 ml-2">Text</span>
-          <ColorMenu value={chart.textColor} onChange={(c, committed) => committed ? update(ids, { textColor: c }) : updateLive(ids, { textColor: c })} title="Text colour" />
+          <span className="text-[11px] text-white/60">面板</span>
+          <ColorMenu value={chart.fill} onChange={(c, committed) => committed ? update(ids, { fill: c }) : updateLive(ids, { fill: c })} title="图表背景" />
+          <span className="text-[11px] text-white/60 ml-2">文字</span>
+          <ColorMenu value={chart.textColor} onChange={(c, committed) => committed ? update(ids, { textColor: c }) : updateLive(ids, { textColor: c })} title="文字颜色" />
         </div>
         <SliderRow
           label="Text size"
@@ -1398,7 +1398,7 @@ function ChartToolbar({ chart, ids }: { chart: ChartElement; ids: string[] }) {
         />
       </ToolbarPopover>
       <ToolbarPopover trigger={(open) => (
-        <button className="cv-tbtn" data-active={open} aria-label="Transparency" title="Transparency">
+        <button className="cv-tbtn" data-active={open} aria-label="透明度" title="透明度">
           <Percent size={14} />
         </button>
       )}>
@@ -1517,7 +1517,7 @@ function ChartDataEditor({ chart, ids }: { chart: ChartElement; ids: string[] })
 
   return (
     <div>
-      <div className="text-[12px] font-bold text-white/90 mb-2">Chart data</div>
+      <div className="text-[12px] font-bold text-white/90 mb-2">图表数据</div>
       {scatter ? (
         <div className="max-h-[320px] overflow-y-auto cv-scroll-dark pr-1">
           {chart.series.map((sr, si) => (
@@ -1526,7 +1526,7 @@ function ChartDataEditor({ chart, ids }: { chart: ChartElement; ids: string[] })
                 <ColorMenu value={sr.color} onChange={(c, committed) => committed ? update(ids, { series: chart.series.map((x, j) => (j === si ? { ...x, color: c } : x)) }) : setSeriesField(si, { color: c })} title={`Series ${si + 1} colour`} />
                 <input value={sr.name} onChange={(e) => setSeriesField(si, { name: e.target.value.slice(0, 40) })} aria-label={`Series ${si + 1} name`} className={cn(CV_INPUT_CLS, 'w-28')} />
                 {chart.series.length > 1 && (
-                  <TBtn onClick={() => removeSeries(si)} title="Remove series" ariaLabel={`Remove series ${si + 1}`} danger className="!h-7 !w-7">
+                  <TBtn onClick={() => removeSeries(si)} title="移除系列" ariaLabel={`Remove series ${si + 1}`} danger className="!h-7 !w-7">
                     <Trash2 size={12} />
                   </TBtn>
                 )}
@@ -1537,17 +1537,17 @@ function ChartDataEditor({ chart, ids }: { chart: ChartElement; ids: string[] })
                   <ChartNumInput value={sr.values[pi * 2] ?? 0} onCommit={(n) => setValue(si, pi * 2, n)} ariaLabel={`Series ${si + 1} point ${pi + 1} x`} />
                   <span className="w-4 text-[10px] text-white/35 text-right">y</span>
                   <ChartNumInput value={sr.values[pi * 2 + 1] ?? 0} onCommit={(n) => setValue(si, pi * 2 + 1, n)} ariaLabel={`Series ${si + 1} point ${pi + 1} y`} />
-                  <TBtn onClick={() => removePoint(si, pi)} title="Remove point" ariaLabel={`Remove point ${pi + 1}`} disabled={sr.values.length <= 4} className="!h-6 !w-6">
+                  <TBtn onClick={() => removePoint(si, pi)} title="移除点" ariaLabel={`Remove point ${pi + 1}`} disabled={sr.values.length <= 4} className="!h-6 !w-6">
                     <Minus size={11} />
                   </TBtn>
                 </div>
               ))}
               <button onClick={() => addPoint(si)} disabled={sr.values.length >= 48} className="btn-cv h-7 px-3 text-[11px] mt-1">
-                + Point
+                + 数据点
               </button>
             </div>
           ))}
-          <p className="text-[10px] text-white/35">Each point is an x, y pair on numeric axes.</p>
+          <p className="text-[10px] text-white/35">每个点都是数值轴上的一组 x、y 坐标。</p>
         </div>
       ) : (
         <div>
@@ -1555,19 +1555,19 @@ function ChartDataEditor({ chart, ids }: { chart: ChartElement; ids: string[] })
             <table className="border-collapse text-[12px]">
               <thead>
                 <tr>
-                  <th className="sticky left-0 bg-[#1B1D24] z-10 pr-2 pb-2 text-left text-white/40 font-medium text-[10px] w-[128px]">Series \ Labels</th>
+                  <th className="sticky left-0 bg-[#1B1D24] z-10 pr-2 pb-2 text-left text-white/40 font-medium text-[10px] w-[128px]">系列 \ 标签</th>
                   {chart.labels.map((l, i) => (
                     <th key={i} className="px-1 pb-2">
                       <input value={l} onChange={(e) => setLabel(i, e.target.value)} aria-label={`Label ${i + 1}`} className={cn(CV_INPUT_CLS, 'w-16')} />
                     </th>
                   ))}
                   <th className="pl-1 pb-2 w-[52px]">
-                    <TBtn onClick={addLabel} title="Add label" ariaLabel="Add label" disabled={chart.labels.length >= MAX_CHART_LABELS} className="!h-6 !w-6">
+                    <TBtn onClick={addLabel} title="添加标签" ariaLabel="添加标签" disabled={chart.labels.length >= MAX_CHART_LABELS} className="!h-6 !w-6">
                       <Plus size={11} />
                     </TBtn>
                   </th>
                   <th className="pb-2 w-[36px]">
-                    <TBtn onClick={removeLabel} title="Remove last label" ariaLabel="Remove last label" disabled={chart.labels.length <= 1} className="!h-6 !w-6">
+                    <TBtn onClick={removeLabel} title="移除最后一个标签" ariaLabel="删除上一个标签" disabled={chart.labels.length <= 1} className="!h-6 !w-6">
                       <Minus size={11} />
                     </TBtn>
                   </th>
@@ -1581,7 +1581,7 @@ function ChartDataEditor({ chart, ids }: { chart: ChartElement; ids: string[] })
                         <ColorMenu value={sr.color} onChange={(c, committed) => committed ? update(ids, { series: chart.series.map((x, j) => (j === si ? { ...x, color: c } : x)) }) : setSeriesField(si, { color: c })} title={`Series ${si + 1} colour`} />
                         <input value={sr.name} onChange={(e) => setSeriesField(si, { name: e.target.value.slice(0, 40) })} aria-label={`Series ${si + 1} name`} className={cn(CV_INPUT_CLS, 'w-16')} />
                         {chart.series.length > 1 && (
-                          <TBtn onClick={() => removeSeries(si)} title="Remove series" ariaLabel={`Remove series ${si + 1}`} danger className="!h-6 !w-6">
+                          <TBtn onClick={() => removeSeries(si)} title="移除系列" ariaLabel={`Remove series ${si + 1}`} danger className="!h-6 !w-6">
                             <Trash2 size={11} />
                           </TBtn>
                         )}
@@ -1603,10 +1603,10 @@ function ChartDataEditor({ chart, ids }: { chart: ChartElement; ids: string[] })
       )}
       <div className="flex items-center gap-2 mt-2">
         <button onClick={addSeries} disabled={chart.series.length >= MAX_CHART_SERIES} className="btn-cv h-7 px-3 text-[11px]">
-          + Series
+          ＋ 系列
         </button>
         <span className="text-[10px] text-white/35">
-          {scatter ? 'One x,y point per row.' : chart.kind === 'donut' ? 'Donut renders the first series.' : 'Values update the chart live.'}
+          {scatter ? '每行一个 x,y 坐标点。' : chart.kind === 'donut' ? '环形图仅渲染第一个数据系列。' : '数值会实时更新图表。'}
         </span>
       </div>
     </div>

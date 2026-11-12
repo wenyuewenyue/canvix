@@ -85,7 +85,7 @@ export function IconsApp({ onClose }: AppPanelProps) {
 
   return (
     <div>
-      <AppHeader icon={Shapes} title="Icons" onClose={onClose} />
+      <AppHeader icon={Shapes} title="图标" onClose={onClose} />
       <div className="flex items-center gap-2 mb-3">
         <div className="flex items-center gap-2 h-9 rounded-lg bg-white/[0.06] border border-white/10 px-2.5 flex-1">
           <Search size={12} className="text-white/40 shrink-0" />
@@ -93,8 +93,8 @@ export function IconsApp({ onClose }: AppPanelProps) {
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             className="bg-transparent outline-none text-[12px] text-white w-full placeholder:text-white/35"
-            placeholder={source === 'offline' ? 'Search 562 icons…' : 'Search all of Iconify…'}
-            aria-label="Search icons"
+            placeholder={source === 'offline' ? '搜索 562 个图标…' : '搜索全部 Iconify 图标…'}
+            aria-label="搜索图标"
           />
           {onlineLoading && <Loader2 size={12} className="text-white/40 animate-spin shrink-0" />}
         </div>
@@ -103,8 +103,8 @@ export function IconsApp({ onClose }: AppPanelProps) {
           value={fill}
           onChange={(e) => setFill(e.target.value)}
           className="h-9 w-9 rounded-lg border border-white/15 cursor-pointer bg-transparent"
-          title="Icon colour"
-          aria-label="Icon colour"
+          title="图标颜色"
+          aria-label="图标颜色"
         />
       </div>
 
@@ -120,7 +120,7 @@ export function IconsApp({ onClose }: AppPanelProps) {
           )}
           aria-pressed={source === 'offline'}
         >
-          <HardDriveDownload size={12} /> Offline · 562
+          <HardDriveDownload size={12} /> 离线 · 562 个
         </button>
         <button
           onClick={() => switchSource('online')}
@@ -132,7 +132,7 @@ export function IconsApp({ onClose }: AppPanelProps) {
           )}
           aria-pressed={source === 'online'}
         >
-          <Globe size={12} /> Online · Iconify
+          <Globe size={12} /> 在线 · Iconify
         </button>
       </div>
 
@@ -167,7 +167,7 @@ export function IconsApp({ onClose }: AppPanelProps) {
           )}
           {!offlineIcons.length && (
             <p className="text-center text-[12px] text-white/40 py-6">
-              No icons match “{query}” — try the <button className="text-[#02C0CC] underline" onClick={() => switchSource('online')}>online search</button>
+              没有匹配的图标“{query}” — try the <button className="text-[#02C0CC] underline" onClick={() => switchSource('online')}>在线搜索</button>
             </p>
           )}
         </>
@@ -176,7 +176,7 @@ export function IconsApp({ onClose }: AppPanelProps) {
           {onlineError && <p className="text-[11px] text-amber-300/80 mb-2">{onlineError}</p>}
           {!query.trim() ? (
             <p className="text-center text-[12px] text-white/40 py-6">
-              Type to search the full Iconify universe — 200,000+ icons from 150+ sets (Tabler, Material, Phosphor…).
+              输入以搜索完整的 Iconify 图标库 — 150+ 图标集（Tabler、Material、Phosphor 等）中的 200,000+ 图标。
             </p>
           ) : (
             <div className="grid grid-cols-4 gap-2">
@@ -198,7 +198,7 @@ export function IconsApp({ onClose }: AppPanelProps) {
             </div>
           )}
           {!onlineLoading && query.trim() && !online.length && !onlineError && (
-            <p className="text-center text-[12px] text-white/40 py-6">No icons match “{query}”</p>
+            <p className="text-center text-[12px] text-white/40 py-6">没有匹配的图标“{query}”</p>
           )}
         </>
       )}

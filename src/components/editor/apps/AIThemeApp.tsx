@@ -16,12 +16,12 @@ const MOODS = [
 ]
 
 const ROLE_LABELS: Record<string, string> = {
-  background: 'Background',
-  surface: 'Surface',
-  ink: 'Text',
-  inkSoft: 'Text (soft)',
-  accent: 'Accent',
-  accentSoft: 'Accent 2',
+  background: '背景',
+  surface: '表面',
+  ink: '文字',
+  inkSoft: '文字（柔和）',
+  accent: '强调色',
+  accentSoft: '强调色 2',
 }
 
 /**
@@ -48,10 +48,10 @@ export function AIThemeApp({ onClose }: AppPanelProps) {
         body: JSON.stringify({ prompt: mood.trim() }),
       })
       const data = (await res.json()) as { theme?: Theme; error?: string }
-      if (!res.ok || !data.theme) throw new Error(data.error ?? 'Generation failed')
+      if (!res.ok || !data.theme) throw new Error(data.error ?? '生成失败')
       setTheme(data.theme)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Generation failed')
+      setError(e instanceof Error ? e.message : '生成失败')
     } finally {
       setBusy(false)
     }
@@ -65,7 +65,7 @@ export function AIThemeApp({ onClose }: AppPanelProps) {
     s.pushHistory()
     useEditorStore.setState({ pages: next, dirty: true })
     toast({
-      title: 'Theme applied',
+      title: '已应用主题',
       description: `${theme.name} — recolored backgrounds, text and shapes. Ctrl+Z to revert.`,
     })
     onClose()
@@ -73,10 +73,9 @@ export function AIThemeApp({ onClose }: AppPanelProps) {
 
   return (
     <div>
-      <AppHeader icon={SwatchBook} title="AI theme" onClose={onClose} />
+      <AppHeader icon={SwatchBook} title="AI 主题" onClose={onClose} />
       <p className="text-[11.5px] text-white/50 leading-snug mb-3">
-        Describe a mood — get a palette + font pairing, preview it, then recolor the whole design in one
-        undoable step. Text contrast is guarded automatically.
+        描述一种心情 — 获得配色与字体搭配，预览后一键为整个设计换色（可撤销）。文字对比度会自动保障。
       </p>
 
       <div className="flex gap-1.5">
@@ -84,9 +83,9 @@ export function AIThemeApp({ onClose }: AppPanelProps) {
           value={mood}
           onChange={(e) => setMood(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && !busy && void generate()}
-          placeholder="e.g. moody jazz club, deep blues"
+          placeholder="例如：忧郁爵士俱乐部，深蓝色调"
           className="flex-1 h-9 rounded-xl bg-white/[0.05] border border-white/10 text-white text-[12px] px-3 focus:outline-none focus:border-[#02C0CC]"
-          aria-label="Theme mood"
+          aria-label="主题氛围"
           maxLength={400}
         />
         <button
@@ -95,7 +94,7 @@ export function AIThemeApp({ onClose }: AppPanelProps) {
           disabled={busy || !mood.trim()}
         >
           {busy ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
-          Generate
+          生成
         </button>
       </div>
 
@@ -134,10 +133,10 @@ export function AIThemeApp({ onClose }: AppPanelProps) {
                 className="text-[11px] text-white/55 hover:text-white px-2.5 h-8 rounded-lg hover:bg-white/10"
                 onClick={() => setTheme(null)}
               >
-                Redraft
+                重新起草
               </button>
               <button className="btn-cv h-8 px-3.5 text-[11.5px] flex items-center gap-1.5" onClick={apply}>
-                <Check size={12} /> Apply theme
+                <Check size={12} /> 应用主题
               </button>
             </div>
           </div>

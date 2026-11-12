@@ -9,10 +9,10 @@ import { cn } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
 
 const SIZES = [
-  { id: '1024x1024', label: 'Square 1:1', w: 1, h: 1 },
-  { id: '1344x768', label: 'Wide 16:9', w: 16, h: 9 },
-  { id: '768x1344', label: 'Story 9:16', w: 9, h: 16 },
-  { id: '1152x864', label: 'Photo 4:3', w: 4, h: 3 },
+  { id: '1024x1024', label: '方形 1:1', w: 1, h: 1 },
+  { id: '1344x768', label: '宽屏 16:9', w: 16, h: 9 },
+  { id: '768x1344', label: '快拍 9:16', w: 9, h: 16 },
+  { id: '1152x864', label: '照片 4:3', w: 4, h: 3 },
 ] as const
 
 const STYLES = [
@@ -67,10 +67,10 @@ export function AIImageApp({ onClose }: AppPanelProps) {
         body: JSON.stringify({ prompt: fullPrompt, size }),
       })
       const data = (await res.json()) as Generated & { error?: string }
-      if (!res.ok || !data.dataUrl) throw new Error(data.error ?? 'Generation failed')
+      if (!res.ok || !data.dataUrl) throw new Error(data.error ?? '生成失败')
       setImage({ ...data, prompt: fullPrompt })
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Generation failed')
+      setError(e instanceof Error ? e.message : '生成失败')
     } finally {
       setBusy(false)
     }
@@ -93,12 +93,12 @@ export function AIImageApp({ onClose }: AppPanelProps) {
         ...(image.entId ? { aiEntId: image.entId } : {}),
       })
     )
-    toast({ title: 'AI image added' })
+    toast({ title: '已添加 AI 图片' })
   }
 
   return (
     <div>
-      <AppHeader icon={ImageIcon} title="AI image generator" onClose={onClose} />
+      <AppHeader icon={ImageIcon} title="AI 图片生成器" onClose={onClose} />
 
       <div className="rounded-xl border border-white/10 bg-white/[0.04] focus-within:border-[#7630D7] transition-colors p-3 mb-2.5">
         <textarea
@@ -107,9 +107,9 @@ export function AIImageApp({ onClose }: AppPanelProps) {
           onKeyDown={(e) => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) generate() }}
           rows={2}
           maxLength={600}
-          placeholder="Describe the image — e.g. “A dreamy purple nebula with a lone astronaut”"
+          placeholder="描述图片 — 例如：“梦幻紫色星云中的孤独宇航员”"
           className="w-full bg-transparent outline-none text-[12.5px] text-white resize-none placeholder:text-white/35"
-          aria-label="Image generation prompt"
+          aria-label="图片生成提示词"
         />
       </div>
 
@@ -148,10 +148,10 @@ export function AIImageApp({ onClose }: AppPanelProps) {
         onClick={() => generate()}
         disabled={busy || !prompt.trim()}
         className="w-full h-10 rounded-xl bg-gradient-to-r from-[#7630D7] to-[#9B6BFF] text-white text-[13px] font-bold flex items-center justify-center gap-2 disabled:opacity-40 hover:brightness-110 transition-all"
-        aria-label="Generate image"
+        aria-label="生成图片"
       >
         {busy ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-        {busy ? 'Dreaming…' : 'Generate image'}
+        {busy ? '构思中…' : 'Generate image'}
       </button>
 
       {error && <p className="text-[11px] text-[#FF8095] mt-2.5">{error}</p>}
@@ -159,7 +159,7 @@ export function AIImageApp({ onClose }: AppPanelProps) {
       {busy && (
         <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] aspect-square flex flex-col items-center justify-center gap-2">
           <Loader2 size={22} className="animate-spin text-[#9B6BFF]" />
-          <span className="text-[11px] text-white/50">Painting your image…</span>
+          <span className="text-[11px] text-white/50">正在绘制你的图片…</span>
         </div>
       )}
 
@@ -169,12 +169,12 @@ export function AIImageApp({ onClose }: AppPanelProps) {
             onClick={addToCanvas}
             className="group relative w-full rounded-xl overflow-hidden border border-white/10 hover:border-[#7630D7] transition-colors"
             role="button"
-            aria-label="Add image to canvas"
+            aria-label="将图片添加到画布"
           >
             <img src={image.dataUrl} alt={image.prompt} className="w-full block" />
             <span className="absolute inset-0 hidden group-hover:flex items-center justify-center bg-black/35">
               <span className="h-8 px-4 rounded-full bg-[#7630D7] text-white text-[11.5px] font-bold flex items-center gap-1.5 shadow-lg">
-                <Plus size={12} /> Add to canvas
+                <Plus size={12} /> 添加到画布
               </span>
             </span>
           </button>
@@ -182,16 +182,16 @@ export function AIImageApp({ onClose }: AppPanelProps) {
             <button
               onClick={() => generate(true)}
               className="flex-1 h-8 rounded-lg border border-white/12 text-white/70 hover:text-white text-[11px] font-semibold flex items-center justify-center gap-1.5"
-              aria-label="Generate another"
+              aria-label="再生成一张"
             >
-              <RefreshCw size={11} /> Another
+              <RefreshCw size={11} /> 再生成一张
             </button>
             <button
               onClick={addToCanvas}
               className="flex-1 h-8 rounded-lg bg-[#7630D7] hover:bg-[#8B5CF6] text-white text-[11px] font-semibold flex items-center justify-center gap-1.5"
-              aria-label="Add to canvas"
+              aria-label="添加到画布"
             >
-              <Plus size={11} /> Add to canvas
+              <Plus size={11} /> 添加到画布
             </button>
           </div>
         </div>
@@ -199,7 +199,7 @@ export function AIImageApp({ onClose }: AppPanelProps) {
 
       {!image && !busy && !error && (
         <div className="mt-3.5">
-          <p className="text-[10.5px] font-bold text-white/60 uppercase tracking-wide mb-1.5">Try a prompt like…</p>
+          <p className="text-[10.5px] font-bold text-white/60 uppercase tracking-wide mb-1.5">试试这样的提示词…</p>
           <div className="space-y-1">
             {IDEAS.map((idea) => (
               <button

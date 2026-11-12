@@ -119,7 +119,7 @@ export function AssistantApp({ onClose }: AppPanelProps) {
     try {
       msg = await applyDesignAction(action)
     } catch (e) {
-      msg = e instanceof Error ? e.message : 'Action failed'
+      msg = e instanceof Error ? e.message : '操作失败'
     }
     setTurns((ts) => ts.map((t, i) => (i === turnIndex ? { ...t, done: { index: actionIndex, msg } } : t)))
   }
@@ -128,13 +128,12 @@ export function AssistantApp({ onClose }: AppPanelProps) {
 
   return (
     <div className="flex flex-col">
-      <AppHeader icon={Bot} title="Canvix AI assistant" onClose={onClose} />
+      <AppHeader icon={Bot} title="Canvix AI 助手" onClose={onClose} />
 
       {/* AI provider missing — honest notice */}
       {aiLoaded && !aiConfigured && (
         <div className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-2.5 text-[11px] text-amber-200/80 mb-2.5">
-          <strong>AI provider not configured.</strong> Design actions, Magic Write and image generation need a server
-          AI provider. Layout balancing and palettes still work locally.
+          <strong>未配置 AI 提供商。</strong> 设计操作、魔法写作和图片生成需要服务器 AI 服务。布局均衡和配色仍可在本地使用。
         </div>
       )}
 
@@ -145,7 +144,7 @@ export function AssistantApp({ onClose }: AppPanelProps) {
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#7630D7] to-[#02C0CC] flex items-center justify-center shadow-lg">
               <Sparkles size={20} className="text-white" />
             </div>
-            <p className="text-[13px] font-bold text-white">Your design-aware copilot</p>
+            <p className="text-[13px] font-bold text-white">懂你的设计助手</p>
             <p className="text-[11px] text-white/50 leading-snug">
               It sees your page — elements, colors, fonts and layout. Ask it to restyle, move, recolor or animate
               anything. Every change is undoable (Ctrl+Z).
@@ -203,7 +202,7 @@ export function AssistantApp({ onClose }: AppPanelProps) {
                       onClick={() => useEditorStore.getState().undo()}
                       className="text-[10px] font-semibold text-white/40 hover:text-white/80 underline underline-offset-2 cursor-pointer"
                     >
-                      Undo last change (Ctrl+Z)
+                      撤销上次更改 (Ctrl+Z)
                     </button>
                   )}
                   <PaletteSwatches turn={t} />
@@ -249,17 +248,17 @@ export function AssistantApp({ onClose }: AppPanelProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && void send(input)}
-            placeholder="Ask your copilot…"
+            placeholder="问问你的助手…"
             maxLength={800}
             className="w-full bg-transparent outline-none text-[12.5px] text-white placeholder:text-white/35 h-10"
-            aria-label="Message the Canvix AI assistant"
+            aria-label="给 Canvix AI 助手发消息"
           />
         </div>
         <button
           onClick={() => void send(input)}
           disabled={busy || !input.trim()}
           className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#7630D7] to-[#9B6BFF] text-white flex items-center justify-center disabled:opacity-40 hover:brightness-110 transition-all shrink-0"
-          aria-label="Send message"
+          aria-label="发送消息"
         >
           {busy ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
         </button>

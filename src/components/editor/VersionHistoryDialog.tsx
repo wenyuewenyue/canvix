@@ -33,7 +33,7 @@ export function VersionHistoryDialog({ open, onOpenChange }: { open: boolean; on
 
   const save = () => {
     saveVersion(label)
-    toast({ title: 'Version saved', description: label.trim() || undefined })
+    toast({ title: '版本已保存', description: label.trim() || undefined })
     setLabel('')
   }
 
@@ -42,10 +42,10 @@ export function VersionHistoryDialog({ open, onOpenChange }: { open: boolean; on
       <DialogContent className="rounded-[28px] bg-[#16181D] border-white/10 text-white sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <History size={18} className="text-[#02C0CC]" /> Version history
+            <History size={18} className="text-[#02C0CC]" /> 版本历史
           </DialogTitle>
           <DialogDescription className="text-white/55">
-            Snapshots are stored in this browser for this design. Restoring keeps your current state on undo (Ctrl+Z).
+            快照存储在此浏览器的此设计中。恢复时会将当前状态保留在撤销（Ctrl+Z）中。
           </DialogDescription>
         </DialogHeader>
 
@@ -58,10 +58,10 @@ export function VersionHistoryDialog({ open, onOpenChange }: { open: boolean; on
             placeholder={`Version ${versions.length + 1} — e.g. "before print"`}
             maxLength={40}
             className="flex-1 min-w-0 h-9 rounded-xl bg-white/[0.08] border border-white/10 px-3 text-[13px] placeholder:text-white/35 outline-none focus:border-[#7630D7]"
-            aria-label="Version label"
+            aria-label="版本标签"
           />
           <Button size="sm" className="btn-cv-white h-9 px-4 rounded-xl font-semibold shrink-0" onClick={save}>
-            <Save size={14} /> Save
+            <Save size={14} /> 保存
           </Button>
         </div>
 
@@ -69,8 +69,8 @@ export function VersionHistoryDialog({ open, onOpenChange }: { open: boolean; on
         <div className="max-h-80 overflow-y-auto cv-scroll-dark -mx-1 px-1">
           {versions.length === 0 && (
             <div className="text-center text-[13px] text-white/40 py-10">
-              No versions yet.<br />
-              Save one before a big change — you can always come back.
+              暂无版本。<br />
+              在大幅修改前保存一个版本 — 随时可以回来。
             </div>
           )}
           {versions.map((v, i) => (
@@ -84,7 +84,7 @@ export function VersionHistoryDialog({ open, onOpenChange }: { open: boolean; on
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-[13px] font-semibold truncate">{v.label}</span>
-                  {i === 0 && <span className="text-[10px] font-bold text-[#02C0CC] uppercase tracking-wide">latest</span>}
+                  {i === 0 && <span className="text-[10px] font-bold text-[#02C0CC] uppercase tracking-wide">最新</span>}
                 </div>
                 <div className="flex items-center gap-1.5 text-[11px] text-white/45 mt-0.5">
                   <Layers size={11} /> {v.pages.length} page{v.pages.length > 1 ? 's' : ''}
@@ -100,10 +100,10 @@ export function VersionHistoryDialog({ open, onOpenChange }: { open: boolean; on
                 className="h-8 px-3 rounded-lg text-white/85 hover:bg-white/10 hover:text-white text-[12px] font-semibold"
                 onClick={() => {
                   restoreVersion(v.id)
-                  toast({ title: `Restored “${v.label}”`, description: 'Ctrl+Z brings your previous state back.' })
+                  toast({ title: `Restored “${v.label}”`, description: '按 Ctrl+Z 可恢复到上一个状态。' })
                 }}
               >
-                <RotateCcw size={13} /> Restore
+                <RotateCcw size={13} /> 恢复
               </Button>
               <Button
                 variant="ghost"
@@ -111,7 +111,7 @@ export function VersionHistoryDialog({ open, onOpenChange }: { open: boolean; on
                 className="h-8 w-8 rounded-lg text-white/50 hover:bg-red-500/20 hover:text-red-400 shrink-0"
                 onClick={() => deleteVersion(v.id)}
                 aria-label={`Delete version ${v.label}`}
-                title="Delete version"
+                title="删除版本"
               >
                 <Trash2 size={13} />
               </Button>

@@ -27,21 +27,21 @@ export function IllustrationsApp({ onClose }: AppPanelProps) {
 
   return (
     <div>
-      <AppHeader icon={ImageIcon} title="Illustrations" onClose={onClose} />
+      <AppHeader icon={ImageIcon} title="插画" onClose={onClose} />
       <div className="flex items-center gap-2 h-9 rounded-lg bg-white/[0.06] border border-white/10 px-2.5 mb-3">
         <Search size={12} className="text-white/40 shrink-0" />
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="bg-transparent outline-none text-[12px] text-white w-full placeholder:text-white/35"
-          placeholder="Search illustrations"
-          aria-label="Search illustrations"
+          placeholder="搜索插画"
+          aria-label="搜索插画"
         />
       </div>
 
       {/* pack chips */}
       <div className="cv-tabscroll flex gap-1.5 overflow-x-auto pb-2 mb-1">
-        {[{ id: 'all' as const, label: 'All' }, ...ILLUSTRATION_PACKS].map((p) => (
+        {[{ id: 'all' as const, label: '全部' }, ...ILLUSTRATION_PACKS].map((p) => (
           <button
             key={p.id}
             onClick={() => setPack(p.id)}
@@ -77,7 +77,7 @@ export function IllustrationsApp({ onClose }: AppPanelProps) {
         ))}
       </div>
       {!list.length && <p className="text-center text-[12px] text-white/40 py-6">No illustrations match “{query}”</p>}
-      <p className="mt-3 text-[10px] text-white/30 text-center">48 original pieces · works offline</p>
+      <p className="mt-3 text-[10px] text-white/30 text-center">48 件原创作品 · 支持离线使用</p>
     </div>
   )
 }

@@ -102,7 +102,7 @@ export function InstalledApps() {
       })
       const data = (await res.json().catch(() => ({}))) as { install?: InstallSummaryRow; error?: string }
       if (!res.ok || !data.install) {
-        toast({ title: 'Could not install this plugin', description: data.error ?? `HTTP ${res.status}` })
+        toast({ title: '无法安装此插件', description: data.error ?? `HTTP ${res.status}` })
         return
       }
       setConsent(data.install) // consent screen — permissions verbatim
@@ -110,7 +110,7 @@ export function InstalledApps() {
       await load()
       broadcastPluginsChanged()
     } catch {
-      toast({ title: 'Could not install this plugin', description: 'Network error — try again.' })
+      toast({ title: '无法安装此插件', description: '网络错误 — 请重试。' })
     } finally {
       setInstalling(false)
     }
@@ -125,10 +125,10 @@ export function InstalledApps() {
         body: JSON.stringify({ enabled }),
       })
       if (!res.ok) throw new Error(String(res.status))
-      toast({ title: enabled ? `${row.name} enabled` : `${row.name} disabled`, description: enabled ? undefined : 'Its elements stay on the canvas as placeholders.' })
+      toast({ title: enabled ? `${row.name} enabled` : `${row.name} disabled`, description: enabled ? undefined : '其元素仍以占位符形式留在画布上。' })
       broadcastPluginsChanged()
     } catch {
-      toast({ title: 'Could not update the plugin' })
+      toast({ title: '无法更新插件' })
       await load()
     }
   }, [load])
@@ -139,10 +139,10 @@ export function InstalledApps() {
     try {
       const res = await fetch(`/api/plugins/${encodeURIComponent(row.id)}`, { method: 'DELETE' })
       if (!res.ok) throw new Error(String(res.status))
-      toast({ title: `${row.name} removed`, description: 'Your design and its elements are untouched.' })
+      toast({ title: `${row.name} removed`, description: '你的设计及其元素不会被改动。' })
       broadcastPluginsChanged()
     } catch {
-      toast({ title: 'Could not remove the plugin' })
+      toast({ title: '无法移除插件' })
       await load()
     }
   }, [openId, load])
@@ -171,10 +171,10 @@ export function InstalledApps() {
   )
 
   return (
-    <section className="mt-4" aria-label="Installed plugin apps">
+    <section className="mt-4" aria-label="已安装的插件应用">
       <div className="flex items-center gap-1.5 mb-2">
         <Puzzle size={12} className="text-[#02C0CC]" />
-        <span className="text-[11px] font-bold uppercase tracking-wider text-white/50">Installed</span>
+        <span className="text-[11px] font-bold uppercase tracking-wider text-white/50">已安装</span>
         <span className="text-[10px] text-white/30">({installs.length})</span>
       </div>
 
@@ -186,7 +186,7 @@ export function InstalledApps() {
             if (e.key === 'Enter') void install(url)
           }}
           placeholder="https://example.com/plugin/manifest.json"
-          aria-label="Plugin manifest URL"
+          aria-label="插件清单链接"
           className="flex-1 min-w-0 h-8 rounded-lg bg-white/[0.05] border border-white/10 px-2.5 text-[11px] text-white placeholder:text-white/25 focus:outline-none focus:border-[#7630D7]"
         />
         <button
@@ -195,12 +195,12 @@ export function InstalledApps() {
           className="h-8 px-3 rounded-lg bg-[#7630D7] hover:bg-[#8B5CF6] disabled:opacity-40 text-white text-[11px] font-semibold flex items-center gap-1 shrink-0 transition-colors"
         >
           {installing ? <Loader2 size={11} className="animate-spin" /> : null}
-          Install
+          安装
         </button>
       </div>
 
       {bundledAvailable.length > 0 && (
-        <div className="mb-2.5 space-y-1.5" aria-label="Bundled plugin apps">
+        <div className="mb-2.5 space-y-1.5" aria-label="内置插件应用">
           {bundledAvailable.map((b) => (
             <button
               key={b.slug}
@@ -214,7 +214,7 @@ export function InstalledApps() {
                 <span className="text-[12px] font-semibold text-white group-hover:text-[#02C0CC] transition-colors">
                   {b.name}
                 </span>
-                <span className="text-[9px] font-mono text-white/30 shrink-0">bundled</span>
+                <span className="text-[9px] font-mono text-white/30 shrink-0">内置</span>
               </div>
               <div className="text-[10px] text-white/40 leading-relaxed">{b.description}</div>
             </button>
@@ -254,7 +254,7 @@ export function InstalledApps() {
                 </button>
                 <button
                   onClick={() => void setEnabled(row, !row.enabled)}
-                  title={row.enabled ? 'Disable' : 'Enable'}
+                  title={row.enabled ? '禁用' : '启用'}
                   aria-label={row.enabled ? `Disable ${row.name}` : `Enable ${row.name}`}
                   className={cn(
                     'w-6 h-6 rounded-md flex items-center justify-center transition-colors',
@@ -265,7 +265,7 @@ export function InstalledApps() {
                 </button>
                 <button
                   onClick={() => void uninstall(row)}
-                  title="Remove (your design is never touched)"
+                  title="移除（不会改动你的设计）"
                   aria-label={`Remove ${row.name}`}
                   className="w-6 h-6 rounded-md flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-400/10 transition-colors"
                 >
@@ -290,9 +290,9 @@ function ConsentModal({ row, onClose }: { row: InstallSummaryRow; onClose: () =>
     setRemoving(true)
     try {
       await fetch(`/api/plugins/${encodeURIComponent(row.id)}`, { method: 'DELETE' })
-      toast({ title: `${row.name} removed`, description: 'Nothing from this plugin was kept.' })
+      toast({ title: `${row.name} removed`, description: '该插件未保留任何内容。' })
     } catch {
-      toast({ title: 'Could not remove — delete it from the Installed list' })
+      toast({ title: '无法移除 — 请从已安装列表中删除' })
     } finally {
       onClose()
     }
@@ -309,18 +309,18 @@ function ConsentModal({ row, onClose }: { row: InstallSummaryRow; onClose: () =>
               {row.name} <span className="font-mono text-[10px] text-white/40">v{row.version}</span>
             </h2>
             <p className="text-[11px] text-white/50">
-              by {row.author ?? 'unknown author'} · wants to join this Canvix
+              作者 {row.author ?? 'unknown author'} · 希望加入此 Canvix
             </p>
           </div>
-          <button onClick={onClose} aria-label="Close" className="text-white/40 hover:text-white">
+          <button onClick={onClose} aria-label="关闭" className="text-white/40 hover:text-white">
             <X size={15} />
           </button>
         </div>
 
         <div className="p-4">
           <p className="text-[12px] text-white/70 leading-relaxed mb-3">
-            This app is third-party code. It runs in a sandbox and can only do the things listed below —
-            <span className="text-white/90 font-semibold"> nothing else, ever</span>. Review carefully.
+            此应用为第三方代码。它在沙箱中运行，只能执行下列操作 —
+            <span className="text-white/90 font-semibold"> nothing else, ever</span>。请仔细检查。
           </p>
           <ul className="space-y-2">
             {row.permissions.map((p) => (
@@ -332,7 +332,7 @@ function ConsentModal({ row, onClose }: { row: InstallSummaryRow; onClose: () =>
               </li>
             ))}
             {row.permissions.length === 0 && (
-              <li className="text-[11px] text-white/45 italic">No permissions requested — this plugin is read-only.</li>
+              <li className="text-[11px] text-white/45 italic">未请求任何权限 — 此插件为只读。</li>
             )}
           </ul>
         </div>
@@ -344,7 +344,7 @@ function ConsentModal({ row, onClose }: { row: InstallSummaryRow; onClose: () =>
             rel="noreferrer"
             className="text-[10px] text-white/35 hover:text-white/60 flex items-center gap-1"
           >
-            <ExternalLink size={10} /> How plugins work
+            <ExternalLink size={10} /> 插件工作原理
           </a>
           <div className="flex-1" />
           <button
@@ -353,13 +353,13 @@ function ConsentModal({ row, onClose }: { row: InstallSummaryRow; onClose: () =>
             className="h-9 px-3.5 rounded-lg border border-white/12 text-[12px] text-white/70 hover:text-white hover:border-white/25 transition-colors flex items-center gap-1.5 disabled:opacity-40"
           >
             {removing ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
-            Remove it
+            移除它
           </button>
           <button
             onClick={onClose}
             className="h-9 px-4 rounded-lg bg-[#7630D7] hover:bg-[#8B5CF6] text-white text-[12px] font-semibold transition-colors"
           >
-            Keep installed
+            保留安装
           </button>
         </div>
       </div>

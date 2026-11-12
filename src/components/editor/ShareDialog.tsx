@@ -33,10 +33,10 @@ export function ShareDialog({ open, onOpenChange }: { open: boolean; onOpenChang
     try {
       await navigator.clipboard.writeText(link)
       setCopied(true)
-      toast({ title: 'Share link copied to clipboard' })
+      toast({ title: '分享链接已复制到剪贴板' })
       setTimeout(() => setCopied(false), 1800)
     } catch {
-      toast({ title: 'Could not copy — select and copy manually', description: link })
+      toast({ title: '无法复制 — 请手动选择并复制', description: link })
     }
   }
 
@@ -63,10 +63,10 @@ function ShareBody({ designName, link, copied, onCopy }: {
     <>
       <DialogHeader>
         <DialogTitle className="text-lg font-bold flex items-center gap-2">
-          Share “{designName || 'Untitled design'}”
+          分享 “{designName || 'Untitled design'}”
         </DialogTitle>
         <DialogDescription className="text-white/60">
-          Canvix is local-first: the link points back to your Canvix instance.
+          Canvix 本地优先：链接指向你自己的 Canvix 实例。
         </DialogDescription>
       </DialogHeader>
 
@@ -77,12 +77,12 @@ function ShareBody({ designName, link, copied, onCopy }: {
             readOnly
             value={link}
             className="flex-1 min-w-0 bg-transparent outline-none text-[13px] text-white/80 truncate"
-            aria-label="Share link"
+            aria-label="分享链接"
             onFocus={(e) => e.currentTarget.select()}
           />
           <Button className="btn-cv h-9 px-4 shrink-0 gap-1.5" onClick={onCopy}>
             {copied ? <Check size={14} /> : <Copy size={14} />}
-            {copied ? 'Copied' : 'Copy link'}
+            {copied ? '已复制' : '复制链接'}
           </Button>
         </div>
 
@@ -90,7 +90,7 @@ function ShareBody({ designName, link, copied, onCopy }: {
             is handed out — this is the contract the server actually enforces */}
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3.5 space-y-2">
           <div className="text-xs font-semibold text-white/75 flex items-center gap-1.5">
-            <Info size={13} className="text-[#02C0CC] shrink-0" /> Who can open this link
+            <Info size={13} className="text-[#02C0CC] shrink-0" /> 谁可以打开此链接
           </div>
           <ul className="text-[11px] leading-relaxed text-white/55 space-y-1.5 list-none">
             <li className="flex gap-2">
@@ -103,15 +103,14 @@ function ShareBody({ designName, link, copied, onCopy }: {
             <li className="flex gap-2">
               <span aria-hidden className="text-white/35">•</span>
               <span>
-                <strong className="text-white/75">Ownerless designs</strong> (created while signed out) stay editable by
+                <strong className="text-white/75">无主设计</strong> (created while signed out) stay editable by
                 everyone with the link — the pre-accounts behaviour, kept on purpose so existing shares never break.
               </span>
             </li>
             <li className="flex gap-2">
               <span aria-hidden className="text-white/35">•</span>
               <span>
-                <strong className="text-white/75">Owned designs</strong> open read-only for everyone except the owner:
-                an honest view-only banner in the editor, and every save answers 403.
+                <strong className="text-white/75">我拥有的设计</strong> 除所有者外，其他人均以只读方式打开：编辑器中显示真实的仅查看横幅，每次保存均返回 403。
               </span>
             </li>
           </ul>
@@ -119,15 +118,14 @@ function ShareBody({ designName, link, copied, onCopy }: {
             <div className="flex items-start gap-2 rounded-lg border border-amber-400/30 bg-amber-400/10 p-2.5 text-[11px] text-amber-200/90">
               <Eye size={13} className="shrink-0 mt-0.5" />
               <span>
-                You are viewing this design read-only — it belongs to another account. The link still opens it for
-                anyone who has it.
+                您正在以只读方式查看此设计——它属于其他账号。该链接仍可供任何持有者打开。
               </span>
             </div>
           )}
         </div>
 
         <p className="text-[11px] text-white/40 flex items-center gap-1.5">
-          <QrCode size={13} /> In the open-source spirit — access control lives in your deployment, not our cloud.
+          <QrCode size={13} /> 秉承开源精神 — 访问控制由你的部署决定，而非我们的云端。
         </p>
       </div>
     </>

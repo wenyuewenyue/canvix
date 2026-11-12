@@ -33,25 +33,25 @@ export function PresenceAvatars() {
       {offlineRestored && (
         <span
           className="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-sky-300/90"
-          title="Unsaved local changes were recovered — they merge automatically on save"
+          title="未保存的本地更改已恢复 — 保存时会自动合并"
         >
-          <CloudUpload size={12} /> Recovered
+          <CloudUpload size={12} /> 已恢复
         </span>
       )}
       {/* connection status */}
       {status === 'live' ? (
         pendingOps > 0 ? (
-          <span className="hidden xl:flex items-center gap-1 text-[11px] font-semibold text-amber-300/90" title={`${pendingOps} queued change${pendingOps === 1 ? '' : 's'} — syncing`}>
-            <Loader2 size={12} className="animate-spin" /> Syncing {pendingOps}
+          <span className="hidden xl:flex items-center gap-1 text-[11px] font-semibold text-amber-300/90" title={`${pendingOps} 个更改排队中 — 正在同步`}>
+            <Loader2 size={12} className="animate-spin" /> 同步中 {pendingOps}
           </span>
         ) : (
-          <span className="hidden xl:flex items-center gap-1 text-[11px] font-semibold text-emerald-300/90" title={`Live — ${collaborators.length + 1} editing`}>
-            <Wifi size={12} /> Live
+          <span className="hidden xl:flex items-center gap-1 text-[11px] font-semibold text-emerald-300/90" title={`实时 — ${collaborators.length + 1} 人正在编辑`}>
+            <Wifi size={12} /> 在线
           </span>
         )
       ) : status === 'connecting' ? (
-        <span className="hidden xl:flex items-center gap-1 text-[11px] font-semibold text-amber-300/90" title="Reconnecting…">
-          <Loader2 size={12} className="animate-spin" /> Syncing
+        <span className="hidden xl:flex items-center gap-1 text-[11px] font-semibold text-amber-300/90" title="正在重新连接…">
+          <Loader2 size={12} className="animate-spin" /> 同步中
         </span>
       ) : (
         <span
@@ -59,10 +59,10 @@ export function PresenceAvatars() {
           title={
             pendingOps > 0
               ? `Offline — ${pendingOps} change${pendingOps === 1 ? '' : 's'} saved locally and will sync automatically`
-              : 'Offline — edits save locally'
+              : '离线 — 编辑保存在本地'
           }
         >
-          <WifiOff size={12} /> Offline{pendingOps > 0 ? ` · ${pendingOps}` : ''}
+          <WifiOff size={12} /> 离线{pendingOps > 0 ? ` · ${pendingOps}` : ''}
         </span>
       )}
 
@@ -86,13 +86,13 @@ export function PresenceAvatars() {
           </button>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-64 rounded-2xl bg-[#16181D] border-white/10 text-white p-3">
-          <div className="text-xs font-semibold text-white/60 mb-2">In this design</div>
+          <div className="text-xs font-semibold text-white/60 mb-2">在此设计中</div>
           <div className="space-y-1.5">
             <div className="flex items-center gap-2.5 rounded-lg bg-white/[0.06] p-2">
               <AvatarChip name={initials(me.name)} color={me.color} title={me.name} size={30} />
               <div className="min-w-0 flex-1">
-                <div className="text-[13px] font-semibold truncate">{me.name} (you)</div>
-                <div className="text-[11px] text-white/45">Editing</div>
+                <div className="text-[13px] font-semibold truncate">{me.name} （你）</div>
+                <div className="text-[11px] text-white/45">正在编辑</div>
               </div>
             </div>
             {collaborators.map((c) => (
@@ -101,14 +101,14 @@ export function PresenceAvatars() {
                 <div className="min-w-0 flex-1">
                   <div className="text-[13px] font-semibold truncate">{c.name}</div>
                   <div className="text-[11px] text-white/45">
-                    {c.cursor ? `Page ${c.cursor.page + 1}${c.cursor.selection?.length ? ' · selecting' : ''}` : 'Viewing'}
+                    {c.cursor ? `Page ${c.cursor.page + 1}${c.cursor.selection?.length ? ' · 选择中' : ''}` : '正在查看'}
                   </div>
                 </div>
               </div>
             ))}
             {collaborators.length === 0 && (
               <div className="text-[12px] text-white/40 px-2 pb-1">
-                Share the design link to edit together in real time.
+                分享设计链接，实时协作编辑。
               </div>
             )}
           </div>
@@ -130,9 +130,9 @@ function NameEditor({ current }: { current: string }) {
         onChange={(e) => setName(e.target.value)}
         onBlur={() => setDisplayName(name)}
         onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
-        placeholder="Your display name"
+        placeholder="你的显示名称"
         className="h-8 text-[12px] bg-white/[0.06] border-white/10 text-white placeholder:text-white/30"
-        aria-label="Your display name"
+        aria-label="你的显示名称"
       />
     </div>
   )

@@ -70,7 +70,7 @@ export function TopBar({ onSave, onShortcuts }: { onSave: () => Promise<void>; o
 
   return (
     <header className="h-14 cv-topbar-gradient flex items-center gap-1 px-2 sm:px-3 z-40 shrink-0 shadow-[0_1px_0_rgba(0,0,0,0.15)]">
-      <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/15 hover:text-white shrink-0" onClick={goDashboard} aria-label="Back to home" title="Home">
+      <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/15 hover:text-white shrink-0" onClick={goDashboard} aria-label="返回首页" title="首页">
         <Home size={19} />
       </Button>
 
@@ -84,61 +84,61 @@ export function TopBar({ onSave, onShortcuts }: { onSave: () => Promise<void>; o
       {/* File menu */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className={item} aria-label="File menu">
-            File <ChevronDown size={12} className="opacity-70" />
+          <button className={item} aria-label="文件菜单">
+            文件 <ChevronDown size={12} className="opacity-70" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-56 bg-[#16181D] border-white/10 text-white">
           <DropdownMenuItem className="gap-2" onClick={goDashboard}>
-            <Home size={15} /> Home
+            <Home size={15} /> 首页
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={() => void onSave()}>
-            <Cloud size={15} /> Save changes
+            <Cloud size={15} /> 保存更改
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={() => setResizeOpen(true)}>
-            <Play size={15} /> Magic Resize
+            <Play size={15} /> 魔法调整大小
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={() => setMagicLayersOpen(true)}>
-            <Wand2 size={15} /> Magic Layers — edit a flat design
+            <Wand2 size={15} /> 魔法图层 — 编辑平面设计
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={() => setTranslateOpen(true)}>
-            <Languages size={15} /> Translate design…
+            <Languages size={15} /> 翻译设计…
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={toggleRulers}>
-            <Ruler size={15} /> {showRulers ? 'Hide rulers' : 'Show rulers'}
+            <Ruler size={15} /> {showRulers ? '隐藏标尺' : '显示标尺'}
             <span className="ml-auto text-[10px] text-white/40 font-semibold">⇧R</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={() => setVersionsOpen(true)}>
-            <History size={15} /> Version history
+            <History size={15} /> 版本历史
           </DropdownMenuItem>
           {/* v0.17 (Wave 2): save the open design as a reusable template */}
           <DropdownMenuItem className="gap-2" onClick={() => setSaveTplOpen(true)}>
-            <BookMarked size={15} /> Save as template…
+            <BookMarked size={15} /> 另存为模板…
           </DropdownMenuItem>
           <DropdownMenuSeparator className="bg-white/10" />
           <DropdownMenuItem className="gap-2" onClick={() => setExportOpen(true)}>
-            <Download size={15} /> Download
+            <Download size={15} /> 下载
           </DropdownMenuItem>
           <DropdownMenuSeparator className="bg-white/10" />
           <DropdownMenuItem className="gap-2" onClick={onShortcuts}>
-            Keyboard shortcuts
+            键盘快捷键
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" asChild>
             <a href="https://github.com/mir-ashiq/canvix" target="_blank" rel="noreferrer">
-              <Github size={15} /> GitHub repository
+              <Github size={15} /> GitHub 仓库
             </a>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       {/* Magic Layers */}
-      <button className={cn(item, 'hidden sm:flex')} onClick={() => setMagicLayersOpen(true)} aria-label="Magic Layers">
-        <Wand2 size={13} className="text-white/80" /> Magic Layers
+      <button className={cn(item, 'hidden sm:flex')} onClick={() => setMagicLayersOpen(true)} aria-label="魔法图层">
+        <Wand2 size={13} className="text-white/80" /> 魔法图层
       </button>
 
       {/* Magic Resize */}
-      <button className={cn(item, 'hidden md:flex')} onClick={() => setResizeOpen(true)} aria-label="Magic Resize">
-        Magic Resize
+      <button className={cn(item, 'hidden md:flex')} onClick={() => setResizeOpen(true)} aria-label="魔法调整大小">
+        魔法调整大小
       </button>
 
       {/* Editing / Draw / Viewing mode — v0.11.6 (F3): ONE derivation
@@ -146,20 +146,20 @@ export function TopBar({ onSave, onShortcuts }: { onSave: () => Promise<void>; o
           drawing directly, where previously only the Tools panel could */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className={item} aria-label="Editing mode">
+          <button className={item} aria-label="编辑模式">
             {mode === 'viewing' ? <Eye size={13} className="text-white/80" /> : mode === 'draw' ? <Brush size={13} className="text-white/80" /> : <MousePointer2 size={13} className="text-white/80" />}
-            {mode === 'viewing' ? 'Viewing' : mode === 'draw' ? 'Draw' : 'Editing'} <ChevronDown size={12} className="opacity-70" />
+            {mode === 'viewing' ? '正在查看' : mode === 'draw' ? 'Draw' : 'Editing'} <ChevronDown size={12} className="opacity-70" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-44 bg-[#16181D] border-white/10 text-white">
           <DropdownMenuItem className="gap-2" onClick={() => { setEditingMode('editing'); setTool('select') }}>
-            <MousePointer2 size={15} /> Editing — select & edit
+            <MousePointer2 size={15} /> 编辑 — 选择并编辑
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={() => { setEditingMode('editing'); setTool('draw') }}>
-            <Brush size={15} /> Draw — freehand brush
+            <Brush size={15} /> 绘画 — 自由画笔
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2" onClick={() => setEditingMode('viewing')}>
-            <Eye size={15} /> Viewing — read only
+            <Eye size={15} /> 正在查看 — 只读
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -172,22 +172,22 @@ export function TopBar({ onSave, onShortcuts }: { onSave: () => Promise<void>; o
           onBlur={() => void onSave()}
           onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
           className="text-sm font-semibold bg-transparent text-white outline-none rounded-lg px-2 py-1.5 hover:bg-white/15 focus:bg-white/20 min-w-0 w-32 sm:w-48 truncate placeholder:text-white/60"
-          aria-label="Design name"
+          aria-label="设计名称"
           maxLength={80}
-          placeholder="Untitled design"
+          placeholder="未命名设计"
         />
         <span className="hidden md:inline-flex items-center gap-1 text-xs text-white/85 shrink-0">
           {saving ? (
             <>
-              <Loader2 size={12} className="animate-spin" /> Saving…
+              <Loader2 size={12} className="animate-spin" /> 保存中…
             </>
           ) : dirty ? (
             <>
-              <Cloud size={12} /> Unsaved
+              <Cloud size={12} /> 未保存
             </>
           ) : savedAt ? (
             <>
-              <Check size={12} /> All changes saved
+              <Check size={12} /> 所有更改已保存
             </>
           ) : null}
         </span>
@@ -198,13 +198,13 @@ export function TopBar({ onSave, onShortcuts }: { onSave: () => Promise<void>; o
       <div className="ml-auto flex items-center gap-0.5 sm:gap-1 shrink-0">
         {/* v0.5: collaborators + connection status */}
         <PresenceAvatars />
-        <Button variant="ghost" size="icon" className="rounded-lg text-white hover:bg-white/15 hover:text-white" onClick={undo} disabled={!canUndo} aria-label="Undo" title="Undo (Ctrl+Z)">
+        <Button variant="ghost" size="icon" className="rounded-lg text-white hover:bg-white/15 hover:text-white" onClick={undo} disabled={!canUndo} aria-label="撤销" title="撤销（Ctrl+Z）">
           <Undo2 size={17} />
         </Button>
-        <Button variant="ghost" size="icon" className="rounded-lg text-white hover:bg-white/15 hover:text-white" onClick={redo} disabled={!canRedo} aria-label="Redo" title="Redo (Ctrl+Shift+Z)">
+        <Button variant="ghost" size="icon" className="rounded-lg text-white hover:bg-white/15 hover:text-white" onClick={redo} disabled={!canRedo} aria-label="重做" title="重做（Ctrl+Shift+Z）">
           <Redo2 size={17} />
         </Button>
-        <Button variant="ghost" size="icon" className={cn('relative rounded-lg hover:bg-white/15 hover:text-white', commentsOpen ? 'text-white bg-white/15' : 'text-white')} onClick={() => { toggleComments(); if (!commentsOpen && designId) markAllCommentsRead(designId) }} aria-label="Comments" title="Comments">
+        <Button variant="ghost" size="icon" className={cn('relative rounded-lg hover:bg-white/15 hover:text-white', commentsOpen ? 'text-white bg-white/15' : 'text-white')} onClick={() => { toggleComments(); if (!commentsOpen && designId) markAllCommentsRead(designId) }} aria-label="评论" title="评论">
           <MessageCircle size={17} className={cn(commentsOpen && 'fill-white/20')} />
           {unreadCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-1 rounded-full bg-[#FF5C8A] text-white text-[9px] font-bold flex items-center justify-center">
@@ -212,26 +212,26 @@ export function TopBar({ onSave, onShortcuts }: { onSave: () => Promise<void>; o
             </span>
           )}
         </Button>
-        <button className={cn(item, 'hidden sm:flex')} onClick={toggleAnimate} aria-label="Animate">
-          <Zap size={13} className={cn(animateOpen && 'text-[#02C0CC]')} /> Animate
+        <button className={cn(item, 'hidden sm:flex')} onClick={toggleAnimate} aria-label="动画">
+          <Zap size={13} className={cn(animateOpen && 'text-[#02C0CC]')} /> 动画
         </button>
-        <button className={cn(item, 'hidden sm:flex')} onClick={() => setPreviewOpen(true)} aria-label="Preview design">
-          <Play size={14} /> Preview
+        <button className={cn(item, 'hidden sm:flex')} onClick={() => setPreviewOpen(true)} aria-label="预览设计">
+          <Play size={14} /> 预览
         </button>
         {/* v0.18 (Wave 3): present with speaker notes */}
         <button
           className={cn(item, 'hidden md:flex')}
           onClick={() => useEditorStore.getState().setPresentOpen(true)}
-          aria-label="Present with speaker notes"
-          title="Present with speaker notes"
+          aria-label="使用演讲者备注进行演示"
+          title="使用演讲者备注进行演示"
           data-testid="present-notes-button"
         >
-          <Presentation size={14} /> Present
+          <Presentation size={14} /> 演示
         </button>
         <Button size="sm" className="btn-cv-white h-10 px-4 sm:px-5 gap-1.5 font-semibold" onClick={() => setShareOpen(true)}>
-          <Share2 size={15} /> <span className="hidden sm:inline">Share</span>
+          <Share2 size={15} /> <span className="hidden sm:inline">分享</span>
         </Button>
-        <Button size="icon" variant="ghost" className="rounded-lg text-white hover:bg-white/15 hover:text-white" onClick={() => setExportOpen(true)} aria-label="Download" title="Download">
+        <Button size="icon" variant="ghost" className="rounded-lg text-white hover:bg-white/15 hover:text-white" onClick={() => setExportOpen(true)} aria-label="下载" title="下载">
           <Download size={17} />
         </Button>
       </div>

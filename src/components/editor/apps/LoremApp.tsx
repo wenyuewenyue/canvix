@@ -16,9 +16,9 @@ const LOREM = [
 ]
 
 const PRESETS = [
-  { id: 'body', label: 'Body paragraph', fontSize: 32, bold: false, lines: 3 },
-  { id: 'subheading', label: 'Subheading', fontSize: 48, bold: true, lines: 1 },
-  { id: 'heading', label: 'Heading', fontSize: 72, bold: true, lines: 1 },
+  { id: 'body', label: '正文段落', fontSize: 32, bold: false, lines: 3 },
+  { id: 'subheading', label: '副标题', fontSize: 48, bold: true, lines: 1 },
+  { id: 'heading', label: '标题', fontSize: 72, bold: true, lines: 1 },
 ] as const
 
 export function LoremApp({ onClose }: AppPanelProps) {
@@ -31,7 +31,7 @@ export function LoremApp({ onClose }: AppPanelProps) {
 
   return (
     <div>
-      <AppHeader icon={Type} title="Placeholder text" onClose={onClose} />
+      <AppHeader icon={Type} title="占位文本" onClose={onClose} />
 
       <div className="flex gap-1.5 mb-3">
         <button
@@ -44,13 +44,13 @@ export function LoremApp({ onClose }: AppPanelProps) {
           onClick={() => setReal(true)}
           className={cn('flex-1 h-8 rounded-lg text-[11px] font-semibold transition-colors', real ? 'bg-[#7630D7] text-white' : 'bg-white/[0.05] text-white/60 hover:text-white')}
         >
-          Real-feel copy
+          真实感文案
         </button>
         <button
           onClick={() => setSeed((s) => s + 1)}
           className="h-8 w-8 rounded-lg border border-white/12 text-white/70 hover:text-white flex items-center justify-center"
-          title="Shuffle"
-          aria-label="Shuffle text"
+          title="随机"
+          aria-label="随机切换文字"
         >
           <RefreshCw size={12} />
         </button>
@@ -71,12 +71,12 @@ export function LoremApp({ onClose }: AppPanelProps) {
         ))}
       </div>
 
-      <label className="block text-[11px] font-semibold text-white/55 mb-1.5">Lines</label>
+      <label className="block text-[11px] font-semibold text-white/55 mb-1.5">线条</label>
       <input
         type="range" min={1} max={6} value={lines}
         onChange={(e) => setLines(Number(e.target.value))}
         className="cv-slider w-full mb-3"
-        aria-label="Number of lines"
+        aria-label="行数"
       />
 
       <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-[11px] text-white/60 leading-relaxed max-h-24 overflow-hidden mb-3">
@@ -91,7 +91,7 @@ export function LoremApp({ onClose }: AppPanelProps) {
           toast({ title: `${preset.label} placeholder added` })
         }}
       >
-        Add to canvas
+        添加到画布
       </button>
     </div>
   )

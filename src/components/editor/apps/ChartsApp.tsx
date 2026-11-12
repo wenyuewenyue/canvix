@@ -17,18 +17,18 @@ import { AppHeader, type AppPanelProps } from './registry'
 import { CHART_KIND_LABELS, type ChartKind } from '@/lib/types'
 
 const ROWS: { kind: ChartKind; icon: typeof BarChart3; desc: string }[] = [
-  { kind: 'bar', icon: BarChart3, desc: 'Grouped or stacked — edit every value' },
-  { kind: 'line', icon: LineChart, desc: 'Trend lines with dots, optional smoothing' },
-  { kind: 'donut', icon: PieChart, desc: 'Ring with centre total and legend' },
-  { kind: 'scatter', icon: ScatterChart, desc: 'XY points on numeric axes' },
+  { kind: 'bar', icon: BarChart3, desc: '分组或堆叠 — 每个数值都可编辑' },
+  { kind: 'line', icon: LineChart, desc: '带圆点的趋势线，可选平滑' },
+  { kind: 'donut', icon: PieChart, desc: '带中心总计和图例的圆环' },
+  { kind: 'scatter', icon: ScatterChart, desc: '数值坐标轴上的 XY 点' },
 ]
 
 export function ChartsApp({ onClose }: AppPanelProps) {
   return (
     <div>
-      <AppHeader icon={BarChart3} title="Charts" onClose={onClose} />
+      <AppHeader icon={BarChart3} title="图表" onClose={onClose} />
       <p className="text-[11px] text-white/45 leading-relaxed mb-3">
-        Charts are native data-bound elements — select one on the canvas and hit <span className="text-white/70">Edit data</span> in the toolbar to change labels, values and colours.
+        图表是原生数据绑定元素——在画布上选择一个图表，然后点击 <span className="text-white/70">编辑数据</span> 在工具栏中更改标签、数值和颜色。
       </p>
       <div className="space-y-2">
         {ROWS.map((r) => (
@@ -60,7 +60,7 @@ function ChartRow({ icon: Icon, name, desc, onAdd }: { icon: typeof BarChart3; n
         <div className="text-[11px] text-white/45 truncate">{desc}</div>
       </div>
       <button className="btn-cv h-8 px-3.5 text-[11px] shrink-0" onClick={(e) => { e.stopPropagation(); onAdd() }}>
-        Add
+        添加
       </button>
     </div>
   )

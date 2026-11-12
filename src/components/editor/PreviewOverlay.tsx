@@ -113,10 +113,10 @@ export function PreviewOverlay() {
   const inClass = transitionClass(transitionKind, 'in', page?.transition?.direction)
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#0F1015] flex flex-col" role="dialog" aria-label="Design preview">
+    <div className="fixed inset-0 z-[100] bg-[#0F1015] flex flex-col" role="dialog" aria-label="设计预览">
       <div className="h-14 flex items-center justify-between px-3 shrink-0">
         <div className="flex items-center gap-2 text-sm font-semibold text-white/90 px-2">
-          Preview <span className="text-white/50 font-normal">— page {safeIndex + 1} of {pages.length}</span>
+          预览 <span className="text-white/50 font-normal">— 第 {safeIndex + 1} 页，共 {pages.length} 页</span>
         </div>
         <div className="flex items-center gap-1">
           {pages.length > 1 && (
@@ -125,8 +125,8 @@ export function PreviewOverlay() {
               size="icon"
               className={cn('rounded-full text-white hover:bg-white/15 hover:text-white', autoPlay && 'bg-white/15')}
               onClick={() => setAutoPlay((v) => !v)}
-              aria-label={autoPlay ? 'Pause autoplay' : 'Play presentation'}
-              title={autoPlay ? 'Pause' : 'Auto-play'}
+              aria-label={autoPlay ? '暂停自动播放' : '播放演示'}
+              title={autoPlay ? '暂停' : '自动播放'}
             >
               {autoPlay ? <Pause size={17} /> : <Play size={17} />}
             </Button>
@@ -136,12 +136,12 @@ export function PreviewOverlay() {
             size="icon"
             className={cn('rounded-full text-white hover:bg-white/15 hover:text-white', reduceMotion && 'bg-white/15 text-[#02C0CC]')}
             onClick={() => setReduceMotion((v) => !v)}
-            aria-label="Toggle reduced motion"
-            title="Reduce motion (accessibility)"
+            aria-label="切换减少动态效果"
+            title="减少动态效果（无障碍）"
           >
             <VolumeX size={17} />
           </Button>
-          <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/15 hover:text-white" onClick={() => setOpen(false)} aria-label="Close preview">
+          <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/15 hover:text-white" onClick={() => setOpen(false)} aria-label="关闭预览">
             <X size={19} />
           </Button>
         </div>
@@ -181,7 +181,7 @@ export function PreviewOverlay() {
               onClick={prev}
               disabled={safeIndex === 0}
               className={cn('absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#16171D]/90 text-white flex items-center justify-center hover:bg-[#7630D7] transition-colors disabled:opacity-30 disabled:hover:bg-[#16171D]/90')}
-              aria-label="Previous page"
+              aria-label="上一页"
             >
               <ChevronLeft size={22} />
             </button>
@@ -189,7 +189,7 @@ export function PreviewOverlay() {
               onClick={next}
               disabled={safeIndex === pages.length - 1 && !autoPlay}
               className={cn('absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#16171D]/90 text-white flex items-center justify-center hover:bg-[#7630D7] transition-colors disabled:opacity-30 disabled:hover:bg-[#16171D]/90')}
-              aria-label="Next page"
+              aria-label="下一页"
             >
               <ChevronRight size={22} />
             </button>

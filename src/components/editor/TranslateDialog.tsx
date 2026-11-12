@@ -10,30 +10,30 @@ import { toast } from '@/hooks/use-toast'
 import type { AnyElement, TableElement, TextElement } from '@/lib/types'
 
 const LANGUAGES: { name: string; native: string; code: string }[] = [
-  { name: 'Spanish', native: 'Español', code: 'es' },
-  { name: 'French', native: 'Français', code: 'fr' },
-  { name: 'German', native: 'Deutsch', code: 'de' },
-  { name: 'Portuguese', native: 'Português', code: 'pt' },
-  { name: 'Italian', native: 'Italiano', code: 'it' },
-  { name: 'Dutch', native: 'Nederlands', code: 'nl' },
-  { name: 'Polish', native: 'Polski', code: 'pl' },
-  { name: 'Swedish', native: 'Svenska', code: 'sv' },
-  { name: 'Turkish', native: 'Türkçe', code: 'tr' },
-  { name: 'Russian', native: 'Русский', code: 'ru' },
-  { name: 'Ukrainian', native: 'Українська', code: 'uk' },
-  { name: 'Arabic', native: 'العربية', code: 'ar' },
-  { name: 'Hebrew', native: 'עברית', code: 'he' },
-  { name: 'Hindi', native: 'हिन्दी', code: 'hi' },
-  { name: 'Bengali', native: 'বাংলা', code: 'bn' },
-  { name: 'Tamil', native: 'தமிழ்', code: 'ta' },
-  { name: 'Thai', native: 'ไทย', code: 'th' },
-  { name: 'Vietnamese', native: 'Tiếng Việt', code: 'vi' },
-  { name: 'Indonesian', native: 'Bahasa Indonesia', code: 'id' },
-  { name: 'Chinese (Simplified)', native: '简体中文', code: 'zh' },
-  { name: 'Chinese (Traditional)', native: '繁體中文', code: 'zh-TW' },
-  { name: 'Japanese', native: '日本語', code: 'ja' },
-  { name: 'Korean', native: '한국어', code: 'ko' },
-  { name: 'Greek', native: 'Ελληνικά', code: 'el' },
+  { name: '西班牙语', native: 'Español', code: 'es' },
+  { name: '法语', native: 'Français', code: 'fr' },
+  { name: '德语', native: 'Deutsch', code: 'de' },
+  { name: '葡萄牙语', native: 'Português', code: 'pt' },
+  { name: '意大利语', native: 'Italiano', code: 'it' },
+  { name: '荷兰语', native: 'Nederlands', code: 'nl' },
+  { name: '波兰语', native: 'Polski', code: 'pl' },
+  { name: '瑞典语', native: 'Svenska', code: 'sv' },
+  { name: '土耳其语', native: 'Türkçe', code: 'tr' },
+  { name: '俄语', native: 'Русский', code: 'ru' },
+  { name: '乌克兰语', native: 'Українська', code: 'uk' },
+  { name: '阿拉伯语', native: 'العربية', code: 'ar' },
+  { name: '希伯来语', native: 'עברית', code: 'he' },
+  { name: '印地语', native: 'हिन्दी', code: 'hi' },
+  { name: '孟加拉语', native: 'বাংলা', code: 'bn' },
+  { name: '泰米尔语', native: 'தமிழ்', code: 'ta' },
+  { name: '泰语', native: 'ไทย', code: 'th' },
+  { name: '越南语', native: 'Tiếng Việt', code: 'vi' },
+  { name: '印尼语', native: 'Bahasa Indonesia', code: 'id' },
+  { name: '简体中文', native: '简体中文', code: 'zh' },
+  { name: '繁體中文', native: '繁體中文', code: 'zh-TW' },
+  { name: '日语', native: '日本語', code: 'ja' },
+  { name: '韩语', native: '한국어', code: 'ko' },
+  { name: '希腊语', native: 'Ελληνικά', code: 'el' },
 ]
 
 /** Collect every text element in the design (top-level + inside groups). */
@@ -92,7 +92,7 @@ export function TranslateDialog({ open, onOpenChange }: { open: boolean; onOpenC
       })
       const data = (await res.json()) as { translations?: string[]; error?: string }
       if (!res.ok || !Array.isArray(data.translations) || data.translations.length !== allTexts.length) {
-        toast({ title: 'Translate failed', description: data.error ?? 'Please try again.', variant: 'destructive' })
+        toast({ title: '翻译失败', description: data.error ?? '请重试。', variant: 'destructive' })
         return
       }
       const translations = data.translations
@@ -123,7 +123,7 @@ export function TranslateDialog({ open, onOpenChange }: { open: boolean; onOpenC
       toast({ title: `Translated to ${picked.native}`, description: `${total} text${total === 1 ? '' : 's'} updated. Ctrl+Z to undo.` })
       onOpenChange(false)
     } catch {
-      toast({ title: 'Translate is unavailable right now.', variant: 'destructive' })
+      toast({ title: '翻译功能目前不可用。', variant: 'destructive' })
     } finally {
       setBusy(false)
     }
@@ -134,12 +134,12 @@ export function TranslateDialog({ open, onOpenChange }: { open: boolean; onOpenC
       <DialogContent className="rounded-[28px] bg-[#16181D] border-white/10 text-white sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold flex items-center gap-2">
-            <Languages size={17} className="text-[#02C0CC]" /> Translate design
+            <Languages size={17} className="text-[#02C0CC]" /> 翻译设计
           </DialogTitle>
           <DialogDescription className="text-white/60">
             {texts.length + cellEntries.length
               ? `Translate all ${texts.length + cellEntries.length} text${texts.length + cellEntries.length === 1 ? '' : 's'} (incl. table cells) across ${pages.length} page${pages.length === 1 ? '' : 's'} with AI. Your layout stays intact.`
-              : 'This design has no text to translate yet.'}
+              : '该设计暂无可翻译的文字。'}
           </DialogDescription>
         </DialogHeader>
 
@@ -173,7 +173,7 @@ export function TranslateDialog({ open, onOpenChange }: { open: boolean; onOpenC
         <div className="flex items-center gap-2 pt-1">
           <span className="text-[11px] text-white/45 flex items-center gap-1.5 min-w-0">
             <Globe size={12} className="shrink-0" />
-            {picked ? `Target: ${picked.native}` : 'Pick a language'}
+            {picked ? `Target: ${picked.native}` : '选择语言'}
           </span>
           <Button
             className="btn-cv h-11 rounded-xl ml-auto px-5"
@@ -181,7 +181,7 @@ export function TranslateDialog({ open, onOpenChange }: { open: boolean; onOpenC
             onClick={() => void run()}
           >
             {busy ? <Loader2 size={15} className="mr-1.5 animate-spin" /> : <Languages size={15} className="mr-1.5" />}
-            {busy ? 'Translating…' : 'Translate'}
+            {busy ? '翻译中…' : 'Translate'}
           </Button>
         </div>
       </DialogContent>

@@ -80,7 +80,7 @@ export function PageBar() {
               {i === currentPage && p.notes ? (
                 <span
                   className="absolute -bottom-1.5 -right-1.5 h-4 w-4 rounded-full bg-[#02C0CC] text-white flex items-center justify-center shadow"
-                  title="This page has speaker notes"
+                  title="本页有演讲备注"
                 >
                   <NotebookPen size={9} />
                 </span>
@@ -90,16 +90,16 @@ export function PageBar() {
                   <button
                     className="h-5 w-5 rounded bg-black/55 text-white flex items-center justify-center hover:bg-black/80"
                     onClick={() => duplicatePage(i)}
-                    title="Duplicate page"
-                    aria-label="Duplicate page"
+                    title="复制页面"
+                    aria-label="复制页面"
                   >
                     <Copy size={10} />
                   </button>
                   <button
                     className="h-5 w-5 rounded bg-black/55 text-white flex items-center justify-center hover:bg-red-600"
                     onClick={() => deletePage(i)}
-                    title="Delete page"
-                    aria-label="Delete page"
+                    title="删除页面"
+                    aria-label="删除页面"
                   >
                     <Trash2 size={10} />
                   </button>
@@ -112,8 +112,8 @@ export function PageBar() {
       <button
         onClick={addPage}
         className="h-9 w-9 rounded-lg border-2 border-dashed border-white/25 text-white/60 hover:border-[#02C0CC] hover:text-[#02C0CC] flex items-center justify-center shrink-0 bg-white/[0.06]"
-        title="Add page"
-        aria-label="Add page"
+        title="添加页面"
+        aria-label="添加页面"
       >
         <Plus size={16} />
       </button>
@@ -127,8 +127,8 @@ export function PageBar() {
             notesOpen ? 'border-[#02C0CC] text-[#02C0CC]' : 'border-white/15',
             page?.notes ? 'text-[#02C0CC]' : ''
           )}
-          title="Speaker notes"
-          aria-label="Speaker notes"
+          title="演讲者备注"
+          aria-label="演讲者备注"
           aria-expanded={notesOpen}
         >
           <NotebookPen size={15} />
@@ -136,12 +136,12 @@ export function PageBar() {
         {notesOpen && page && (
           <div className="absolute bottom-11 left-0 w-72 rounded-xl bg-[#16181D] border border-white/10 shadow-2xl p-3" data-testid="notes-popover">
             <div className="text-[11px] font-semibold uppercase tracking-wide text-white/50 mb-2">
-              Notes — page {currentPage + 1}
+              备注 — 页面 {currentPage + 1}
             </div>
             <textarea
               value={page.notes ?? ''}
               onChange={(e) => setPageNotes(page.id, e.target.value)}
-              placeholder="Type speaker notes…"
+              placeholder="输入演讲备注…"
               data-testid="notes-textarea"
               className="w-full h-28 resize-none rounded-lg bg-black/30 border border-white/10 px-2.5 py-2 text-[13px] text-white/85 placeholder:text-white/30 focus:outline-none focus:border-[#02C0CC]"
             />
@@ -150,7 +150,7 @@ export function PageBar() {
               <NotesAIGenerator />
             </div>
             <div className="text-[11px] text-white/40 mt-1.5">
-              Shown in presenter view — never on the canvas or in exports.
+              仅在演示者视图中显示 — 不会出现在画布或导出内容中。
             </div>
           </div>
         )}
@@ -164,8 +164,8 @@ export function PageBar() {
             'h-9 px-2.5 rounded-lg border text-white/60 hover:border-[#02C0CC] hover:text-[#02C0CC] flex items-center gap-1.5 bg-white/[0.06] transition-colors',
             resizeOpen ? 'border-[#02C0CC] text-[#02C0CC]' : 'border-white/15'
           )}
-          title="Resize this page"
-          aria-label="Resize this page"
+          title="调整此页面大小"
+          aria-label="调整此页面大小"
           aria-expanded={resizeOpen}
           data-testid="page-size-button"
         >
@@ -173,12 +173,12 @@ export function PageBar() {
           <span className="text-[11px] tabular-nums">
             {current.width}×{current.height}
           </span>
-          {page?.width && page?.height ? <span className="w-1.5 h-1.5 rounded-full bg-[#FFB84C]" title="Custom page size" /> : null}
+          {page?.width && page?.height ? <span className="w-1.5 h-1.5 rounded-full bg-[#FFB84C]" title="自定义页面尺寸" /> : null}
         </button>
         {resizeOpen && sizeDraft && page && (
           <div className="absolute bottom-11 left-0 w-72 rounded-xl bg-[#16181D] border border-white/10 shadow-2xl p-3" data-testid="page-size-popover">
             <div className="text-[11px] font-semibold uppercase tracking-wide text-white/50 mb-2">
-              Page {currentPage + 1} size
+              页面 {currentPage + 1} 大小
             </div>
             <div className="flex items-center gap-2 mb-2">
               <label className="flex items-center gap-1.5 flex-1">
@@ -225,20 +225,20 @@ export function PageBar() {
                 className="flex-1 h-8 rounded-lg bg-[#02C0CC] text-[#0B0C10] text-xs font-semibold flex items-center justify-center gap-1 hover:bg-[#02C0CC]/85"
                 data-testid="page-size-apply"
               >
-                <Check size={13} /> Apply
+                <Check size={13} /> 应用
               </button>
               {page.width || page.height ? (
                 <button
                   onClick={resetPageSize}
                   className="h-8 px-2.5 rounded-lg border border-white/15 text-white/60 text-xs flex items-center gap-1 hover:border-white/35"
-                  title="Back to the design size"
+                  title="返回设计尺寸"
                 >
-                  <RotateCcw size={12} /> Reset
+                  <RotateCcw size={12} /> 重置
                 </button>
               ) : null}
             </div>
             <div className="text-[11px] text-white/40 mt-1.5">
-              Applies to this page only — other pages keep their size.
+              仅应用于本页——其他页面保持原尺寸。
             </div>
           </div>
         )}

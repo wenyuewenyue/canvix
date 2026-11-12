@@ -14,9 +14,9 @@ import { useAppStore } from '@/store/app-store'
 
 const GROUP_LABELS: Record<ResizePreset['group'], string> = {
   story: 'Story & vertical video',
-  post: 'Social posts',
+  post: '社交帖子',
   doc: 'Docs & decks',
-  print: 'Print',
+  print: '打印',
 }
 
 /** Canva Magic Resize dialog — re-layout the current design for any channel,
@@ -51,7 +51,7 @@ export function ResizeDialog({ open, onOpenChange }: { open: boolean; onOpenChan
     const w = parseInt(custom.w, 10)
     const h = parseInt(custom.h, 10)
     if (!w || !h || w < 50 || h < 50 || w > 8000 || h > 8000) {
-      toast({ title: 'Enter a size between 50 and 8000 px', variant: 'destructive' })
+      toast({ title: '请输入 50 到 8000 px 之间的尺寸', variant: 'destructive' })
       return
     }
     applyInPlace(w, h)
@@ -79,8 +79,8 @@ export function ResizeDialog({ open, onOpenChange }: { open: boolean; onOpenChan
         }
       }
       toast({
-        title: made ? `Created ${made} resized cop${made === 1 ? 'y' : 'ies'}` : 'Could not create copies',
-        description: made ? 'Find them in your recent designs.' : 'Please try again.',
+        title: made ? `Created ${made} resized cop${made === 1 ? 'y' : 'ies'}` : '无法创建副本',
+        description: made ? '在最近的设计中找到它们。' : '请重试。',
       })
       if (made) goDashboard()
       onOpenChange(false)
@@ -94,7 +94,7 @@ export function ResizeDialog({ open, onOpenChange }: { open: boolean; onOpenChan
       <DialogContent className="rounded-[28px] bg-[#16181D] border-white/10 text-white sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold flex items-center gap-2">
-            <Wand2 size={17} className="text-[#02C0CC]" /> Magic Resize
+            <Wand2 size={17} className="text-[#02C0CC]" /> 魔法调整大小
           </DialogTitle>
           <DialogDescription className="text-white/60">
             Resize this design for every channel. Pick sizes, then copy & resize — your elements are
@@ -135,7 +135,7 @@ export function ResizeDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                       <span className="min-w-0">
                         <span className="block text-[13px] font-semibold truncate">{s.name}</span>
                         <span className={cn('block text-[11px]', active ? 'text-white/85' : 'text-white/50')}>
-                          {s.w} × {s.h}{isCurrent ? ' · current' : ''}
+                          {s.w} × {s.h}{isCurrent ? ' · 当前' : ''}
                         </span>
                       </span>
                     </button>
@@ -146,27 +146,27 @@ export function ResizeDialog({ open, onOpenChange }: { open: boolean; onOpenChan
           ))}
 
           <div>
-            <h3 className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-2">Custom size</h3>
+            <h3 className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-2">自定义尺寸</h3>
             <div className="flex items-center gap-2">
               <Input
                 type="number"
-                placeholder="Width"
+                placeholder="宽度"
                 value={custom.w}
                 onChange={(e) => setCustom((c) => ({ ...c, w: e.target.value }))}
                 className="bg-white/5 border-white/10 text-white h-10 [color-scheme:dark]"
-                aria-label="Custom width"
+                aria-label="自定义宽度"
               />
               <span className="text-white/40">×</span>
               <Input
                 type="number"
-                placeholder="Height"
+                placeholder="高度"
                 value={custom.h}
                 onChange={(e) => setCustom((c) => ({ ...c, h: e.target.value }))}
                 className="bg-white/5 border-white/10 text-white h-10 [color-scheme:dark]"
-                aria-label="Custom height"
+                aria-label="自定义高度"
               />
               <Button className="btn-cv h-10 px-4 shrink-0" onClick={applyCustom}>
-                Resize
+                调整大小
               </Button>
             </div>
           </div>
@@ -179,9 +179,9 @@ export function ResizeDialog({ open, onOpenChange }: { open: boolean; onOpenChan
             className="h-11 flex-1 rounded-xl border-white/15 bg-white/5 hover:bg-white/10 hover:text-white"
             disabled={selected.length !== 1}
             onClick={() => applyInPlace(selected[0].w, selected[0].h)}
-            title={selected.length === 1 ? `Resize this design to ${selected[0].w}×${selected[0].h}` : 'Check exactly one size to resize in place'}
+            title={selected.length === 1 ? `Resize this design to ${selected[0].w}×${selected[0].h}` : '请仅勾选一个尺寸以原地调整大小'}
           >
-            <Square size={15} className="mr-1.5" /> Resize in place
+            <Square size={15} className="mr-1.5" /> 原地调整大小
           </Button>
           <Button
             className="btn-cv h-11 flex-1 rounded-xl"
